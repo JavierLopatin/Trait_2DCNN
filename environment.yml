@@ -1,0 +1,54 @@
+name: trait2dcnn
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+  - defaults
+
+dependencies:
+  - python=3.11
+  - pip
+
+  # CUDA / GPU
+  - pytorch-cuda=12.4
+  - pytorch
+  - torchvision
+  - torchaudio
+
+  # Scientific stack
+  - numpy
+  - pandas
+  - scipy
+  - scikit-learn
+  - matplotlib
+  - seaborn
+
+  # Geospatial
+  - rasterio
+
+  - pip:
+    # Transformations 1D→2D
+    - pywt                  # CWT, wavelet packet decomposition
+    - pyts                  # GAF, MTF, Recurrence Plots
+    - ssqueezepy            # Synchrosqueezed transforms
+    - pyDeepInsight          # DeepInsight feature embedding
+    - TINTOlib              # IGTD, REFINED, multiple tabular-to-image methods
+    - librosa               # STFT spectrograms
+
+    # Models
+    - timm                  # Pretrained ViT, Swin, EfficientNet-v2, ConvNeXt
+
+    # Training utilities
+    - lightning             # PyTorch Lightning
+    - torchmetrics
+
+    # Cherif pipeline compatibility
+    - tensorflow>=2.14
+    - keras-tuner
+    - tensorflow-addons
+    - shap
+
+    # Other
+    - statsmodels
+    - spyndex
+    - notebooklm-py[browser]

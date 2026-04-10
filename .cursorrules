@@ -1,0 +1,50 @@
+# Cursor Rules for Trait_2DCNN Project
+
+# Data Organization
+data/
+  raw/          # Original, immutable data dump
+  processed/    # Cleaned datasets
+  external/     # External data sources
+  interim/      # Intermediate data that has been transformed
+
+# Source Code Organization
+src/
+  data/         # Data loading and processing scripts
+  features/     # Feature engineering scripts
+  models/       # Model definitions and training scripts
+  visualization/# Visualization scripts
+  evaluation/   # Model evaluation scripts
+
+# Notebooks
+notebooks/      # Jupyter notebooks for exploration and analysis
+
+# Results
+results/        # Model outputs, figures, and tables
+
+# Documentation
+docs/           # Project documentation
+
+# Testing
+tests/          # Unit tests
+
+# Configuration
+config/         # Configuration files
+
+# Dependencies
+requirements.txt # Project dependencies
+
+# Version Control
+.gitignore      # Git ignore file
+README.md       # Project documentation
+
+# Rules
+1. Keep raw data untouched
+2. Process data in reproducible steps
+3. Use relative paths for data loading
+4. Document all data transformations
+5. Version control all code
+6. Use meaningful commit messages
+7. Keep notebooks clean and well-documented
+8. Save model checkpoints and results
+9. Document all model parameters
+10. Include unit tests for critical functions 
