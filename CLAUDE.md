@@ -4,6 +4,11 @@
 
 Extension of Cherif et al. (2023) multi-trait retrieval pipeline. The goal is to transform 1D hyperspectral reflectance signals into 2D image representations, then apply 2D-CNN and Transformer architectures for simultaneous regression of 20 plant functional traits.
 
+## Repository
+
+- **GitHub**: https://github.com/JavierLopatin/Trait_2DCNN (private)
+- **Cherif baseline**: `multi-traitretrieval/` (gitignored, separate clone)
+
 ## Existing Codebase (Cherif et al. 2023)
 
 - **Original repo**: `multi-traitretrieval/`
@@ -62,13 +67,14 @@ testCV_*.csv → same transformation → evaluate with Cherif's metrics
 
 | Method | Channels | Status | Mean R² | Description |
 |--------|----------|--------|---------|-------------|
-| **Reshape** | 1 | Done | **0.580** | Direct reshape baseline (best overall single) |
+| **Reshape** | 1 | Done | **0.580** | Direct reshape baseline (best overall) |
 | **Spectrogram** | 3 | Done | **0.576** | STFT with 3 windows as RGB (best on pigments) |
 | **CWT** | 1 | Done | 0.542 | Continuous Wavelet scalograms |
 | **COS2D** | 2 | Done | 0.541 | Synchronous + asynchronous correlation maps |
 | **GAF** | 2 | Done | 0.536 | Gramian Angular Fields (GASF + GADF) |
-| **MTF** | 1 | Done | — | Markov Transition Field (transition dynamics) |
-| **Composite** | N | Done | — | Multi-channel stacking of any transforms |
+| **MTF** | 1 | Done | 0.358 | Markov Transition Field (weak standalone) |
+| reshape+cwt | 2 | Done | 0.541 | Composite: no improvement over singles |
+| reshape+cwt+spectro | 5 | Done | 0.537 | Composite: no improvement over singles |
 
 ### Not Implemented (Low Priority)
 
@@ -89,11 +95,16 @@ python -m training.train_2d --transform reshape+cwt --model efficientnet_b0
 python -m training.train_2d --transform reshape+cwt+spectrogram --model efficientnet_b0
 ```
 
-Complementarity analysis (correlation between transforms):
-- CWT + COS2D: lowest correlation (0.933) — most complementary pair
-- CWT + Spectrogram: r=0.937
-- Reshape + CWT: r=0.944, highest oracle R² for 2ch (0.586)
-- Reshape + Spectrogram: highest oracle R² overall (0.592)
+Complementarity analysis showed high correlation between all transforms (r>0.93).
+Composite experiments confirmed that **multi-channel does not improve** over single transforms:
+
+| Composite | Channels | Mean R² | vs Reshape (0.580) |
+|-----------|----------|---------|---------------------|
+| reshape+cwt | 2 | 0.541 | -0.039 |
+| reshape+cwt+spectrogram | 5 | 0.537 | -0.043 |
+
+The model struggles to learn cross-channel relationships when channels encode
+fundamentally different representations. Simpler single-transform inputs work better.
 
 ### Experimental Results vs Cherif 1D-CNN Baseline
 
@@ -116,17 +127,18 @@ All methods except GAF significantly outperform Cherif (p<0.05). No method is si
 
 ### Model Architectures
 
-All via `timm` with `create_model()`:
+All via `timm` with `create_model()`. Tested with Reshape transform:
 
-| Architecture | Type | Params | Notes |
-|-------------|------|--------|-------|
-| **EfficientNet-B0** | CNN | ~5M | Current baseline |
-| EfficientNet-V2-S | CNN | ~20M | Larger variant |
-| ResNet-50 | CNN | ~25M | Classical |
-| ConvNeXt-Tiny | CNN | ~28M | Modern CNN |
-| ViT-Small | Transformer | ~22M | Vision Transformer |
-| Swin-Tiny | Transformer | ~28M | Shifted window attention |
-| CoAtNet-0 | Hybrid | ~25M | CNN + Transformer |
+| Architecture | Type | Params | Mean R² | Notes |
+|-------------|------|--------|---------|-------|
+| **EfficientNet-B0** | CNN | ~5M | **0.580** | Best on all 20 traits |
+| ResNet-50 | CNN | ~25M | 0.551 | Classical, decent but worse |
+| ConvNeXt-Tiny | CNN | ~28M | 0.482 | Underperforms despite modern design |
+| Swin-Tiny | Transformer | ~28M | -0.037 | Failed — too few samples, no pretraining |
+
+EfficientNet-B0 dominates despite being the smallest model (~5M params).
+Larger models overfit with ~12K training samples. Transformers (Swin) fail
+completely without pretraining on this dataset size.
 
 ### Training & Evaluation
 

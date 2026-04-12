@@ -41,42 +41,62 @@ The original pipeline uses a 1D-CNN (EfficientNet-B0 adapted to 1D) to predict 2
 
 ## Model Architectures
 
-- **2D-CNN**: EfficientNet-B0/V2, ResNet-50, ConvNeXt
-- **Transformers**: ViT, Swin Transformer
-- **Hybrid**: CNN backbone + Transformer head
-- **Baseline (existing)**: 1D-CNN EfficientNet-B0, PLSR
+Tested with Reshape transform (best performing):
+
+| Architecture | Type | Params | Mean R² | Notes |
+|-------------|------|--------|---------|-------|
+| **EfficientNet-B0** | CNN | ~5M | **0.580** | Best on all 20 traits |
+| ResNet-50 | CNN | ~25M | 0.551 | Classical, decent |
+| ConvNeXt-Tiny | CNN | ~28M | 0.482 | Underperforms |
+| Swin-Tiny | Transformer | ~28M | -0.037 | Failed (insufficient data, no pretraining) |
+
+**Baseline**: Cherif et al. 1D-CNN (CNNmultiIncomplete) = 0.495 mean R²
+
+## Results
+
+### Transform Comparison (EfficientNet-B0, 224x224, 5-fold CV)
+
+| Transform | Channels | Mean R² | vs Cherif (p-value) |
+|-----------|----------|---------|---------------------|
+| **Reshape** | 1 | **0.580** | +0.085 (p=0.004) |
+| Spectrogram | 3 | 0.576 | +0.081 (p=0.012) |
+| CWT | 1 | 0.542 | +0.047 (p=0.036) |
+| COS2D | 2 | 0.541 | +0.046 (p=0.019) |
+| GAF | 2 | 0.536 | +0.041 (p=0.102) |
+| MTF | 1 | 0.358 | — |
+
+All methods except GAF and MTF significantly outperform Cherif's 1D-CNN (paired t-test, p<0.05). Multi-channel composites (reshape+cwt, reshape+cwt+spectrogram) did not improve over single transforms.
 
 ## Project Structure
 
 ```
 Trait_2DCNN/
-├── data/
-│   └── raw/                             # 42-dataset spectral database
-├── multi-traitretrieval/                # Original 1D pipeline (Cherif et al.)
-│   ├── data_module_F.py                 # Data loading, trait definitions
-│   ├── feature_module_F.py              # Spectral preprocessing, Savitzky-Golay
-│   ├── model_module_F.py                # Training utilities, augmentation
-│   ├── evaluation_module_F.py           # Metrics, visualization
-│   ├── model_builder.py                 # 1D-CNN architecture
-│   ├── EfficientNet1D_builder.py        # EfficientNet-B0 adapted to 1D
-│   ├── mainTrain.py                     # Main training script
-│   ├── dataset/                         # 5-fold CV splits
-│   ├── models/                          # Trained 1D models
-│   └── Predictions/                     # Hyperspectral image inference
+├── data/raw/                            # Raw spectral database
+├── multi-traitretrieval/                # Cherif et al. 1D pipeline (gitignored)
 ├── transforms/                          # 1D→2D transformation modules
-│   ├── base.py
-│   ├── cwt_transform.py
-│   ├── cos2d_transform.py
-│   ├── reshape_transform.py
-│   ├── gaf_transform.py
-│   ├── spectrogram_transform.py
-│   └── deepinsight_transform.py
-├── models/                              # 2D model architectures
-├── training/                            # Training pipeline
-├── evaluation/                          # Method comparison
-├── notebooks/                           # Experiments
-├── CLAUDE.md                            # Implementation plan
-├── requirements.txt
+│   ├── base.py                          # Abstract base class
+│   ├── reshape_transform.py             # Direct reshape (1ch)
+│   ├── cwt_transform.py                 # Continuous Wavelet Transform (1ch)
+│   ├── cos2d_transform.py               # 2D Correlation Spectroscopy (2ch)
+│   ├── gaf_transform.py                 # Gramian Angular Fields (2ch)
+│   ├── spectrogram_transform.py         # Multi-channel STFT (3ch)
+│   ├── mtf_transform.py                 # Markov Transition Field (1ch)
+│   └── composite_transform.py           # Multi-channel stacking
+├── models/
+│   └── trait_model.py                   # Unified model factory via timm
+├── training/
+│   ├── config.py                        # TrainConfig + trait definitions
+│   ├── data_loader.py                   # Cached + on-the-fly datasets
+│   ├── precompute.py                    # Pre-compute transforms to disk
+│   ├── losses.py                        # Masked losses for NaN handling
+│   ├── lightning_module.py              # Lightning training module
+│   └── train_2d.py                      # Main CLI script
+├── evaluation/
+│   ├── compare_methods.py               # Generate comparison plots
+│   └── statistical_comparison.py        # Paired t-tests vs Cherif
+├── cache/                               # Pre-computed transforms (gitignored)
+├── results/                             # Experiment outputs (gitignored)
+├── CLAUDE.md                            # Detailed implementation notes
 └── README.md
 ```
 
@@ -91,6 +111,22 @@ conda activate trait2dcnn
 pip install -r requirements.txt
 ```
 
+## Usage
+
+```bash
+# 1. Pre-compute transforms
+python -m training.precompute --transform reshape --output-size 224
+
+# 2. Train
+python -m training.train_2d --transform reshape --model efficientnet_b0 --epochs 100
+
+# 3. Multi-channel composite (reuses existing caches)
+python -m training.train_2d --transform reshape+cwt --model efficientnet_b0
+
+# 4. Statistical comparison vs Cherif
+python -m evaluation.statistical_comparison
+```
+
 ## Evaluation
 
 All methods are evaluated using the same 5-fold cross-validation splits as Cherif et al. (2023) for fair comparison:
@@ -98,6 +134,7 @@ All methods are evaluated using the same 5-fold cross-validation splits as Cheri
 - **Metrics**: R², RMSE, nRMSE, MAE, Bias
 - **Baselines**: PLSR, 1D-CNN (single-trait), 1D-CNN (multi-trait)
 - **Training**: Weakly supervised multi-trait regression (20 traits simultaneously)
+- **Statistical tests**: Paired t-tests across folds (α=0.05)
 
 ## References
 
