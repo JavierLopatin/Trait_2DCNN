@@ -67,6 +67,18 @@ Tested with Reshape transform (best performing):
 
 All methods except GAF and MTF significantly outperform Cherif's 1D-CNN (paired t-test, p<0.05). Multi-channel composites (reshape+cwt, reshape+cwt+spectrogram) did not improve over single transforms.
 
+## Case Study 2: Pretraining & PROSAIL Domain Transfer
+
+Building on Case Study 1, we investigate whether 2D representations unlock vision-domain capabilities impossible with 1D spectra, using the [GreenHyperSpectra](https://huggingface.co/datasets/Avatarr05/GreenHyperSpectra) dataset (Cherif et al., 2025, NeurIPS):
+
+| # | Pretraining | Fine-tuning | Test | Question |
+|---|------------|-------------|------|----------|
+| 1 | — | Real labeled (4,508) | Real (1,127) | Supervised 2D baseline |
+| 3 | MAE-2D (139K unlabeled) | Real labeled | Real | Does 2D pretraining beat 1D? |
+| 5 | MAE-2D (139K unlabeled) | PROSAIL synthetic | Real | Zero real labels needed? |
+
+Comparison baselines: Cherif et al. (2025) supervised (R² 0.587) and MAE-1D Fine-Tuned (R² 0.645).
+
 ## Project Structure
 
 ```
@@ -94,6 +106,13 @@ Trait_2DCNN/
 ├── evaluation/
 │   ├── compare_methods.py               # Generate comparison plots
 │   └── statistical_comparison.py        # Paired t-tests vs Cherif
+├── data/
+│   ├── GreenHyperSpectra/               # Cherif 2025 dataset (gitignored)
+│   └── papers/                          # Reference papers
+├── prosail/                             # PROSAIL LUT generation (R + Python)
+├── models/
+│   ├── trait_model.py                   # Unified model factory via timm
+│   └── mae_2d.py                       # 2D Masked Autoencoder (ViT-based)
 ├── cache/                               # Pre-computed transforms (gitignored)
 ├── results/                             # Experiment outputs (gitignored)
 ├── CLAUDE.md                            # Detailed implementation notes
@@ -139,6 +158,7 @@ All methods are evaluated using the same 5-fold cross-validation splits as Cheri
 ## References
 
 - Cherif et al. (2023). *From spectra to plant functional traits: Transferable multi-trait models from heterogeneous and sparse data.* Remote Sensing of Environment. [DOI: 10.1016/j.rse.2023.113580](https://doi.org/10.1016/j.rse.2023.113580)
+- Cherif et al. (2025). *GreenHyperSpectra: A multi-source hyperspectral dataset for global vegetation trait prediction.* NeurIPS 2025. [arXiv: 2507.06806](https://arxiv.org/abs/2507.06806)
 - Shuai et al. (2025). *Multi-channel spectrogram + ConvNeXt for Vis-NIR soil prediction.* J. Chemometrics.
 - Mokari et al. (2025). *Spider plot transformation for spectral deep learning.* Advanced Intelligent Systems.
 - Hennessy et al. (2022). *Reshaping hyperspectral data into 2D for CNN.* Remote Sensing.

@@ -6,7 +6,7 @@ from pathlib import Path
 from sklearn.preprocessing import PowerTransformer
 from sklearn.model_selection import train_test_split
 
-from .config import TRAIT_NAMES, TrainConfig
+from .config import TRAIT_NAMES, GHS_TRAIT_NAMES, DATASET_GHS, TrainConfig
 from transforms.base import BaseTransform
 
 
@@ -42,6 +42,39 @@ class CachedDataset(Dataset):
         return (torch.from_numpy(img),
                 torch.from_numpy(labels),
                 torch.from_numpy(mask.astype(np.float32)))
+
+
+class UnlabeledCachedDataset(Dataset):
+    """Dataset for unlabeled pre-computed 2D images (MAE pretraining).
+
+    Supports index-based access into a memmap to avoid materializing
+    large subsets into RAM when constructed with fancy indexing.
+    """
+
+    def __init__(self, images: np.ndarray, indices: np.ndarray = None,
+                 augment: bool = False):
+        self.images = images
+        self.indices = indices
+        self.augment = augment
+
+    def __len__(self):
+        if self.indices is not None:
+            return len(self.indices)
+        return len(self.images)
+
+    def __getitem__(self, idx):
+        real_idx = self.indices[idx] if self.indices is not None else idx
+        img = self.images[real_idx].astype(np.float32)
+
+        if self.augment:
+            img = img + np.random.normal(0, 0.01, img.shape).astype(np.float32)
+
+        if img.ndim == 2:
+            img = img[np.newaxis, :, :]
+        else:
+            img = img.transpose(2, 0, 1)
+
+        return torch.from_numpy(img)
 
 
 class CompositeCachedDataset(Dataset):
@@ -127,7 +160,7 @@ class OnTheFlyDataset(Dataset):
 
 
 def load_fold_data(data_dir: Path, fold: int):
-    """Load train and test data for a given CV fold."""
+    """Load train and test data for a given CV fold (Cherif 2023)."""
     train_df = pd.read_csv(data_dir / f'fillCV_{fold}.csv', index_col=0)
     test_df = pd.read_csv(data_dir / f'testCV_{fold}.csv', index_col=0)
 
@@ -147,6 +180,56 @@ def load_fold_data(data_dir: Path, fold: int):
         sample_weights = pd.read_csv(sw_path, index_col=0).values.flatten()
 
     return train_spectra, train_labels, test_spectra, test_labels, sample_weights
+
+
+def _split_trait_spectral_columns(df: pd.DataFrame, trait_names: list):
+    """Split a DataFrame into trait and spectral columns.
+
+    Returns:
+        trait_cols: list of trait column names found in df
+        spec_cols: list of spectral column names (everything else, excluding 'dataset')
+    """
+    trait_cols = [c for c in trait_names if c in df.columns]
+    spec_cols = [c for c in df.columns
+                 if c not in trait_cols and c != 'dataset']
+    return trait_cols, spec_cols
+
+
+def _extract_spectra_and_labels(df: pd.DataFrame, trait_names: list):
+    """Extract spectra and labels arrays from a DataFrame.
+
+    Returns:
+        spectra: np.ndarray of shape (n_samples, n_bands), float32
+        labels: np.ndarray of shape (n_samples, n_traits), float32
+    """
+    trait_cols, spec_cols = _split_trait_spectral_columns(df, trait_names)
+    spectra = df[spec_cols].values.astype(np.float32)
+    labels = df[trait_cols].values.astype(np.float32)
+    return spectra, labels
+
+
+def load_ghs_data(data_dir: Path):
+    """Load GreenHyperSpectra train/test data (fixed split, 8 traits)."""
+    train_df = pd.read_csv(data_dir / 'labeled_train.csv')
+    test_df = pd.read_csv(data_dir / 'labeled_test.csv')
+
+    train_spectra, train_labels = _extract_spectra_and_labels(train_df, GHS_TRAIT_NAMES)
+    test_spectra, test_labels = _extract_spectra_and_labels(test_df, GHS_TRAIT_NAMES)
+
+    return train_spectra, train_labels, test_spectra, test_labels, None
+
+
+def load_ghs_unlabeled(data_dir: Path):
+    """Load GreenHyperSpectra unlabeled spectra for pretraining."""
+    df = pd.read_parquet(data_dir / 'unlabeled.parquet')
+    return df.values.astype(np.float32)
+
+
+def load_prosail_data(data_dir: Path):
+    """Load PROSAIL LUT as training data (test data comes from GHS)."""
+    df = pd.read_csv(data_dir / 'prosail_lut.csv')
+    spectra, labels = _extract_spectra_and_labels(df, GHS_TRAIT_NAMES)
+    return spectra, labels
 
 
 def load_cached_images(cache_dir, fold: int):
@@ -219,7 +302,13 @@ def create_dataloaders(config: TrainConfig, fold: int,
     If cache_dir is provided, loads pre-computed images.
     Otherwise uses on-the-fly transformation.
     """
-    _, train_labels, _, test_labels, _ = load_fold_data(config.data_dir, fold)
+    # Load data once (spectra needed for on-the-fly, labels always needed)
+    if config.is_ghs:
+        train_spectra, train_labels, test_spectra, test_labels, _ = \
+            load_ghs_data(config.data_dir)
+    else:
+        train_spectra, train_labels, test_spectra, test_labels, _ = \
+            load_fold_data(config.data_dir, fold)
 
     # Fit scaler on train labels
     scaler = fit_scaler(train_labels)
@@ -256,9 +345,7 @@ def create_dataloaders(config: TrainConfig, fold: int,
             test_ds = CachedDataset(
                 test_data, test_labels_scaled, augment=False)
     else:
-        # On-the-fly transform
-        train_spectra, _, test_spectra, _, _ = load_fold_data(config.data_dir, fold)
-
+        # On-the-fly transform (spectra already loaded above)
         train_ds = OnTheFlyDataset(
             train_spectra[train_idx], train_labels_scaled[train_idx],
             transform, augment=True,

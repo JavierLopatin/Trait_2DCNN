@@ -37,6 +37,7 @@ ENV/
 data/raw/*
 data/processed/*
 data/external/*
+data/GreenHyperSpectra/
 !data/raw/.gitkeep
 !data/processed/.gitkeep
 !data/external/.gitkeep
@@ -71,7 +72,7 @@ lightning_logs/
 .env.local
 
 # Claude Code local settings
-.claude/
+#.claude/
 
 # OS
 .DS_Store

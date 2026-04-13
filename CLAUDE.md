@@ -1,5 +1,11 @@
 # Trait_2DCNN
 
+## Session Setup
+
+- `CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING=1` configurado en `~/.bashrc` (extended thinking siempre activo).
+- Al inicio de cada sesión, recordar al usuario ejecutar `/effort max` para máxima capacidad de razonamiento.
+- Idioma preferido: español.
+
 ## Project Overview
 
 Extension of Cherif et al. (2023) multi-trait retrieval pipeline. The goal is to transform 1D hyperspectral reflectance signals into 2D image representations, then apply 2D-CNN and Transformer architectures for simultaneous regression of 20 plant functional traits.
@@ -241,9 +247,90 @@ python -m evaluation.statistical_comparison
 python -m evaluation.compare_methods --results-dir results/
 ```
 
+## Case Study 2: GreenHyperSpectra + Pretraining + PROSAIL
+
+### Motivation
+
+Cherif et al. (2025) — *GreenHyperSpectra* (NeurIPS 2025) extends the 2023 pipeline with semi/self-supervised methods (SR-GAN, RTM-AE, MAE), all operating in **1D**. Their best model (MAE-FR Fine-Tuning, R² 0.645) pretrains on 139K unlabeled spectra, then fine-tunes on ~7,900 labeled samples.
+
+**Our key insight**: Transforming spectra to 2D images unlocks capabilities exclusive to the vision domain — **ImageNet pretraining**, **2D masked autoencoders**, and **PROSAIL domain transfer** — neither possible with 1D spectra.
+
+### Data: GreenHyperSpectra (HuggingFace)
+
+- **Source**: `huggingface.co/datasets/Avatarr05/GreenHyperSpectra`
+- **Downloaded to**: `data/GreenHyperSpectra/`
+- **Labeled**: 7,897 samples × 8 traits (cab, car, anth, cw, cm, LAI, cp, cbc) × 1721 bands
+- **Splits**: train (4,508) / test (1,127) — stratified 80/20 by dataset
+- **Unlabeled**: 139,295 samples × 1721 bands (for pretraining)
+- **Bands**: 400-2450nm, 1721 bands — identical to our pipeline
+
+### Pipeline Changes for GHS
+
+- `--dataset greenhs` flag selects GHS data (8 traits, fixed split, no CV)
+- `--dataset cherif2023` (default) uses original 20-trait 5-fold CV
+- 3 random seeds (155, 240, 318) for statistical reporting (same as Cherif 2025)
+- Cache naming: `cache/reshape_224_greenhs/` for GHS data
+
+### Experimental Design
+
+Using **Reshape transform only** (best from Case Study 1, R² 0.580).
+
+| # | Pretraining | Fine-tuning | Test | Question |
+|---|------------|-------------|------|----------|
+| 1 | — | Real labeled (4,508) | Real (1,127) | Supervised 2D baseline |
+| 3 | MAE-2D (139K unlabeled) | Real labeled | Real | Does spectral pretraining improve? |
+| 5 | MAE-2D (139K unlabeled) | PROSAIL synthetic (50K) | Real | Zero real labels needed? |
+
+### PROSAIL LUT Generation
+
+Generated with R package `jbferet/prosail` using PROSPECT-PRO + 4SAIL:
+- **50K simulations** with ATBD-based distributions + PROSPECT-PRO extras (Car, Anth, Cp)
+- **Co-distributions with LAI** (Table 6 ATBD: ranges narrow for high LAI)
+- **Constraint**: Cp + Cbc = Cm
+- **Post-processing**: clip → SG smoothing (w=65, poly=1) per segment → remove water bands (1351-1430, 1801-2050, 2451-2500) → add 2% multiplicative Gaussian noise → 1721 bands
+- **PROSAIL-PRO fixed params**: Brown=0.25, Ns=1.5, LIDF=5, psoil=0.8, hspot=0.01, tto=0°, tts=30°, psi=0° (from Cherif 2025 Table 13)
+
+### Why Only Reshape
+
+Reshape was the best single transform (R² 0.580) and all transforms are highly correlated (r>0.93). Using only Reshape for Case Study 2 keeps experiments focused and computationally tractable.
+
+### Cherif 2025 Baselines (8 traits, full-range)
+
+| Method | R² avg | Type |
+|--------|--------|------|
+| Supervised EfficientNet-1D | 0.587 | Supervised |
+| SR-GAN | 0.592 | Semi-supervised |
+| RTM-AE | 0.592 | Physics-informed |
+| MAE-FR Linear Probing | 0.604 | Self-supervised |
+| MAE-FR Fine-Tuning | 0.645 | Self-supervised |
+
+### Running Case Study 2 Experiments
+
+```bash
+# Precompute reshape for GHS labeled data
+python -m training.precompute --transform reshape --output-size 224 --dataset greenhs
+
+# Precompute reshape for 139K unlabeled (for MAE pretraining)
+python -m training.precompute --transform reshape --output-size 224 --dataset greenhs_unlabeled
+
+# Exp 1: Supervised 2D baseline (3 seeds)
+python -m training.train_2d --transform reshape --model efficientnet_b0 --dataset greenhs --seed 155
+python -m training.train_2d --transform reshape --model efficientnet_b0 --dataset greenhs --seed 240
+python -m training.train_2d --transform reshape --model efficientnet_b0 --dataset greenhs --seed 318
+
+# Exp 3: MAE-2D pretrain + fine-tune on real
+python -m training.pretrain_mae --epochs 300 --batch-size 64
+python -m training.finetune_mae --checkpoint results/mae_pretrained/best.pt --dataset greenhs
+
+# Exp 5: MAE-2D pretrain + fine-tune on PROSAIL
+python -m training.precompute --transform reshape --output-size 224 --dataset prosail
+python -m training.finetune_mae --checkpoint results/mae_pretrained/best.pt --dataset prosail --test-dataset greenhs
+```
+
 ## References
 
-- Cherif et al. (2023) — From spectra to plant functional traits (base paper)
+- Cherif et al. (2023) — From spectra to plant functional traits (base paper, RSE)
+- Cherif et al. (2025) — GreenHyperSpectra: multi-source dataset + semi/self-supervised (NeurIPS 2025)
 - Shuai et al. (2025) — Multi-channel spectrogram + ConvNeXt for Vis-NIR soil prediction
 - Mokari et al. (2025) — Spider plot transformation for spectral deep learning
 - Hennessy et al. (2022) — Direct reshaping of hyperspectral data for 2D-CNN
@@ -251,6 +338,22 @@ python -m evaluation.compare_methods --results-dir results/
 - Contreras (2025) — XAI-2DCOS: 2D correlation spectroscopy + deep learning
 - Sharma et al. (2019) — DeepInsight: tabular to image for CNN
 - Zhu et al. (2021) — IGTD: tabular data to images
+
+## Code Quality
+
+After creating or modifying code, run `/simplify` to review for reuse, quality, and efficiency issues. This catches duplicated logic, stringly-typed patterns, unnecessary work, and memory concerns before they accumulate.
+
+## Memoria entre sesiones
+
+Al final de cada conversación o cuando surjan durante la sesión, guardar proactivamente en el sistema de memoria (`~/.claude/projects/.../memory/`) los siguientes elementos:
+
+- **Decisiones de diseño** con su justificación (ej: "descartamos GAF porque p>0.05")
+- **Resultados experimentales** clave que no estén ya en este CLAUDE.md
+- **Hipótesis descartadas** y por qué, para no repetir caminos muertos
+- **Próximos pasos** acordados que quedaron pendientes
+- **Preferencias del usuario** sobre estilo de trabajo, idioma, o flujo
+
+No esperar a que el usuario pida explícitamente guardar — si algo es valioso para futuras sesiones, guardarlo.
 
 ## NotebookLM
 
