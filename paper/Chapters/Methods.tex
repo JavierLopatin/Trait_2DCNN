@@ -1,0 +1,115 @@
+\section{Methods}
+\label{sec:methods}
+
+\subsection{Study Data}
+\label{sec:data}
+
+We used the GreenHyperSpectra dataset \citep{cherif2025greenhyperspectra}, a large-scale multi-source hyperspectral collection recently published as a benchmarking resource for plant trait prediction. The dataset comprises two components: a labeled set of 7,897 vegetation canopy reflectance spectra with co-located measurements of seven functional plant traits, and an unlabeled set of 139,295 spectra collected from proximal, airborne, and spaceborne platforms across diverse continents, ecosystems, and sensor configurations. All spectra were resampled to a uniform wavelength grid spanning 400--2450\,nm at 1\,nm resolution. Regions of strong atmospheric water absorption (1351--1430\,nm, 1801--2050\,nm, and 2451--2500\,nm) were removed, and a Savitzky-Golay smoothing filter (window = 65, polynomial order = 1) was applied per spectral segment, yielding 1721 spectral bands per sample \citep{cherif2025greenhyperspectra}.
+
+The labeled subset aggregates data from 50 field campaigns spanning forests, grasslands, croplands, tundra, and pastures, with trait values harmonized to area-based units. The seven target traits correspond to parameters of the PROSPECT-PRO radiative transfer model \citep{feret2021prospectpro}: leaf chlorophyll content (C\textsubscript{ab}, $\mu$g\,cm\textsuperscript{$-$2}), carotenoid content (C\textsubscript{ar}, $\mu$g\,cm\textsuperscript{$-$2}), anthocyanin content (C\textsubscript{anth}, $\mu$g\,cm\textsuperscript{$-$2}), equivalent water thickness (C\textsubscript{w}, g\,m\textsuperscript{$-$2}), leaf mass per area (C\textsubscript{m}, g\,m\textsuperscript{$-$2}), leaf area index (LAI, m\textsuperscript{2}\,m\textsuperscript{$-$2}), and protein content (C\textsubscript{p}, g\,m\textsuperscript{$-$2}). An eighth derived trait, carbon-based constituents (C\textsubscript{bc} = C\textsubscript{m} $-$ C\textsubscript{p}), was additionally computed following \citet{cherif2025greenhyperspectra}. Not all samples possess measurements for every trait; the dataset is inherently sparse, with missing values handled through masked loss functions during training (Section~\ref{sec:training}).
+
+For model evaluation, we adopted the standardized data split provided with GreenHyperSpectra: a stratified 80/20 partition yielding 4,508 training and 1,127 test samples, with stratification by source dataset to maintain proportional representation of vegetation types, sensors, and acquisition conditions across both subsets. To quantify variability due to stochastic training effects, all experiments were repeated across three random seeds (155, 240, and 318), following the evaluation protocol of \citet{cherif2025greenhyperspectra}.
+
+
+\subsection{1D-to-2D Spectral Transformations}
+\label{sec:transforms}
+
+The central premise of this work is that converting one-dimensional hyperspectral reflectance signals into two-dimensional image representations may reveal inter-band relationships, multi-scale spectral patterns, and structural regularities that conventional 1D convolutional architectures fail to capture. We evaluated six transformation methods, each encoding different aspects of the spectral information into spatial image structure. All transformations produced images of $224 \times 224$ pixels (with varying numbers of channels) suitable for standard convolutional neural network architectures.
+
+\subsubsection{Direct Reshape}
+
+The simplest transformation reshapes the 1D spectral vector into a 2D matrix by computing the smallest integer side length $s = \lceil\sqrt{n}\rceil$ where $n = 1721$ bands, yielding $s = 42$. The spectrum is zero-padded to $42 \times 42 = 1764$ elements (appending 43 zeros) and folded into a square matrix, which is then bilinearly resized to $224 \times 224$ and min-max normalized to $[0, 1]$. Despite its simplicity, this transformation preserves the sequential ordering of wavelengths, such that spatially adjacent pixels correspond to spectrally proximate bands. The resulting single-channel image encodes local spectral gradients as spatial texture that 2D convolutions can exploit.
+
+\subsubsection{Continuous Wavelet Transform}
+
+The continuous wavelet transform (CWT) decomposes the spectral signal across multiple frequency scales simultaneously, producing a time-frequency (or in this case, wavelength-scale) representation known as a scalogram \citep{addison2017wavelet}. We employed the Morlet wavelet across 128 logarithmically spaced scales ranging from 1 to 128, computed using the PyWavelets library \citep{pywt}. The absolute values of the wavelet coefficients form a $128 \times 1721$ scalogram that captures both narrow absorption features (at fine scales) and broad spectral trends (at coarse scales). The scalogram was bilinearly resized to $224 \times 224$ and min-max normalized, yielding a single-channel image.
+
+\subsubsection{Multi-Window Spectrogram}
+
+The short-time Fourier transform (STFT) was applied with three different window functions---Bartlett, Gaussian ($\sigma = 12$), and Blackman---each producing a complementary time-frequency representation of the spectrum. We used a segment length of 64 samples with 50\% overlap (32 samples), following the multi-channel approach of \citet{shuai2025multichannel}. The magnitude of each STFT output was computed, bilinearly resized to $224 \times 224$, and min-max normalized. The three resulting spectrograms were stacked as a three-channel (RGB-like) image, where each channel emphasizes different spectral features owing to the distinct frequency leakage and sidelobe characteristics of the respective windows.
+
+\subsubsection{Two-Dimensional Correlation Spectroscopy}
+
+Two-dimensional correlation spectroscopy (2D-COS) generates synchronous and asynchronous correlation maps from perturbation-induced spectral variations \citep{noda2004twodimensional}. We simulated perturbation by dividing each spectrum into 10 overlapping segments (50\% overlap) and computing the cross-correlation between band intensities across segments. The synchronous correlation matrix $\Phi = \mathbf{X}^T \mathbf{X} / (m-1)$, where $\mathbf{X}$ is the mean-centered segment matrix and $m$ is the number of segments, captures in-phase inter-band correlations. The asynchronous correlation matrix $\Psi = \mathbf{X}^T \mathbf{N} \mathbf{X} / (m-1)$ employs the Hilbert-Noda transformation matrix $N_{ij} = 1/[\pi(j-i)]$ for $i \neq j$ (and zero otherwise), revealing sequential spectral changes. Both matrices were individually min-max normalized and bilinearly resized to $224 \times 224$, then stacked as a two-channel image.
+
+\subsubsection{Gramian Angular Fields}
+
+Gramian Angular Fields (GAF) encode temporal (or spectral) correlations as angular relationships in a polar coordinate system \citep{wang2015gaf}. The spectrum is first downsampled to 224 values via linear interpolation and scaled to $[-1, 1]$. An angular representation $\varphi_i = \arccos(x_i)$ is computed for each spectral value, and two complementary fields are generated: the Gramian Angular Summation Field (GASF), defined as $\text{GASF}_{ij} = \cos(\varphi_i + \varphi_j)$, which captures in-phase spectral correlations; and the Gramian Angular Difference Field (GADF), defined as $\text{GADF}_{ij} = \sin(\varphi_i - \varphi_j)$, which captures phase differences. The two fields were min-max normalized and stacked as a two-channel image.
+
+\subsubsection{Markov Transition Field}
+
+The Markov Transition Field (MTF) encodes the transition dynamics between discretized spectral value bins as a spatial image \citep{wang2015gaf}. The spectrum is downsampled to 224 values and discretized into 8 quantile-based bins. A first-order Markov transition matrix $\mathbf{P}$ is estimated, where $P_{ij}$ represents the conditional probability of transitioning from bin $i$ to bin $j$ across consecutive spectral positions. The MTF is then constructed as $\text{MTF}_{ij} = P[q_i, q_j]$, where $q_i$ and $q_j$ are the bin assignments at spectral positions $i$ and $j$, respectively. The resulting $224 \times 224$ single-channel image was min-max normalized.
+
+
+\subsection{Model Architectures}
+\label{sec:models}
+
+\subsubsection{Supervised Regression: EfficientNet-B0}
+\label{sec:efficientnet}
+
+For supervised multi-trait regression, we employed EfficientNet-B0 \citep{tan2019efficientnet} as the backbone architecture, instantiated through the timm library \citep{rw2019timm}. EfficientNet-B0 was selected for its favorable trade-off between model capacity ($\sim$4\,M trainable parameters) and computational efficiency, which proved critical given the moderate size of the labeled training set ($n = 4{,}508$). The network's final classification layer was replaced with a linear head mapping to 8 output neurons (one per target trait), and a dropout rate of 0.3 was applied before the output layer. For single-channel transformations (Reshape, CWT, MTF), the first convolutional layer was adapted from three to one input channel using timm's automatic weight adaptation, which sums the pretrained RGB channel weights along the input dimension. Multi-channel transformations (Spectrogram: 3 channels; 2D-COS and GAF: 2 channels) required analogous channel-count adjustments.
+
+\subsubsection{Self-Supervised Pretraining: Masked Autoencoder (MAE-2D)}
+\label{sec:mae}
+
+To leverage the 139,295 unlabeled spectra for representation learning, we implemented a two-dimensional Masked Autoencoder (MAE) following the framework of \citet{he2022mae}. The MAE operates on 2D spectral images produced by the best-performing transformation (Reshape; see Section~\ref{sec:results_transforms}), enabling the use of standard vision transformer components that are unavailable for 1D spectral inputs.
+
+The encoder follows a Vision Transformer (ViT) architecture \citep{dosovitskiy2021vit} with patch size $16 \times 16$, embedding dimension 192, 6 transformer blocks, and 3 attention heads per block, yielding 196 patches per $224 \times 224$ image. During pretraining, 75\% of patches are randomly masked, and only the visible 25\% are processed by the encoder, substantially reducing computational cost. Fixed sinusoidal 2D positional embeddings are added to all patch tokens, and a learnable class (CLS) token is prepended to the sequence.
+
+The decoder is a lightweight transformer with embedding dimension 96, 4 blocks, and 3 attention heads. It receives the encoded visible patches along with learnable mask tokens that replace the masked positions. After processing through the decoder blocks, a linear projection maps each token to the pixel values of its corresponding $16 \times 16$ patch. The reconstruction loss is computed only on masked patches:
+\begin{equation}
+    \mathcal{L}_\text{MAE} = \frac{1}{|\mathcal{M}|} \sum_{i \in \mathcal{M}} \| \hat{\mathbf{p}}_i - \mathbf{p}_i \|^2
+\end{equation}
+where $\mathcal{M}$ denotes the set of masked patch indices, $\hat{\mathbf{p}}_i$ is the reconstructed patch, and $\mathbf{p}_i$ is the original patch. No data augmentation beyond random masking was applied during pretraining, consistent with the finding of \citet{he2022mae} that masking itself provides sufficient regularization, and following the protocol of \citet{cherif2025greenhyperspectra} whose 1D MAE likewise omitted augmentation.
+
+The total model comprises approximately 3.3\,M parameters (2.8\,M encoder, 0.5\,M decoder). After pretraining, the decoder is discarded, and the encoder's CLS token representation serves as a global feature vector for downstream trait regression through an appended two-layer MLP head (192 $\rightarrow$ 192 $\rightarrow$ 8, with GELU activation and 10\% dropout).
+
+
+\subsection{PROSAIL Radiative Transfer Simulations}
+\label{sec:prosail}
+
+To investigate whether models can be trained entirely on physically simulated spectra and applied to real observations---thereby eliminating the need for labeled field data---we generated a synthetic training dataset using the PROSAIL radiative transfer model. PROSAIL couples the leaf optical properties model PROSPECT-PRO \citep{feret2021prospectpro} with the canopy bidirectional reflectance model 4SAIL \citep{verhoef2007sail}, simulating top-of-canopy spectral reflectance from biophysical input parameters that correspond directly to the target traits.
+
+A look-up table (LUT) of 50,000 simulations was generated using the \texttt{prosail} R package \citep{feret2024prosailR}. Input parameter distributions followed the Algorithm Theoretical Basis Document (ATBD) of the Sentinel-2 biophysical processor \citep{weiss2020atbd}, which specifies truncated Gaussian distributions for leaf-level parameters (C\textsubscript{ab}: 20--90\,$\mu$g\,cm\textsuperscript{$-$2}, mode = 45; C\textsubscript{m}: 0.003--0.011\,g\,cm\textsuperscript{$-$2}, mode = 0.005) and canopy-level parameters (LAI: 0--15, mode = 2, $\sigma$ = 3). PROSPECT-PRO-specific parameters not covered by the ATBD---carotenoids (C\textsubscript{ar}), anthocyanins (C\textsubscript{anth}), and protein content (C\textsubscript{p})---were assigned distributions derived from the labeled GreenHyperSpectra data. The constraint C\textsubscript{p} + C\textsubscript{bc} = C\textsubscript{m} was enforced, and co-distributions between parameters and LAI were applied following Table~6 of the ATBD, such that parameter ranges narrow for high LAI values (e.g., canopies with high leaf area index are unlikely to have very low chlorophyll content). Fixed parameters followed \citet{cherif2025greenhyperspectra}: brown pigment content = 0.25, structural coefficient $N_s$ = 1.5, leaf inclination distribution (LIDF, Beta index) = 5, soil brightness fraction = 0.8, hotspot parameter = 0.01, and observation geometry of $\theta_s$ = 30\textdegree, $\theta_v$ = 0\textdegree, $\psi$ = 0\textdegree.
+
+The simulated spectra underwent post-processing to match the characteristics of real observations. Reflectance values were clipped (negative values set to zero; values exceeding unity linearly interpolated from neighbors), and Savitzky-Golay smoothing (window = 65, polynomial order = 1) was applied per spectral segment, replicating the preprocessing of GreenHyperSpectra. Water absorption bands were removed at the same wavelength intervals, yielding 1721 bands. Finally, multiplicative Gaussian noise ($\mu = 0$, $\sigma = 0.02$) was added to each spectral value to simulate measurement uncertainty and prevent overfitting on noiseless synthetic data \citep{ferreira2025enhancing}. The resulting 50,000 labeled synthetic spectra serve as training data for experiments evaluating synthetic-to-real domain transfer (Section~\ref{sec:results_prosail}).
+
+
+\subsection{Training Protocol}
+\label{sec:training}
+
+All models were implemented in PyTorch 2.6 \citep{paszke2019pytorch} using PyTorch Lightning 2.6 for training orchestration. Pre-computed 2D transformations were stored as memory-mapped arrays to avoid recomputation during training.
+
+\subsubsection{Supervised Training}
+
+The supervised EfficientNet-B0 models were optimized with AdamW \citep{loshchilov2019adamw} ($\beta_1 = 0.9$, $\beta_2 = 0.999$, weight decay = $10^{-4}$) and a cosine annealing learning rate schedule with initial rate $10^{-3}$ and minimum rate $10^{-6}$. Training proceeded for a maximum of 100 epochs with early stopping (patience = 15 epochs, monitoring validation loss). Within the training set, 15\% of samples were withheld for validation using stratified random splitting. The batch size was set to 16 to accommodate GPU memory constraints (NVIDIA RTX 2060, 6\,GB).
+
+Because the trait label matrix is sparse---not all samples have measurements for all eight traits---we employed a masked mean squared error (MSE) loss that computes gradients only over observed trait values:
+\begin{equation}
+    \mathcal{L}_\text{masked} = \frac{\sum_{i,j} m_{ij}(\hat{y}_{ij} - y_{ij})^2}{\sum_{i,j} m_{ij}}
+\end{equation}
+where $\hat{y}_{ij}$ and $y_{ij}$ are the predicted and observed values for sample $i$ and trait $j$, and $m_{ij}$ is a binary mask indicating whether the observation is available. Prior to training, trait values were transformed using the Yeo-Johnson power transformation \citep{yeo2000power} fitted on the training set, which stabilizes variance and reduces the influence of skewed distributions. Predictions were inverse-transformed for evaluation in original units.
+
+\subsubsection{MAE Pretraining}
+
+The MAE-2D was pretrained on Reshape images derived from the 139,295 unlabeled spectra (after filtering 375 samples with missing data, yielding 138,920 valid images). Training used AdamW ($lr = 10^{-4}$, weight decay = $10^{-4}$) with cosine annealing over 300 epochs, a batch size of 32, and gradient clipping (max norm = 1.0). A 95/5 train/validation split was used for monitoring reconstruction loss, with early stopping at patience = 30 epochs. The pretraining objective was pure MSE reconstruction of masked patches (Equation~1), without additional augmentation, as random masking already provides effective regularization \citep{he2022mae}.
+
+\subsubsection{Fine-Tuning}
+
+After MAE pretraining, the decoder was discarded and the encoder was equipped with a regression MLP head. Two fine-tuning strategies were evaluated: (i) \textit{full fine-tuning}, where all encoder parameters are updated jointly with the regression head ($lr = 10^{-4}$); and (ii) \textit{linear probing}, where encoder weights are frozen and only the regression head is trained ($lr = 10^{-3}$). Fine-tuning used the same protocol as supervised training (AdamW, early stopping, masked MSE loss) with 100 maximum epochs.
+
+
+\subsection{Experimental Design}
+\label{sec:experimental_design}
+
+The experiments are organized into two complementary case studies that progressively demonstrate the advantages of 2D spectral representations.
+
+\textit{Case Study 1: Transform comparison.} All six 1D-to-2D transformations (Section~\ref{sec:transforms}) were evaluated using EfficientNet-B0 under identical supervised training conditions. The primary comparison is between our 2D approach and the supervised EfficientNet-1D baseline reported by \citet{cherif2025greenhyperspectra} (mean $R^2 = 0.587$ across eight traits). The Reshape transformation, which exhibited the highest mean $R^2$ and lowest variance across seeds, was selected as the representative 2D method for Case Study 2.
+
+\textit{Case Study 2: Self-supervised pretraining and domain transfer.} Three experiments assessed the impact of pretraining strategies, all using Reshape as the fixed transformation: (i) supervised training without pretraining (the Case Study 1 baseline); (ii) MAE-2D pretraining on 139K unlabeled images followed by fine-tuning on real labeled data, compared against the MAE-1D of \citet{cherif2025greenhyperspectra} ($R^2 = 0.645$); and (iii) MAE-2D pretraining followed by fine-tuning on 50K synthetic PROSAIL spectra and evaluation on real test data, representing a zero-real-labels scenario in which no field-measured trait data are used for model calibration.
+
+
+\subsection{Evaluation Metrics}
+\label{sec:metrics}
+
+Model performance was evaluated using the coefficient of determination ($R^2$) and the normalized root mean square error (nRMSE, expressed as percentage of the 1st--99th percentile range of observed values), computed per trait on the held-out test set. We report the mean and standard deviation across three random seeds for all experiments. Per-trait $R^2$ values were averaged to obtain a single summary statistic for each method, enabling direct comparison with the baselines of \citet{cherif2025greenhyperspectra} who used the same evaluation protocol. Additional metrics---root mean square error (RMSE), mean absolute error (MAE), and bias---are reported in supplementary materials for completeness.

@@ -77,3 +77,16 @@ lightning_logs/
 # OS
 .DS_Store
 Thumbs.db
+# Paper build artifacts
+paper/*.aux
+paper/*.bbl
+paper/*.blg
+paper/*.out
+paper/*.spl
+paper/*.pdf
+paper/*.log
+paper/elsarticle.*
+
+# Reference papers (large PDFs)
+data/papers/*.pdf
+data/papers/*.docx

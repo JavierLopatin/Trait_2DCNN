@@ -36,15 +36,26 @@ def pretrain(args):
     images = np.memmap(data_path, dtype=np.float32, mode='r', shape=shape)
     print(f"Loaded {len(images)} unlabeled images, shape: {shape}")
 
-    # Split into train/val (95/5)
-    n_val = max(int(len(images) * 0.05), 1000)
-    indices = np.random.RandomState(42).permutation(len(images))
-    val_idx = indices[:n_val]
-    train_idx = indices[n_val:]
+    # Filter out all-NaN images (some unlabeled spectra have missing data)
+    print("Filtering NaN images...")
+    valid_mask = np.array([
+        not np.isnan(images[i].flat[0]) for i in range(len(images))
+    ])
+    valid_indices = np.where(valid_mask)[0]
+    n_bad = len(images) - len(valid_indices)
+    if n_bad > 0:
+        print(f"  Removed {n_bad} all-NaN images, {len(valid_indices)} remain")
 
-    # Use index-based access to avoid materializing memmap subsets into RAM
-    train_ds = UnlabeledCachedDataset(images, indices=train_idx, augment=True)
-    val_ds = UnlabeledCachedDataset(images, indices=val_idx, augment=False)
+    # Split into train/val (95/5)
+    n_val = max(int(len(valid_indices) * 0.05), 1000)
+    shuffled = np.random.RandomState(42).permutation(valid_indices)
+    val_idx = shuffled[:n_val]
+    train_idx = shuffled[n_val:]
+
+    # No augmentation for MAE pretraining — random masking is sufficient
+    # (consistent with He et al. 2022 and Cherif et al. 2025)
+    train_ds = UnlabeledCachedDataset.from_memmap(images, indices=train_idx, augment=False)
+    val_ds = UnlabeledCachedDataset.from_memmap(images, indices=val_idx, augment=False)
 
     train_loader = DataLoader(train_ds, batch_size=args.batch_size,
                               shuffle=True, num_workers=args.num_workers,

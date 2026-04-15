@@ -47,24 +47,45 @@ class CachedDataset(Dataset):
 class UnlabeledCachedDataset(Dataset):
     """Dataset for unlabeled pre-computed 2D images (MAE pretraining).
 
-    Supports index-based access into a memmap to avoid materializing
-    large subsets into RAM when constructed with fancy indexing.
+    Supports index-based access into a memmap. When num_workers > 0,
+    each worker re-opens the memmap independently to avoid fork-inherited
+    memmap corruption that causes NaN values.
     """
 
-    def __init__(self, images: np.ndarray, indices: np.ndarray = None,
-                 augment: bool = False):
-        self.images = images
+    def __init__(self, memmap_path: str, shape: tuple,
+                 indices: np.ndarray = None, augment: bool = False):
+        self.memmap_path = memmap_path
+        self.shape = shape
         self.indices = indices
         self.augment = augment
+        self._images = None  # lazy-opened per worker
+
+    @classmethod
+    def from_memmap(cls, images: np.ndarray, indices: np.ndarray = None,
+                    augment: bool = False):
+        """Create from an already-opened memmap (extracts path and shape).
+
+        Does NOT keep a reference to the memmap — each DataLoader worker
+        re-opens it independently to avoid fork-inherited corruption.
+        """
+        return cls(images.filename, tuple(int(s) for s in images.shape),
+                   indices, augment)
+
+    def _get_images(self):
+        if self._images is None:
+            self._images = np.memmap(
+                self.memmap_path, dtype=np.float32, mode='r', shape=self.shape)
+        return self._images
 
     def __len__(self):
         if self.indices is not None:
             return len(self.indices)
-        return len(self.images)
+        return self.shape[0]
 
     def __getitem__(self, idx):
+        images = self._get_images()
         real_idx = self.indices[idx] if self.indices is not None else idx
-        img = self.images[real_idx].astype(np.float32)
+        img = np.array(images[real_idx], dtype=np.float32)  # explicit copy from memmap
 
         if self.augment:
             img = img + np.random.normal(0, 0.01, img.shape).astype(np.float32)

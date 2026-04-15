@@ -1,0 +1,95 @@
+\documentclass[preprint,12pt]{elsarticle}
+
+% Basic packages
+\usepackage[a4paper, margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{overpic}
+\captionsetup[table]{skip=10pt}
+
+% Add Unicode support
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+
+% Add color support
+\usepackage{xcolor}
+
+% Line numbering
+\usepackage{lineno}
+\leftlinenumbers
+\renewcommand\linenumberfont{\normalfont\small\color{gray}}
+
+% Add support for text formatting
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{float}
+
+% Add support for special characters
+\usepackage{textcomp}
+\usepackage{gensymb}
+
+
+% Citas en texto tipo APA (p.ej., \citep{key} -> (Gonzales et al., 2023))
+\biboptions{authoryear,round,semicolon}
+
+%-----------------------------------------------
+% METADATA
+\title{add title here}
+
+\author[1,2,3]{Javier Lopatin\corref{cor1}}
+\ead{javier.lopatin@uai.cl}
+
+%\author[4]{Rocío Araya-López}
+%\ead{ro.arayalopez@gmail.com}
+
+%\author[2,5]{Dylan Craven}
+%\ead{dylan.craven@umayor.cl}
+
+\address[1]{Faculty of Engineering and Science, Adolfo Ibáñez University, Av. Diagonal Las Torres 2460, Santiago, Chile, 7941169}
+
+\address[2]{Data Observatory Foundation, ANID Technology Center No. DO210001, Santiago, Chile, 7510277}
+
+\address[3]{Center for Climate Resilience Research (CR)2, University of Chile, Santiago, Chile, 8370449}
+
+%\address[4]{Deakin  Marine Research and Innovation Centre, School of Life and Environmental Sciences, Deakin University, Burwood Campus, Burwood, VIC 3125, Australia}
+
+%\address[5]{GEMA Center for Genomics, Ecology and the Environment, Universidad Mayor, Santiago, Chile}
+
+% AGREGAR CORRESPONDING AUTHOR CON COR1
+\cortext[cor1]{Corresponding author; javier.lopatin@uai.cl}
+
+%-----------------------------------------------
+\begin{document}
+\begin{frontmatter}
+
+\begin{abstract}
+\input{Chapters/Abstract}
+\end{abstract}
+
+\begin{keyword}
+spectral variation hypothesis \sep EnMAP \sep structural equation modeling \sep Mediterranean Andes \sep spatial autocorrelation
+\end{keyword}
+
+\end{frontmatter}
+
+\linenumbers
+
+% AGREGAR SECCIONES DE PAPER ACA
+\input{Chapters/Introduction}
+\input{Chapters/Methods}
+\input{Chapters/Results}
+\input{Chapters/Discussion}
+\input{Chapters/Conclusion}
+
+
+% Bibliography settings
+\bibliographystyle{elsarticle-harv}
+\bibliography{References}
+
+\end{document}
