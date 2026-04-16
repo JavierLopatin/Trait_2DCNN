@@ -1,0 +1,21 @@
+\begin{table}[htbp]
+\centering
+\caption{Per-trait $R^2$ comparison between the best 2D method (Reshape + EfficientNet-B0) and the supervised 1D baseline \citep{cherif2025greenhyperspectra}. Values for the 2D method are averaged across three random seeds; values for Cherif are from their reported results. The best value per trait is shown in bold.}
+\label{tab:per_trait}
+\begin{tabular}{lccr}
+\toprule
+Trait & Cherif 1D & Reshape 2D & $\Delta$ \\
+\midrule
+C\textsubscript{ab} (Chlorophyll)    & 0.517 & \textbf{0.597} & +0.080 \\
+C\textsubscript{ar} (Carotenoids)    & 0.621 & \textbf{0.691} & +0.070 \\
+C\textsubscript{anth} (Anthocyanins) & 0.454 & \textbf{0.628} & +0.174 \\
+C\textsubscript{w} (EWT)             & 0.667 & \textbf{0.703} & +0.036 \\
+C\textsubscript{m} (LMA)             & 0.651 & \textbf{0.773} & +0.122 \\
+LAI                                   & 0.563 & \textbf{0.604} & +0.041 \\
+C\textsubscript{p} (Protein)         & 0.679 & \textbf{0.687} & +0.008 \\
+C\textsubscript{bc} (CBC)            & 0.544 & \textbf{0.789} & +0.245 \\
+\midrule
+\textbf{Mean}                         & 0.587 & \textbf{0.684} & \textbf{+0.097} \\
+\bottomrule
+\end{tabular}
+\end{table}

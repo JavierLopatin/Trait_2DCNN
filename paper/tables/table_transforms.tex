@@ -1,0 +1,19 @@
+\begin{table}[htbp]
+\centering
+\caption{Comparison of 1D-to-2D spectral transformations for multi-trait retrieval using EfficientNet-B0 on the GreenHyperSpectra dataset. Mean $R^2$ and standard deviation are reported across three random seeds (155, 240, 318). All methods are compared against the supervised EfficientNet-1D baseline of \citet{cherif2025greenhyperspectra} ($R^2 = 0.587$). The best result per column is shown in bold.}
+\label{tab:transforms}
+\begin{tabular}{llccr}
+\toprule
+Transform & Channels & Mean $R^2$ $\pm$ std & $\Delta$ vs.\ 1D & Seeds \\
+\midrule
+\textbf{Reshape}     & 1 & \textbf{0.684 $\pm$ 0.001} & \textbf{+0.097} & 3 \\
+CWT                   & 1 & 0.641 $\pm$ 0.004          & +0.054          & 3 \\
+Spectrogram           & 3 & 0.636 $\pm$ 0.025          & +0.049          & 3 \\
+2D-COS                & 2 & 0.625                      & +0.038          & 1 \\
+GAF                   & 2 & 0.623                      & +0.036          & 1 \\
+MTF                   & 1 & 0.426                      & $-$0.161        & 1 \\
+\midrule
+Cherif 1D-CNN         & -- & 0.587                     & --              & 3 \\
+\bottomrule
+\end{tabular}
+\end{table}

@@ -1,0 +1,21 @@
+\begin{table}[htbp]
+\centering
+\caption{Comparison of pretraining strategies. All 2D methods use the Reshape transformation. Cherif baselines are from \citet{cherif2025greenhyperspectra}. Mean $R^2$ and standard deviation across three seeds are reported where available.}
+\label{tab:pretraining}
+\begin{tabular}{llcc}
+\toprule
+Method & Type & Mean $R^2$ $\pm$ std & $\Delta$ vs.\ Supervised 1D \\
+\midrule
+\multicolumn{4}{l}{\textit{Cherif et al.\ (2025) --- 1D baselines}} \\
+Supervised EfficientNet-1D   & Supervised       & 0.587 $\pm$ 0.004 & -- \\
+SR-GAN                        & Semi-supervised  & 0.592 $\pm$ 0.003 & +0.005 \\
+RTM-AE                        & Physics-informed & 0.592 $\pm$ 0.004 & +0.005 \\
+MAE-1D Linear Probing         & Self-supervised  & 0.604 $\pm$ 0.005 & +0.017 \\
+MAE-1D Fine-Tuning            & Self-supervised  & 0.645 $\pm$ 0.003 & +0.058 \\
+\midrule
+\multicolumn{4}{l}{\textit{Ours --- 2D methods}} \\
+\textbf{Supervised 2D (Reshape)} & Supervised    & \textbf{0.684 $\pm$ 0.001} & \textbf{+0.097} \\
+MAE-2D Fine-Tuning            & Self-supervised  & 0.667 $\pm$ 0.006 & +0.080 \\
+\bottomrule
+\end{tabular}
+\end{table}
