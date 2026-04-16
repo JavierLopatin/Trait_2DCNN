@@ -1,0 +1,15 @@
+{
+  "checkpoint": "results/mae_pretrained/best.pt",
+  "dataset": "prosail",
+  "test_dataset": "greenhs",
+  "data_dir": null,
+  "output_dir": "results/mae_ft_prosailPRO_s155",
+  "mode": "finetune",
+  "epochs": 100,
+  "batch_size": 16,
+  "lr": 0.0001,
+  "lr_head": 0.001,
+  "weight_decay": 0.0001,
+  "patience": 15,
+  "seed": 155
+}

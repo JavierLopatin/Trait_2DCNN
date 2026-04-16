@@ -1,0 +1,22 @@
+{
+  "data_dir": "data/GreenHyperSpectra",
+  "output_dir": "results/greenhs_reshape_efficientnet_b0_s318",
+  "dataset": "greenhs",
+  "transform_name": "reshape",
+  "output_size": 224,
+  "model_name": "efficientnet_b0",
+  "pretrained": false,
+  "n_folds": 1,
+  "batch_size": 16,
+  "lr": 0.001,
+  "weight_decay": 0.0001,
+  "max_epochs": 100,
+  "patience": 15,
+  "val_split": 0.15,
+  "num_workers": 4,
+  "seed": 318,
+  "aug_baseline_shift": 0.02,
+  "aug_multiplicative": 0.02,
+  "accelerator": "auto",
+  "devices": 1
+}

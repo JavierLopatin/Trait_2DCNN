@@ -46,7 +46,7 @@ data/GreenHyperSpectra/
 cache/
 
 # Results (checkpoints, predictions)
-results/
+#results/
 
 # Model files
 *.pkl

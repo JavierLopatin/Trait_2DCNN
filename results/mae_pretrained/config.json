@@ -1,0 +1,15 @@
+{
+  "cache_dir": "cache/reshape_224_greenhs_unlabeled",
+  "output_dir": "results/mae_pretrained",
+  "epochs": 300,
+  "batch_size": 32,
+  "lr": 0.0001,
+  "weight_decay": 0.0001,
+  "mask_ratio": 0.75,
+  "cosine_weight": 0.0,
+  "encoder_depth": 6,
+  "decoder_depth": 4,
+  "patience": 30,
+  "num_workers": 0,
+  "seed": 42
+}
