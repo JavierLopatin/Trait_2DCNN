@@ -1,129 +1,74 @@
 #!/usr/bin/env Rscript
-# Generate PROSAIL-PRO Look-Up Table for Case Study 2
-#
-# Uses jbferet/prosail R package with PROSPECT-PRO + 4SAIL
-# Parameters based on Cherif et al. (2025) Table 13 + ATBD distributions
-#
-# Usage:
-#   Rscript prosail/generate_lut.R [n_samples] [output_file]
-#   Rscript prosail/generate_lut.R 50000 data/GreenHyperSpectra/prosail_lut.csv
+# Generate PROSAIL-PRO LUT for Case Study 2
+# Uses prosail() directly with PROSPECT-PRO parameters
+# Distributions from GreenHyperSpectra real data
 
+.libPaths("/mnt/rapidita_4T/R/libs")
 library(prosail)
 
 args <- commandArgs(trailingOnly = TRUE)
-n_samples <- ifelse(length(args) >= 1, as.integer(args[1]), 50000)
-output_file <- ifelse(length(args) >= 2, args[2],
-                      "data/GreenHyperSpectra/prosail_lut_raw.csv")
+n <- ifelse(length(args) >= 1, as.integer(args[1]), 50000)
 
-cat("=== PROSAIL-PRO LUT Generation ===\n")
-cat(sprintf("  Samples: %d\n", n_samples))
-cat(sprintf("  Output: %s\n", output_file))
+set.seed(42)
+cat(sprintf("=== PROSAIL-PRO LUT (%d samples) ===\n", n))
 
-# ---------------------------------------------------------------
-# 1. Define parameter distributions
-# ---------------------------------------------------------------
-# Based on ATBD (Weiss et al. 2020) + PROSPECT-PRO additions
-# Fixed params from Cherif 2025 Table 13:
-#   Brown=0.25, Ns=1.5, LIDF=5, psoil=0.8, hspot=0.01
-#   tto=0, tts=30, psi=0
+# Parameter distributions from GreenHyperSpectra
+chl  <- pmax(5,  pmin(90,  rnorm(n, 40.0, 14.4)))
+car  <- pmax(0.5, pmin(25, rnorm(n, 8.4, 2.9)))
+ant  <- pmax(0,   pmin(5,  rnorm(n, 1.27, 0.41)))
+ewt  <- pmax(0.001, pmin(0.05, rnorm(n, 0.017, 0.015)))
+lma  <- pmax(0.001, pmin(0.04, rnorm(n, 0.012, 0.009)))
+lai  <- pmax(0.1, pmin(10, rnorm(n, 3.4, 1.7)))
+prot <- pmax(0.0001, pmin(0.005, rnorm(n, 0.001, 0.0005)))
+cbc  <- pmax(0.0001, lma - prot)
+ns   <- pmax(1.2, pmin(1.8, rnorm(n, 1.5, 0.3)))
 
-# Use ATBD as base and customize for PROSPECT-PRO
-# ATBD ranges (Table 5 from S2 Toolbox ATBD V2.1):
-#   Cab: 20-90, mode=45, sd=30, Gaussian
-#   Cdm: 0.003-0.011, mode=0.005, sd=0.005, Gaussian
-#   Cw_rel: 0.60-0.85, mode=0.75, sd=0.08, Gaussian
-#   N: 1.2-1.8, mode=1.5, sd=0.3, Gaussian
-#   LAI: 0-15, mode=2, sd=3, Gaussian (log-normal modified)
-#   ALA: 30-80, mode=60, sd=30, Gaussian
+cat(sprintf("  chl:  %.1f - %.1f (mean %.1f)\n", min(chl), max(chl), mean(chl)))
+cat(sprintf("  car:  %.2f - %.2f (mean %.2f)\n", min(car), max(car), mean(car)))
+cat(sprintf("  ant:  %.2f - %.2f (mean %.2f)\n", min(ant), max(ant), mean(ant)))
+cat(sprintf("  lai:  %.2f - %.2f (mean %.2f)\n", min(lai), max(lai), mean(lai)))
 
-# Generate ATBD-based input parameters
-cat("Generating input parameters (ATBD-based)...\n")
-
-# We'll use get_input_prosail with ATBD distributions as starting point
-# then add PROSPECT-PRO specific params
-input_prosail <- get_input_prosail(
-  nbSamples = n_samples,
-  atbd = TRUE
-)
-
-# Override fixed params to match Cherif 2025 Table 13
-input_prosail$brown <- rep(0.25, n_samples)
-input_prosail$N <- runif(n_samples, min = 1.2, max = 1.8)
-
-# Add PROSPECT-PRO specific parameters based on real data statistics
-# Car: correlated with Cab (r=0.77), range 1.2-40.4, mean=8.4, sd=2.9
-# Using relationship: Car ~ Cab/5 + noise (from literature)
-input_prosail$car <- pmax(0.5, input_prosail$CHL / 5 +
-                          rnorm(n_samples, 0, 2))
-
-# Anth: range 0.56-2.98, mean=1.27, sd=0.41
-input_prosail$ant <- pmax(0, rnorm(n_samples, mean = 1.27, sd = 0.5))
-
-# Protein content (Cp): range 0-0.005, mean=0.001, sd=0.0005
-input_prosail$prot <- pmax(0, rnorm(n_samples, mean = 0.001, sd = 0.0005))
-
-# CBC = Cm - Cp (carbon-based constituents)
-# Cm is already in input_prosail as LMA (but in different units)
-# In PROSPECT-PRO: Cm = Cp + Cbc
-# We need to ensure Cbc = Cm - Cp >= 0
-input_prosail$cbc <- pmax(0, input_prosail$LMA - input_prosail$prot)
-
-# Fixed geometry (Cherif 2025)
-input_prosail$tts <- rep(30, n_samples)
-input_prosail$tto <- rep(0, n_samples)
-input_prosail$psi <- rep(0, n_samples)
-
-# Hotspot
-input_prosail$hotspot <- rep(0.01, n_samples)
-
-cat("Input parameters generated.\n")
-cat(sprintf("  Cab range: %.1f - %.1f\n", min(input_prosail$CHL), max(input_prosail$CHL)))
-cat(sprintf("  Car range: %.2f - %.2f\n", min(input_prosail$car), max(input_prosail$car)))
-cat(sprintf("  Anth range: %.2f - %.2f\n", min(input_prosail$ant), max(input_prosail$ant)))
-cat(sprintf("  LAI range: %.2f - %.2f\n", min(input_prosail$LAI), max(input_prosail$LAI)))
-cat(sprintf("  Cw range: %.4f - %.4f\n", min(input_prosail$EWT), max(input_prosail$EWT)))
-
-# ---------------------------------------------------------------
-# 2. Run PROSAIL simulations
-# ---------------------------------------------------------------
+# Run simulations
 cat("\nRunning PROSAIL-PRO simulations...\n")
+results <- list()
+t0 <- proc.time()
 
-lut <- generate_lut_prosail(input_prosail = input_prosail)
+for (i in 1:n) {
+  # In PROSPECT-PRO: lma = prot + cbc internally, so set lma=0
+  r <- prosail(
+    n_struct = ns[i], chl = chl[i], car = car[i], ant = ant[i],
+    brown = 0.25, ewt = ewt[i], lma = 0,
+    prot = prot[i], cbc = cbc[i],
+    lai = lai[i], lidf_a = 57, hotspot = 0.01,
+    tts = 30, tto = 0, psi = 0, rsoil = 0.8
+  )
+  results[[i]] <- r$rsot  # directional reflectance factor
+  if (i %% 10000 == 0) {
+    elapsed <- (proc.time() - t0)[3]
+    cat(sprintf("  %d/%d (%.0f sec)\n", i, n, elapsed))
+  }
+}
 
 cat("Simulations complete.\n")
-cat(sprintf("  Reflectance matrix: %d x %d\n",
-            nrow(lut$Reflectance), ncol(lut$Reflectance)))
 
-# ---------------------------------------------------------------
-# 3. Build output dataframe
-# ---------------------------------------------------------------
-# Extract reflectance (wavelengths as columns)
-refl <- as.data.frame(lut$Reflectance)
+# Build reflectance matrix
+refl_mat <- matrix(unlist(results), nrow = n, byrow = TRUE)
+wl <- 400:2500
+colnames(refl_mat) <- as.character(wl)
+cat(sprintf("Reflectance: %d x %d (%.0f - %.0f nm)\n",
+    nrow(refl_mat), ncol(refl_mat), min(wl), max(wl)))
 
-# Get wavelength names
-wl <- as.numeric(colnames(refl))
-cat(sprintf("  Wavelength range: %.0f - %.0f nm (%d bands)\n",
-            min(wl), max(wl), length(wl)))
-
-# Build trait columns matching GreenHyperSpectra format
+# Build output
+# In PROSPECT-PRO: cm = prot + cbc (lma was set to 0 in the simulation)
 traits <- data.frame(
-  cab = input_prosail$CHL,
-  car = input_prosail$car,
-  anth = input_prosail$ant,
-  cw = input_prosail$EWT,
-  cm = input_prosail$LMA,
-  LAI = input_prosail$LAI,
-  cp = input_prosail$prot,
-  cbc = input_prosail$cbc
+  cab = chl, car = car, anth = ant, cw = ewt,
+  cm = prot + cbc, LAI = lai, cp = prot, cbc = cbc
 )
+output <- cbind(traits, as.data.frame(refl_mat))
 
-# Combine traits + reflectance
-output <- cbind(traits, refl)
-
-# ---------------------------------------------------------------
-# 4. Save raw LUT (post-processing done in Python)
-# ---------------------------------------------------------------
-cat(sprintf("\nSaving to %s...\n", output_file))
-write.csv(output, output_file, row.names = FALSE)
-cat(sprintf("Saved: %d samples x %d columns\n", nrow(output), ncol(output)))
-cat("Done! Run prosail/postprocess_lut.py next.\n")
+outpath <- "data/GreenHyperSpectra/prosail_lut_raw_PRO.csv"
+write.csv(output, outpath, row.names = FALSE)
+elapsed <- (proc.time() - t0)[3]
+cat(sprintf("\nSaved: %s (%d x %d) in %.0f sec\n",
+    outpath, nrow(output), ncol(output), elapsed))
+cat("Next: python prosail/postprocess_lut.py --input", outpath, "\n")

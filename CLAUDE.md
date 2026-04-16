@@ -273,26 +273,56 @@ Cherif et al. (2025) — *GreenHyperSpectra* (NeurIPS 2025) extends the 2023 pip
 
 ### Experimental Design
 
-Using **Reshape transform only** (best from Case Study 1, R² 0.580).
+Using **Reshape transform only** (best from Case Study 1).
 
-| # | Pretraining | Fine-tuning | Test | Question |
-|---|------------|-------------|------|----------|
-| 1 | — | Real labeled (4,508) | Real (1,127) | Supervised 2D baseline |
-| 3 | MAE-2D (139K unlabeled) | Real labeled | Real | Does spectral pretraining improve? |
-| 5 | MAE-2D (139K unlabeled) | PROSAIL synthetic (50K) | Real | Zero real labels needed? |
+| # | Pretraining | Fine-tuning | Test | R² | Question |
+|---|------------|-------------|------|-----|----------|
+| 1 | — | Real labeled (4,508) | Real (1,127) | **0.684 ± 0.001** | Supervised 2D baseline |
+| 3 | MAE-2D (139K unlabeled) | Real labeled | Real | **0.667 ± 0.006** | Does spectral pretraining improve? |
+| 5 | MAE-2D (139K unlabeled) | PROSAIL-PRO (50K) | Real | **-0.66 ± 0.07** | Zero real labels needed? → No, domain gap too large |
+
+### Case Study 1 Results: Transform Comparison on GHS
+
+| Transform | Ch | Mean R² ± std | vs Cherif 1D (0.587) |
+|-----------|----|--------------|-----------------------|
+| **Reshape** | 1 | **0.684 ± 0.001** | **+0.097** |
+| CWT | 1 | 0.641 ± 0.004 | +0.054 |
+| Spectrogram | 3 | 0.636 ± 0.025 | +0.049 |
+| COS2D | 2 | 0.625 | +0.038 |
+| GAF | 2 | 0.623 | +0.036 |
+| MTF | 1 | 0.426 | -0.161 |
+
+### Case Study 2 Results: Pretraining Comparison
+
+| Method | R² | vs Cherif |
+|--------|-----|-----------|
+| Cherif supervised 1D | 0.587 | baseline |
+| Cherif MAE-1D FT | 0.645 | +0.058 |
+| **Supervised 2D (Reshape)** | **0.684 ± 0.001** | **+0.097** |
+| **MAE-2D FT (ours)** | **0.667 ± 0.006** | **+0.080** |
+| MAE-2D + PROSAIL-PRO | -0.66 ± 0.07 | failed — domain gap too large |
 
 ### PROSAIL LUT Generation
 
-Generated with R package `jbferet/prosail` using PROSPECT-PRO + 4SAIL:
-- **50K simulations** with ATBD-based distributions + PROSPECT-PRO extras (Car, Anth, Cp)
-- **Co-distributions with LAI** (Table 6 ATBD: ranges narrow for high LAI)
-- **Constraint**: Cp + Cbc = Cm
-- **Post-processing**: clip → SG smoothing (w=65, poly=1) per segment → remove water bands (1351-1430, 1801-2050, 2451-2500) → add 2% multiplicative Gaussian noise → 1721 bands
-- **PROSAIL-PRO fixed params**: Brown=0.25, Ns=1.5, LIDF=5, psoil=0.8, hspot=0.01, tto=0°, tts=30°, psi=0° (from Cherif 2025 Table 13)
+Generated with R package `jbferet/prosail` v3.0 (PROSPECT-PRO + 4SAIL):
+- **50K simulations** using `prosail()` with PROSPECT-PRO (includes prot, cbc params)
+- **Parameter distributions from GreenHyperSpectra** labeled data (mean/std per trait)
+- **ATBD as base** for co-distributions with LAI, then adjusted to match real data
+- **PROSPECT-PRO**: `lma=0` (set internally as `prot + cbc`), so `cm = prot + cbc` in output
+- **Post-processing** (`prosail/postprocess_lut.py`): clip → SG smoothing (w=65, poly=1) per segment → remove water bands (1351-1430, 1801-2050, 2451-2500) → add 2% multiplicative Gaussian noise → 1721 bands
+- **Fixed params** (Cherif 2025 Table 13): Brown=0.25, Ns=1.5, LIDF=57°, rsoil=0.8, hspot=0.01, tto=0°, tts=30°, psi=0°
 
-### Why Only Reshape
+### MAE-2D Architecture & Training Notes
 
-Reshape was the best single transform (R² 0.580) and all transforms are highly correlated (r>0.93). Using only Reshape for Case Study 2 keeps experiments focused and computationally tractable.
+- **Architecture**: ViT encoder (patch_size=16, embed_dim=192, depth=6, heads=3) + decoder (dim=96, depth=4, heads=3) = 3.3M params
+- **Pretraining**: 138,920 valid unlabeled images (375 all-NaN filtered), mask_ratio=0.75, MSE loss only, `augment=False` (masking = implicit augmentation, per He et al. 2022 and Cherif 2025)
+- **Converged in ~10 epochs** (val_loss 0.0001 by epoch 10)
+- **Known issue**: `num_workers > 0` causes NaN with memmap — use `num_workers=0` or pre-load to RAM
+- **Known issue**: `np.astype(np.float32)` on float32 memmap returns a view, not a copy — use `np.array()` for explicit copy
+
+### Why Only Reshape for Case Study 2
+
+Reshape was the best single transform (R² 0.684 on GHS) and all transforms are highly correlated (r>0.93). Using only Reshape for pretraining experiments keeps them focused and computationally tractable.
 
 ### Cherif 2025 Baselines (8 traits, full-range)
 

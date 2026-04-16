@@ -69,15 +69,15 @@ All methods except GAF and MTF significantly outperform Cherif's 1D-CNN (paired 
 
 ## Case Study 2: Pretraining & PROSAIL Domain Transfer
 
-Building on Case Study 1, we investigate whether 2D representations unlock vision-domain capabilities impossible with 1D spectra, using the [GreenHyperSpectra](https://huggingface.co/datasets/Avatarr05/GreenHyperSpectra) dataset (Cherif et al., 2025, NeurIPS):
+Using [GreenHyperSpectra](https://huggingface.co/datasets/Avatarr05/GreenHyperSpectra) (Cherif et al., 2025, NeurIPS), we test whether 2D representations unlock pretraining capabilities impossible with 1D spectra:
 
-| # | Pretraining | Fine-tuning | Test | Question |
-|---|------------|-------------|------|----------|
-| 1 | — | Real labeled (4,508) | Real (1,127) | Supervised 2D baseline |
-| 3 | MAE-2D (139K unlabeled) | Real labeled | Real | Does 2D pretraining beat 1D? |
-| 5 | MAE-2D (139K unlabeled) | PROSAIL synthetic | Real | Zero real labels needed? |
+| # | Pretraining | Fine-tuning | Test | R² | Cherif 1D |
+|---|------------|-------------|------|-----|-----------|
+| 1 | — | Real (4,508) | Real (1,127) | **0.684 ± 0.001** | 0.587 |
+| 3 | MAE-2D (139K) | Real | Real | **0.667 ± 0.006** | 0.645 (MAE-1D) |
+| 5 | MAE-2D (139K) | PROSAIL-PRO (50K) | Real | -0.66 | — |
 
-Comparison baselines: Cherif et al. (2025) supervised (R² 0.587) and MAE-1D Fine-Tuned (R² 0.645).
+All 2D methods outperform their 1D counterparts. MAE-2D pretraining on 139K unlabeled images surpasses Cherif's MAE-1D (+0.022), confirming the advantage of 2D representations for self-supervised learning on spectral data. Direct domain transfer from PROSAIL simulations to real data fails (R² < 0), consistent with literature findings on the persistent gap between RTM-simulated and observed spectra (Mederer et al., 2025).
 
 ## Project Structure
 

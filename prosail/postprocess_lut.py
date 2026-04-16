@@ -17,7 +17,10 @@ import numpy as np
 import pandas as pd
 from scipy.signal import savgol_filter
 
-from training.config import GHS_TRAIT_NAMES
+try:
+    from training.config import GHS_TRAIT_NAMES
+except ModuleNotFoundError:
+    GHS_TRAIT_NAMES = ['cab', 'car', 'anth', 'cw', 'cm', 'LAI', 'cp', 'cbc']
 
 
 # Water absorption bands to remove (same as Cherif preprocessing)

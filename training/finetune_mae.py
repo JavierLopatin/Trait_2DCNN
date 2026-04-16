@@ -78,14 +78,20 @@ def finetune(args):
               "--output-size 224 --dataset greenhs")
         return
 
-    _, train_labels, _, test_labels, _ = load_ghs_data(data_dir)
-    train_images, test_imgs = load_cached_images(cache_dir, 1)
-
-    # If test-dataset is different (Exp 5: train on PROSAIL, test on real)
     if args.test_dataset and args.test_dataset != args.dataset:
+        # Exp 5: train on PROSAIL, test on real GHS
+        from .data_loader import load_prosail_data, _load_single_cache
+        _, train_labels = load_prosail_data(data_dir)
+        train_shape = tuple(np.load(str(cache_dir / 'train_fold1.dat') + '.shape.npy'))
+        train_images = np.memmap(cache_dir / 'train_fold1.dat',
+                                 dtype=np.float32, mode='r', shape=train_shape)
         test_cache_dir = Path('cache') / 'reshape_224_greenhs'
         _, _, _, test_labels, _ = load_ghs_data(GHS_DATA_DIR)
         _, test_imgs = load_cached_images(test_cache_dir, 1)
+    else:
+        # Exp 3: train and test on real GHS
+        _, train_labels, _, test_labels, _ = load_ghs_data(data_dir)
+        train_images, test_imgs = load_cached_images(cache_dir, 1)
 
     # Scaler
     scaler = fit_scaler(train_labels)
