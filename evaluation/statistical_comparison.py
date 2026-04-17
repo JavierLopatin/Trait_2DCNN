@@ -1,8 +1,11 @@
 """Statistical comparison of 2D transforms vs Cherif 1D-CNN baseline.
 
 Usage:
-    python -m evaluation.statistical_comparison
+    python -m evaluation.statistical_comparison                  # Cherif 2023 analysis
+    python -m evaluation.statistical_comparison --pairwise       # + pairwise between transforms
+    python -m evaluation.statistical_comparison --ghs-pairwise   # GHS pairwise (3 seeds)
 """
+import argparse
 import pandas as pd
 import numpy as np
 from scipy import stats
@@ -68,7 +71,114 @@ def load_2d_per_fold(results_dir='results'):
     return our_r2
 
 
+def load_ghs_per_seed(results_dir='results'):
+    """Load GHS per-seed R² for all transforms.
+
+    Returns dict: {transform: {seed: {trait: R²}}}
+    """
+    transforms = ['reshape', 'cwt', 'spectrogram', 'cos2d', 'gaf', 'mtf']
+    seeds = [155, 240, 318]
+    ghs_r2 = {}
+    for t in transforms:
+        ghs_r2[t] = {}
+        for seed in seeds:
+            # First seed (155) has no suffix in directory name
+            if seed == 155:
+                p = Path(results_dir) / f'greenhs_{t}_efficientnet_b0' / 'fold_1' / 'metrics.csv'
+            else:
+                p = Path(results_dir) / f'greenhs_{t}_efficientnet_b0_s{seed}' / 'fold_1' / 'metrics.csv'
+            if p.exists():
+                df = pd.read_csv(p, index_col=0)
+                ghs_r2[t][seed] = df['R2'].to_dict()
+    return ghs_r2
+
+
+def pairwise_transform_tests(r2_matrix, transforms, traits, folds_or_seeds,
+                              dataset_label, alpha=0.05):
+    """Pairwise paired t-tests between all transform pairs.
+
+    Args:
+        r2_matrix: {trait: {method: [R² per fold/seed]}}
+        transforms: list of transform names
+        traits: list of trait names
+        folds_or_seeds: list of fold/seed indices
+        dataset_label: string for display
+        alpha: significance level
+    """
+    n_pairs = len(list(combinations(transforms, 2)))
+    bonferroni_alpha = alpha / n_pairs
+
+    print(f"\n{'=' * 90}")
+    print(f"PAIRWISE PAIRED T-TESTS BETWEEN TRANSFORMS — {dataset_label}")
+    print(f"{'=' * 90}")
+    print(f"N pairs = {n_pairs}, Bonferroni α = {bonferroni_alpha:.4f}")
+    print(f"Observations per pair: {len(traits)} traits × {len(folds_or_seeds)} folds/seeds "
+          f"= {len(traits) * len(folds_or_seeds)} paired values\n")
+
+    # Summary table header
+    print(f"{'Transform A':>14s} vs {'Transform B':<14s} | {'Mean A':>7s} | {'Mean B':>7s} | "
+          f"{'Delta':>7s} | {'t':>7s} | {'p':>9s} | {'p<α':>5s} | {'p<Bonf':>6s}")
+    print("-" * 100)
+
+    results = []
+    for t_a, t_b in combinations(transforms, 2):
+        vals_a, vals_b = [], []
+        for trait in traits:
+            if trait in r2_matrix and t_a in r2_matrix[trait] and t_b in r2_matrix[trait]:
+                for i in range(len(folds_or_seeds)):
+                    if i < len(r2_matrix[trait][t_a]) and i < len(r2_matrix[trait][t_b]):
+                        va = r2_matrix[trait][t_a][i]
+                        vb = r2_matrix[trait][t_b][i]
+                        if not (np.isnan(va) or np.isnan(vb)):
+                            vals_a.append(va)
+                            vals_b.append(vb)
+
+        if len(vals_a) < 3:
+            continue
+
+        a, b = np.array(vals_a), np.array(vals_b)
+        mean_a, mean_b = np.mean(a), np.mean(b)
+        delta = mean_a - mean_b
+        t_stat, p_val = stats.ttest_rel(a, b)
+        sig_raw = "Yes" if p_val < alpha else "No"
+        sig_bonf = "Yes" if p_val < bonferroni_alpha else "No"
+
+        print(f"{t_a:>14s} vs {t_b:<14s} | {mean_a:>7.3f} | {mean_b:>7.3f} | "
+              f"{delta:>+7.3f} | {t_stat:>7.3f} | {p_val:>9.5f} | {sig_raw:>5s} | {sig_bonf:>6s}")
+
+        results.append({
+            'A': t_a, 'B': t_b, 'mean_A': mean_a, 'mean_B': mean_b,
+            'delta': delta, 't': t_stat, 'p': p_val,
+            'sig': p_val < alpha, 'sig_bonf': p_val < bonferroni_alpha,
+            'n': len(vals_a)
+        })
+
+    # Overall ranking summary
+    print(f"\n--- Ranking summary (by mean R² across paired observations) ---")
+    means = {}
+    for t in transforms:
+        vals = []
+        for trait in traits:
+            if trait in r2_matrix and t in r2_matrix[trait]:
+                vals.extend([v for v in r2_matrix[trait][t] if not np.isnan(v)])
+        if vals:
+            means[t] = np.mean(vals)
+    ranked = sorted(means.items(), key=lambda x: -x[1])
+    for rank, (t, m) in enumerate(ranked, 1):
+        print(f"  {rank}. {t:<14s} R² = {m:.4f}")
+
+    return results
+
+
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--pairwise', action='store_true',
+                        help='Run pairwise tests between transforms (Cherif 2023)')
+    parser.add_argument('--ghs-pairwise', action='store_true',
+                        help='Run pairwise tests on GHS (3 seeds)')
+    parser.add_argument('--all', action='store_true',
+                        help='Run all analyses')
+    args = parser.parse_args()
     cherif_r2 = load_cherif_per_fold()
     our_r2 = load_2d_per_fold()
 
@@ -226,6 +336,46 @@ def main():
             parts.append(f"{b:>8s}")
         parts.append(f"{consensus[0]} ({consensus[1]}/5)")
         print(" | ".join(parts))
+
+    # ========== PAIRWISE TRANSFORM TESTS — Cherif 2023 ==========
+    if args.pairwise or args.all:
+        pairwise_transform_tests(
+            r2_matrix, transforms, traits,
+            folds_or_seeds=list(range(5)),
+            dataset_label="Cherif 2023 (5-fold CV, 20 traits)"
+        )
+
+    # ========== PAIRWISE TRANSFORM TESTS — GHS ==========
+    if args.ghs_pairwise or args.all:
+        ghs_r2 = load_ghs_per_seed()
+        ghs_traits = ['Cab', 'Car', 'Anth', 'Cw', 'Cm', 'LAI', 'Cp', 'Cbc']
+        ghs_transforms = [t for t in ['reshape', 'cwt', 'spectrogram', 'cos2d', 'gaf', 'mtf']
+                          if len(ghs_r2.get(t, {})) >= 2]
+        seeds = [155, 240, 318]
+
+        # Build GHS R² matrix: {trait: {transform: [R² per seed]}}
+        ghs_matrix = {}
+        for trait in ghs_traits:
+            ghs_matrix[trait] = {}
+            for t in ghs_transforms:
+                ghs_matrix[trait][t] = []
+                for seed in seeds:
+                    if seed in ghs_r2[t]:
+                        ghs_matrix[trait][t].append(ghs_r2[t][seed].get(trait, np.nan))
+
+        # Print available transforms
+        print(f"\n\nGHS transforms with ≥2 seeds: {ghs_transforms}")
+        for t in ghs_transforms:
+            n_seeds = len(ghs_r2[t])
+            mean_r2 = np.nanmean([ghs_r2[t][s].get(trait, np.nan)
+                                   for s in ghs_r2[t] for trait in ghs_traits])
+            print(f"  {t}: {n_seeds} seeds, mean R² = {mean_r2:.3f}")
+
+        pairwise_transform_tests(
+            ghs_matrix, ghs_transforms, ghs_traits,
+            folds_or_seeds=seeds,
+            dataset_label="GreenHyperSpectra (3 seeds, 8 traits)"
+        )
 
 
 if __name__ == '__main__':

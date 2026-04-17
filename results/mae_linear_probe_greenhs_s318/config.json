@@ -1,0 +1,15 @@
+{
+  "checkpoint": "results/mae_pretrained/best.pt",
+  "dataset": "greenhs",
+  "test_dataset": null,
+  "data_dir": null,
+  "output_dir": "results/mae_linear_probe_greenhs_s318",
+  "mode": "linear_probe",
+  "epochs": 100,
+  "batch_size": 16,
+  "lr": 0.0001,
+  "lr_head": 0.001,
+  "weight_decay": 0.0001,
+  "patience": 15,
+  "seed": 318
+}
