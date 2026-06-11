@@ -1,6 +1,6 @@
 \begin{table}[htbp]
 \centering
-\caption{Comparison of pretraining strategies. All 2D methods use the Reshape transformation. Cherif baselines are from \citet{cherif2025greenhyperspectra}. Mean $R^2$ and standard deviation across three seeds are reported where available.}
+\caption{Comparison of pretraining strategies. All 2D methods use the Reshape transformation. Cherif baselines are from \citet{cherif2025greenhyperspectra}. Mean $R^2$ and standard deviation across three seeds are reported where available. On the Cherif et al.\ (2023) dataset, ImageNet-pretrained EfficientNet-B0 weights yielded a marginal improvement of +0.007 $R^2$ (0.587 vs.\ 0.580), suggesting that the performance gain of 2D methods stems from the spectral representation itself rather than transfer from natural images.}
 \label{tab:pretraining}
 \begin{tabular}{llcc}
 \toprule
@@ -16,6 +16,7 @@ MAE-1D Fine-Tuning            & Self-supervised  & 0.645 $\pm$ 0.003 & +0.058 \\
 \multicolumn{4}{l}{\textit{Ours --- 2D methods}} \\
 \textbf{Supervised 2D (Reshape)} & Supervised    & \textbf{0.684 $\pm$ 0.001} & \textbf{+0.097} \\
 MAE-2D Fine-Tuning            & Self-supervised  & 0.667 $\pm$ 0.006 & +0.080 \\
+MAE-2D Linear Probing         & Self-supervised  & 0.646 $\pm$ 0.020 & +0.059 \\
 \bottomrule
 \end{tabular}
 \end{table}

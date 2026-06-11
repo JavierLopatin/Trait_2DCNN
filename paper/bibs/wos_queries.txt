@@ -1,0 +1,66 @@
+Web of Science - Advanced Search Queries
+=========================================
+Paper: "Turning reflectance to images improves plant trait predictions with CNN models"
+Date: 2026-04-17
+Suggested filters: 2019-2026, Categories: Remote Sensing, Environmental Sciences, Computer Science AI, Spectroscopy, Plant Sciences
+Sort by: Times Cited (for key papers) or Date (for recent)
+
+
+1. Core: 1D-to-2D spectral transformations for deep learning
+-----------------------------------------------------------------------------
+TS=("spectral transform*" OR "signal-to-image" OR "1D-to-2D" OR "spectrum-to-image" OR "spectral image represent*") AND TS=("deep learning" OR "convolutional neural network" OR "CNN")
+
+
+2. Plant traits from hyperspectral + deep learning
+-----------------------------------------------------------------------------
+TS=("plant trait*" OR "functional trait*" OR "leaf trait*" OR "vegetation trait*" OR "chlorophyll" OR "leaf mass per area" OR "leaf area index" OR "carotenoid*") AND TS=("hyperspectral" OR "imaging spectroscopy" OR "reflectance spectr*") AND TS=("deep learning" OR "neural network" OR "machine learning")
+
+
+3. Specific transforms as CNN inputs
+-----------------------------------------------------------------------------
+TS=("Gramian angular field" OR "Markov transition field" OR "recurrence plot" OR "continuous wavelet transform" OR "scalogram" OR "spectrogram" OR "2D correlation spectroscopy") AND TS=("classification" OR "regression" OR "CNN" OR "deep learning")
+
+
+4. Self-supervised / MAE for spectral data
+-----------------------------------------------------------------------------
+TS=("masked autoencoder" OR "self-supervised" OR "contrastive learning" OR "foundation model") AND TS=("spectral" OR "hyperspectral" OR "spectroscopy" OR "remote sensing") AND TS=("pretrain*" OR "representation learning" OR "fine-tun*")
+
+
+5. Transfer learning / ImageNet for spectral domains
+-----------------------------------------------------------------------------
+TS=("transfer learning" OR "pretrained" OR "ImageNet") AND TS=("spectral" OR "hyperspectral" OR "spectroscopy" OR "chemometrics") AND TS=("CNN" OR "convolutional" OR "deep learning")
+
+
+6. Reshape / tabular-to-image for non-image data
+-----------------------------------------------------------------------------
+TS=("DeepInsight" OR "IGTD" OR "tabular to image" OR "tabular-to-image" OR "reshape" OR "signal-to-image" OR "encoding time series as images") AND TS=("convolutional neural network" OR "CNN" OR "2D-CNN")
+
+
+7. PROSAIL / RTM + deep learning
+-----------------------------------------------------------------------------
+TS=("PROSAIL" OR "radiative transfer model" OR "PROSPECT" OR "4SAIL") AND TS=("deep learning" OR "neural network" OR "machine learning") AND TS=("plant trait*" OR "vegetation" OR "canopy" OR "leaf")
+
+
+8. EfficientNet / architectures for spectral regression
+-----------------------------------------------------------------------------
+TS=("EfficientNet" OR "ResNet" OR "ConvNeXt" OR "vision transformer") AND TS=("spectral" OR "hyperspectral" OR "spectroscopy") AND TS=("regression" OR "retrieval" OR "estimation" OR "prediction")
+
+
+9. Multi-trait simultaneous retrieval
+-----------------------------------------------------------------------------
+TS=("multi-trait" OR "multi-target" OR "multi-output" OR "simultaneous retrieval" OR "joint prediction") AND TS=("plant trait*" OR "vegetation" OR "leaf" OR "canopy") AND TS=("hyperspectral" OR "reflectance" OR "spectral")
+
+
+10. GAF/MTF/CWT for time series or spectral classification (broader)
+-----------------------------------------------------------------------------
+TS=("Gramian angular field" OR "Markov transition field" OR "GAF" OR "MTF") AND TS=("time series" OR "spectral" OR "signal") AND TS=("image" OR "2D" OR "CNN")
+
+
+11. Hyperspectral + deep learning (broad, for recent reviews)
+-----------------------------------------------------------------------------
+TS=("hyperspectral") AND TS=("deep learning" OR "CNN") AND TS=("plant" OR "vegetation" OR "crop" OR "forest") AND TI=("review" OR "survey" OR "overview")
+
+
+12. Wavelet transform + hyperspectral vegetation
+-----------------------------------------------------------------------------
+TS=("wavelet transform" OR "wavelet decomposition" OR "scalogram") AND TS=("hyperspectral" OR "reflectance") AND TS=("vegetation" OR "plant" OR "leaf" OR "trait*" OR "chlorophyll")

@@ -1,0 +1,3479 @@
+﻿
+@article{ WOS:001130891100001,
+Author = {Choi, Seung-Hwan and Park, Jun-Kyu and An, Dawn and Kim, Chang-Hyun and
+   Park, Gunseok and Lee, Inho and Lee, Suwoong},
+Title = {Fault Diagnosis Method for Human Coexistence Robots Based on
+   Convolutional Neural Networks Using Time-Series Data Generation and
+   Image Encoding},
+Journal = {SENSORS},
+Year = {2023},
+Volume = {23},
+Number = {24},
+Month = {DEC},
+Abstract = {This paper proposes fault diagnosis methods aimed at proactively
+   preventing potential safety issues in robot systems, particularly human
+   coexistence robots (HCRs) used in industrial environments. The data were
+   collected from durability tests of the driving module for HCRs,
+   gathering time-series vibration data until the module failed. In this
+   study, to apply classification methods in the absence of post-failure
+   data, the initial 50\% of the collected data were designated as the
+   normal section, and the data from the 10 h immediately preceding the
+   failure were selected as the fault section. To generate additional data
+   for the limited fault dataset, the Wasserstein generative adversarial
+   networks with gradient penalty (WGAN-GP) model was utilized and residual
+   connections were added to the generator to maintain the basic structure
+   while preventing the loss of key features of the data. Considering that
+   the performance of image encoding techniques varies depending on the
+   dataset type, this study applied and compared five image encoding
+   methods and four CNN models to facilitate the selection of the most
+   suitable algorithm. The time-series data were converted into image data
+   using image encoding techniques including recurrence plot, Gramian
+   angular field, Markov transition field, spectrogram, and scalogram.
+   These images were then applied to CNN models, including VGGNet,
+   GoogleNet, ResNet, and DenseNet, to calculate the accuracy of fault
+   diagnosis and compare the performance of each model. The experimental
+   results demonstrated significant improvements in diagnostic accuracy
+   when employing the WGAN-GP model to generate fault data, and among the
+   image encoding techniques and convolutional neural network models,
+   spectrogram and DenseNet exhibited superior performance, respectively.},
+Publisher = {MDPI},
+Address = {ST ALBAN-ANLAGE 66, CH-4052 BASEL, SWITZERLAND},
+Type = {Article},
+Language = {English},
+Affiliation = {Lee, S (Corresponding Author), Korea Inst Ind Technol, Daegyeong Div, Adv Mechatron Res Grp, Daegu 42994, South Korea.
+   Lee, I (Corresponding Author), Pusan Natl Univ, Dept Elect Engn, Busan 46241, South Korea.
+   Choi, Seung-Hwan; An, Dawn; Kim, Chang-Hyun; Park, Gunseok; Lee, Suwoong, Korea Inst Ind Technol, Daegyeong Div, Adv Mechatron Res Grp, Daegu 42994, South Korea.
+   Park, Jun-Kyu, Korea Elect Power Res Inst KEPRI, Renewable Energy Solut Grp, Naju 58277, South Korea.
+   Lee, Inho, Pusan Natl Univ, Dept Elect Engn, Busan 46241, South Korea.},
+DOI = {10.3390/s23249753},
+Article-Number = {9753},
+EISSN = {1424-8220},
+Keywords = {human coexistence robots; fault diagnosis; Wasserstein generative
+   adversarial networks with gradient penalty; image encoding; recurrence
+   plot; Gramian angular field; Markov transition field; spectrogram;
+   scalogram; convolutional neural network},
+Research-Areas = {Chemistry; Engineering; Instruments \& Instrumentation},
+Web-of-Science-Categories  = {Chemistry, Analytical; Engineering, Electrical \& Electronic;
+   Instruments \& Instrumentation},
+Author-Email = {csw1496@kitech.re.kr
+   junq14@kepco.co.kr
+   limition@kitech.re.kr
+   rjstjr010@kitech.re.kr
+   inholee8@pusan.ac.kr
+   lee@kitech.re.kr},
+Affiliations = {Korea Institute of Industrial Technology (KITECH); Korea Electric Power
+   Corporation (KEPCO); Pusan National University},
+ResearcherID-Numbers = {Choi, Seung-Hwan/KGL-5439-2024
+   Park, Seung-Jung/AAT-8353-2020
+   },
+ORCID-Numbers = {An, Dawn/0000-0001-7803-8023
+   Choi, Seung-Hwan/0000-0003-1898-9884
+   Park, GunSeok/0000-0002-7534-7258},
+Funding-Acknowledgement = {Korea Institute of Industrial Technology},
+Funding-Text = {The authors appreciate Jongbum Park, Tae-Keun Kim, and Byungjin Jung
+   from Intelligent Robotics Research Center, Korea Electronics Technology
+   Institute for their help to this research.},
+Number-of-Cited-References = {42},
+Times-Cited = {4},
+Usage-Count-Last-180-days = {3},
+Usage-Count-Since-2013 = {21},
+Journal-ISO = {Sensors},
+Doc-Delivery-Number = {DG5P1},
+Web-of-Science-Index = {Science Citation Index Expanded (SCI-EXPANDED)},
+Unique-ID = {WOS:001130891100001},
+OA = {Green Submitted, gold},
+DA = {2026-04-17},
+}
+
+@article{ WOS:001025539900001,
+Author = {Pan, Huan and Feng, Xuelian and Na, Chunning and Yang, Hang},
+Title = {A Model for Detecting False Data Injection Attacks in Smart Grids Based
+   on the Method Utilized for Image Coding},
+Journal = {IEEE SYSTEMS JOURNAL},
+Year = {2023},
+Volume = {17},
+Number = {4},
+Pages = {6181-6191},
+Month = {DEC},
+Abstract = {False data injection attacks (FDIAs) can affect the security of smart
+   grid operation and damage the hardware grid structure. To effectively
+   detect FDIA, this article proposes a parallel convolutional neural
+   networks (PCNNs) detection model based on image data. Since the current
+   deep learning architecture is suitable for processing 2-D structured
+   data, Gramian angular field, Markov transition field, and recurrence
+   plot are combined to encode the relevant features of power system
+   time-series measurements into 2-D images to obtain the underlying data
+   features. A PCNN model is designed to solve the problem of poor
+   classification effect of a single convolutional neural network (CNN)
+   near the classification threshold and to improve the feature extraction
+   ability of high-dimensional data. Image data are used as input to the
+   PCNN, and after feature extraction, the presence or absence of FDIA in
+   the grid is determined from the output of the PCNN. A small power system
+   is simulated, and a 1-D CNN model, a 2-D CNN model, and the proposed 2-D
+   PCNN are applied for FDIA detection. Some evaluation metrics are used to
+   validate and compare the FDIA detection performance of each protocol.
+   The results show that the proposed PCNN model consistently maintains
+   high detection performance for multiple datasets.},
+Publisher = {IEEE-INST ELECTRICAL ELECTRONICS ENGINEERS INC},
+Address = {445 HOES LANE, PISCATAWAY, NJ 08855-4141 USA},
+Type = {Article},
+Language = {English},
+Affiliation = {Pan, H (Corresponding Author), Ningxia Univ, Sch Elect \& Elect Engn, Yinchuan 750021, Peoples R China.
+   Pan, Huan; Feng, Xuelian; Na, Chunning; Yang, Hang, Ningxia Univ, Sch Elect \& Elect Engn, Yinchuan 750021, Peoples R China.
+   Pan, Huan; Na, Chunning, Ningxia Univ, Ningxia Key Lab Intelligent Sensing Desert Informa, Yinchuan 750021, Peoples R China.},
+DOI = {10.1109/JSYST.2023.3287924},
+EarlyAccessDate = {JUL 2023},
+ISSN = {1932-8184},
+EISSN = {1937-9234},
+Keywords = {Cybersecurity; false data injection attack (FDIA); Gramian angular field
+   (GAF); Markov transition field; parallel convolutional neural networks
+   (PCNNs); recurrence plot; smart grid},
+Keywords-Plus = {CLASSIFICATION; SYSTEM; DEEP},
+Research-Areas = {Computer Science; Engineering; Operations Research \& Management
+   Science; Telecommunications},
+Web-of-Science-Categories  = {Computer Science, Information Systems; Engineering, Electrical \&
+   Electronic; Operations Research \& Management Science;
+   Telecommunications},
+Author-Email = {pan198303@gmail.com
+   1092731014@qq.com
+   nana508@163.com
+   3034717579@qq.com},
+Affiliations = {Ningxia University; Ningxia University},
+ResearcherID-Numbers = {Pan, Huan/AFH-0474-2022},
+ORCID-Numbers = {Pan, Huan/0000-0002-6688-6321},
+Funding-Acknowledgement = {National Natural Science Foundation of China {[}61763040]; Natural
+   Science Foundation of Ningxia Province {[}2022AAC05001]; Western Light
+   Talent Training Program of Chinese Academy of Sciences},
+Funding-Text = {This work was supported in part by the National Natural Science
+   Foundation of China under Grant 61763040, in part by the Natural Science
+   Foundation of Ningxia Province under Grant 2022AAC05001, and in part by
+   the Western Light Talent Training Program of Chinese Academy of
+   Sciences.},
+Number-of-Cited-References = {28},
+Times-Cited = {7},
+Usage-Count-Last-180-days = {3},
+Usage-Count-Since-2013 = {24},
+Journal-ISO = {IEEE Syst. J.},
+Doc-Delivery-Number = {EW2I4},
+Web-of-Science-Index = {Science Citation Index Expanded (SCI-EXPANDED)},
+Unique-ID = {WOS:001025539900001},
+DA = {2026-04-17},
+}
+
+@article{ WOS:000661890000013,
+Author = {Ganesan, M. and Lavanya, R.},
+Title = {A deep learning approach to fault detection in a satellite power system
+   using Gramian angular field},
+Journal = {INTERNATIONAL JOURNAL OF ENGINEERING SYSTEMS MODELLING AND SIMULATION},
+Year = {2021},
+Volume = {12},
+Number = {2-3, SI},
+Pages = {195-201},
+Abstract = {In this paper, an approach based on time series-to-image mapping is
+   proposed for fault detection in a satellite power system (SPS). This
+   approach exploits the possibilities of encoding the SPS time series data
+   as images using Gramian angular fields (GAF). The resulting images are
+   analysed by a convolutional neural network (CNN) for recognising faulty
+   and normal conditions of SPS. Validation with NASA's advanced
+   diagnostics and prognostics testbed (ADAPT) dataset has demonstrated
+   that the combination of CNN with GAF results in better performance when
+   compared to other image encoding methods such as spectrogram and
+   recurrence plot (RP). The proposed approach yields an accuracy of
+   85.13\% with precision 84\% and F1 score 0.91 suggesting that encoding
+   multivariate time series data to images using GAF is worth considering
+   for SPS fault diagnosis when compared to other time series-to-image
+   encoding based approaches.},
+Publisher = {INDERSCIENCE ENTERPRISES LTD},
+Address = {WORLD TRADE CENTER BLDG, 29 ROUTE DE PRE-BOIS, CASE POSTALE 856, CH-1215
+   GENEVA, SWITZERLAND},
+Type = {Article},
+Language = {English},
+Affiliation = {Ganesan, M (Corresponding Author), Amrita Vishwa Vidyapeetham, Dept Elect \& Commun Engn, Amrita Sch Engn, Coimbatore, Tamil Nadu, India.
+   Ganesan, M.; Lavanya, R., Amrita Vishwa Vidyapeetham, Dept Elect \& Commun Engn, Amrita Sch Engn, Coimbatore, Tamil Nadu, India.},
+ISSN = {1755-9758},
+EISSN = {1755-9766},
+Keywords = {satellite power system; SPS; Gramian angular field; GAF; recurrence
+   plot; convolutional neural network; CNN},
+Keywords-Plus = {TIME; CLASSIFICATION},
+Research-Areas = {Engineering},
+Web-of-Science-Categories  = {Engineering, Multidisciplinary},
+Author-Email = {m\_ganesan1@cb.amrita.edu
+   r\_lavanya@cb.amrita.edu},
+Affiliations = {Amrita Vishwa Vidyapeetham; Amrita Vishwa Vidyapeetham Coimbatore},
+ResearcherID-Numbers = {M, Dr.Ganesan/AAR-3137-2021},
+Number-of-Cited-References = {21},
+Times-Cited = {5},
+Usage-Count-Last-180-days = {0},
+Usage-Count-Since-2013 = {27},
+Journal-ISO = {Int. J. Eng. Syst. Model. Simul.},
+Doc-Delivery-Number = {SS6UD},
+Web-of-Science-Index = {Emerging Sources Citation Index (ESCI)},
+Unique-ID = {WOS:000661890000013},
+DA = {2026-04-17},
+}
+
+@article{ WOS:001479632600001,
+Author = {Tarek, Aroui and Sameh, Marmouch},
+Title = {Deep learning rotor fault detection using the Gramian angular field and
+   the Markov transition field encoding approaches},
+Journal = {INTERNATIONAL JOURNAL OF AUTOMATION AND CONTROL},
+Year = {2025},
+Volume = {19},
+Number = {3},
+Abstract = {Using deep learning techniques for diagnostic purposes has garnered
+   considerable interest and demonstrated encouraging outcomes across
+   diverse fields. Convolutional neural networks (CNN) are extensively
+   employed in image-based diagnostic tasks. This paper proposes an
+   approach that transforms the temporal signal of the stator current into
+   visual representations. The combined utilisation of the Gramian angular
+   field (GAF) and the Markov transition field (MTF) allows for a
+   comprehensive analysis of stator current data. This combined approach is
+   associated with two deep learning models (VGG19 and RESNET50) for rotor
+   broken bars detection. We have used an experimental database acquired
+   under varied load conditions and with different types of rotor faults to
+   demonstrate the reliability of our approach. The results obtained
+   demonstrate the efficacy of the proposed strategy.},
+Publisher = {INDERSCIENCE ENTERPRISES LTD},
+Address = {WORLD TRADE CENTER BLDG, 29 ROUTE DE PRE-BOIS, CASE POSTALE 856, CH-1215
+   GENEVA, SWITZERLAND},
+Type = {Article},
+Language = {English},
+Affiliation = {Tarek, A (Corresponding Author), Univ Sousse, Ecole Natl Ingn Sousse, Sousse 4054, Tunisia.
+   Tarek, A (Corresponding Author), Univ Sfax, Ecole Natl Ingn Sfax, Lab Sci \& Tech Automat \& Informat Ind LabSTA, Sfax 3038, Tunisia.
+   Tarek, Aroui; Sameh, Marmouch, Univ Sousse, Ecole Natl Ingn Sousse, Sousse 4054, Tunisia.
+   Tarek, Aroui; Sameh, Marmouch, Univ Sfax, Ecole Natl Ingn Sfax, Lab Sci \& Tech Automat \& Informat Ind LabSTA, Sfax 3038, Tunisia.},
+DOI = {10.1504/IJAAC.2025.145924},
+ISSN = {1740-7516},
+EISSN = {1740-7524},
+Keywords = {rotor faults; diagnosis; GAF; Gramian angular field; Markov transition
+   field; VGG19; RESNET50},
+Keywords-Plus = {DIAGNOSIS},
+Research-Areas = {Automation \& Control Systems},
+Web-of-Science-Categories  = {Automation \& Control Systems},
+Author-Email = {tarek.aroui@eniso.u-sousse.tn
+   samehmarmouch@hotmail.com},
+Affiliations = {Universite de Sousse; Universite de Sfax; Ecole Nationale dIngenieurs de
+   Sfax (ENIS)},
+ORCID-Numbers = {tarek, aroui/0000-0001-9829-0672},
+Number-of-Cited-References = {44},
+Times-Cited = {1},
+Usage-Count-Last-180-days = {1},
+Usage-Count-Since-2013 = {2},
+Journal-ISO = {Int. J. Autom. Control},
+Doc-Delivery-Number = {2CW3V},
+Web-of-Science-Index = {Emerging Sources Citation Index (ESCI)},
+Unique-ID = {WOS:001479632600001},
+DA = {2026-04-17},
+}
+
+@article{ WOS:001138862400001,
+Author = {Scarpiniti, Michele and Parisi, Raffaele and Lee, Yong-Cheol},
+Title = {A Scalogram-Based CNN Approach for Audio Classification in Construction
+   Sites},
+Journal = {APPLIED SCIENCES-BASEL},
+Year = {2024},
+Volume = {14},
+Number = {1},
+Month = {JAN},
+Abstract = {The automatic monitoring of activities in construction sites through the
+   proper use of acoustic signals is a recent field of research that is
+   currently in continuous evolution. In particular, the use of techniques
+   based on Convolutional Neural Networks (CNNs) working on the spectrogram
+   of the signal or its mel-scale variants was demonstrated to be quite
+   successful. Nevertheless, the spectrogram has some limitations, which
+   are due to the intrinsic trade-off between temporal and spectral
+   resolutions. In order to overcome these limitations, in this paper, we
+   propose employing the scalogramas a proper time-frequency representation
+   of the audio signal. The scalogram is defined as the square modulus of
+   the Continuous Wavelet Transform (CWT) and is known as a powerful tool
+   for analyzing real-world signals. Experimental results, obtained on
+   real-world sounds recorded in construction sites, have demonstrated the
+   effectiveness of the proposed approach, which is able to clearly
+   outperform most state-of-the-art solutions.},
+Publisher = {MDPI},
+Address = {ST ALBAN-ANLAGE 66, CH-4052 BASEL, SWITZERLAND},
+Type = {Article},
+Language = {English},
+Affiliation = {Scarpiniti, M (Corresponding Author), Sapienza Univ Rome, Dept Informat Engn Elect \& Telecommun DIET, Via Eudossiana 18, I-00184 Rome, Italy.
+   Scarpiniti, Michele; Parisi, Raffaele, Sapienza Univ Rome, Dept Informat Engn Elect \& Telecommun DIET, Via Eudossiana 18, I-00184 Rome, Italy.
+   Lee, Yong-Cheol, Louisiana State Univ, Dept Construct Management, Baton Rouge, LA 70803 USA.},
+DOI = {10.3390/app14010090},
+Article-Number = {90},
+EISSN = {2076-3417},
+Keywords = {automatic construction site monitoring (ACSM); environmental sound
+   classification (ESC); deep learning; convolutional neural network (CNN);
+   continuous wavelet transform (CWT); scalogram; audio processing},
+Research-Areas = {Chemistry; Engineering; Materials Science; Physics},
+Web-of-Science-Categories  = {Chemistry, Multidisciplinary; Engineering, Multidisciplinary; Materials
+   Science, Multidisciplinary; Physics, Applied},
+Author-Email = {michele.scarpiniti@uniroma1.it
+   raffaele.parisi@uniroma1.it
+   yclee@lsu.edu},
+Affiliations = {Sapienza University Rome; Louisiana State University System; Louisiana
+   State University},
+ResearcherID-Numbers = {Scarpiniti, Michele/K-5383-2015},
+ORCID-Numbers = {Lee, Yongcheol/0000-0002-0040-0894
+   Scarpiniti, Michele/0000-0002-3164-6256},
+Funding-Acknowledgement = {Sapienza University of Rome},
+Funding-Text = {No Statement Available},
+Number-of-Cited-References = {54},
+Times-Cited = {8},
+Usage-Count-Last-180-days = {2},
+Usage-Count-Since-2013 = {10},
+Journal-ISO = {Appl. Sci.-Basel},
+Doc-Delivery-Number = {EK6P5},
+Web-of-Science-Index = {Science Citation Index Expanded (SCI-EXPANDED)},
+Unique-ID = {WOS:001138862400001},
+OA = {Green Submitted, gold},
+DA = {2026-04-17},
+}
+
+@inproceedings{ WOS:001297894700258,
+Author = {Bamus, Imran and Okay, Feyza Yildirim},
+Book-Group-Author = {IEEE},
+Title = {Image Transformation for IoT-based Anomaly Detection},
+Booktitle = {32ND IEEE SIGNAL PROCESSING AND COMMUNICATIONS APPLICATIONS CONFERENCE,
+   SIU 2024},
+Series = {Signal Processing and Communications Applications Conference},
+Year = {2024},
+Note = {32nd IEEE Signal Processing and Communications Applications Conference
+   (SIU), Tarsus Univ Campus, Mersin, TURKEY, MAY 15-18, 2024},
+Organization = {IEEE; IEEE Turkey; Koluman \& Berdan; Loodos; Figes; Turkcell; Yildirim
+   Elect},
+Abstract = {In the rapidly evolving environment of the Internet of Things (IoT),
+   anomaly detection plays an important role in ensuring the security and
+   reliability of connected systems. Traditional approaches often struggle
+   to capture subtle patterns and anomalies in complex IoT data. This paper
+   introduces a new perspective by utilizing image transformation
+   techniques, specifically the Gramian Angular Field (GAF), Markov
+   Transition Field (MTF), and Recurrence Plot (RP), coupled with deep
+   learning models for better anomaly detection. This study presents a
+   comparative study to evaluate the performance of these image
+   transformation methods and assess their effectiveness in detecting
+   anomalies in IoT data. The comparative results show that RP with CNN has
+   the superior performance compared to other image transformation
+   techniques.},
+Publisher = {IEEE},
+Address = {345 E 47TH ST, NEW YORK, NY 10017 USA},
+Type = {Proceedings Paper},
+Language = {English},
+Affiliation = {Bamus, I (Corresponding Author), Gazi Univ, Comp Engn Dept, Ankara, Turkiye.
+   Bamus, Imran; Okay, Feyza Yildirim, Gazi Univ, Comp Engn Dept, Ankara, Turkiye.},
+DOI = {10.1109/SIU61531.2024.10601045},
+ISSN = {2165-0608},
+ISBN = {979-8-3503-8897-8; 979-8-3503-8896-1},
+Keywords = {image transformation; IoT; anomaly detection; deep learning},
+Research-Areas = {Computer Science; Engineering; Telecommunications},
+Web-of-Science-Categories  = {Computer Science, Artificial Intelligence; Engineering, Electrical \&
+   Electronic; Telecommunications},
+Author-Email = {bamusimran1@gmail.com
+   feyzaokay@gazi.edu.tr},
+Affiliations = {Gazi University},
+ResearcherID-Numbers = {Yıldırım Okay, Feyza/MIU-1019-2025},
+Number-of-Cited-References = {14},
+Times-Cited = {0},
+Usage-Count-Last-180-days = {0},
+Usage-Count-Since-2013 = {3},
+Doc-Delivery-Number = {BX5EH},
+Web-of-Science-Index = {Conference Proceedings Citation Index - Science (CPCI-S)},
+Unique-ID = {WOS:001297894700258},
+DA = {2026-04-17},
+}
+
+@article{ WOS:000637911100001,
+Author = {Garcia, Gabriel Rodriguez and Michau, Gabriel and Ducoffe, Melanie and
+   Gupta, Jayant Sen and Fink, Olga},
+Title = {Temporal signals to images: Monitoring the condition of industrial
+   assets with deep learning image processing algorithms},
+Journal = {PROCEEDINGS OF THE INSTITUTION OF MECHANICAL ENGINEERS PART O-JOURNAL OF
+   RISK AND RELIABILITY},
+Year = {2022},
+Volume = {236},
+Number = {4, SI},
+Pages = {617-627},
+Month = {AUG},
+Abstract = {The ability to detect anomalies in time series is considered highly
+   valuable in numerous application domains. The sequential nature of time
+   series objects is responsible for an additional feature complexity,
+   ultimately requiring specialized approaches in order to solve the task.
+   Essential characteristics of time series, situated outside the time
+   domain, are often difficult to capture with state-of-the-art anomaly
+   detection methods when no transformations have been applied to the time
+   series. Inspired by the success of deep learning methods in computer
+   vision, several studies have proposed transforming time series into
+   image-like representations, used as inputs for deep learning models, and
+   have led to very promising results in classification tasks. In this
+   paper, we first review the signal to image encoding approaches found in
+   the literature. Second, we propose modifications to some of their
+   original formulations to make them more robust to the variability in
+   large datasets. Third, we compare them on the basis of a common
+   unsupervised task to demonstrate how the choice of the encoding can
+   impact the results when used in the same deep learning architecture. We
+   thus provide a comparison between six encoding algorithms with and
+   without the proposed modifications. The selected encoding methods are
+   Gramian Angular Field, Markov Transition Field, recurrence plot, grey
+   scale encoding, spectrogram, and scalogram. We also compare the results
+   achieved with the raw signal used as input for another deep learning
+   model. We demonstrate that some encodings have a competitive advantage
+   and might be worth considering within a deep learning framework. The
+   comparison is performed on a dataset collected and released by Airbus
+   SAS, containing highly complex vibration measurements from real
+   helicopter flight tests. The different encodings provide competitive
+   results for anomaly detection.},
+Publisher = {SAGE PUBLICATIONS LTD},
+Address = {1 OLIVERS YARD, 55 CITY ROAD, LONDON EC1Y 1SP, ENGLAND},
+Type = {Article},
+Language = {English},
+Affiliation = {Fink, O (Corresponding Author), Swiss Fed Inst Technol, Chair Intelligent Maintenance Syst, Stefano Franscini Pl 5, CH-8093 Zurich, Switzerland.
+   Garcia, Gabriel Rodriguez; Michau, Gabriel; Fink, Olga, Swiss Fed Inst Technol, Swiss Fed Inst Technol, Zurich, Switzerland.
+   Ducoffe, Melanie; Gupta, Jayant Sen, Airbus AI Res, Toulouse, Midi Pyrenees, France.},
+DOI = {10.1177/1748006X21994446},
+EarlyAccessDate = {FEB 2021},
+Article-Number = {1748006X21994446},
+ISSN = {1748-006X},
+EISSN = {1748-0078},
+Keywords = {Unsupervised fault detection; time series encoding; helicopters;
+   vibrations; CNN},
+Keywords-Plus = {CONVOLUTIONAL NEURAL-NETWORK; FAULT; FEATURES},
+Research-Areas = {Engineering; Operations Research \& Management Science},
+Web-of-Science-Categories  = {Engineering, Multidisciplinary; Engineering, Industrial; Operations
+   Research \& Management Science},
+Author-Email = {ofink@ethz.ch},
+Affiliations = {Swiss Federal Institutes of Technology Domain; ETH Zurich; Airbus;
+   Airbus France S.A.S.},
+ResearcherID-Numbers = {Michau, Gabriel/J-6691-2019
+   Fink, Olga/AFK-5953-2022
+   Garcia, Gabriel/GWZ-5540-2022},
+ORCID-Numbers = {Michau, Gabriel/0000-0001-6882-2906
+   },
+Number-of-Cited-References = {29},
+Times-Cited = {52},
+Usage-Count-Last-180-days = {3},
+Usage-Count-Since-2013 = {54},
+Journal-ISO = {Proc. Inst. Mech. Eng. Part O-J. Risk Reliab.},
+Doc-Delivery-Number = {2O3AH},
+Web-of-Science-Index = {Science Citation Index Expanded (SCI-EXPANDED)},
+Unique-ID = {WOS:000637911100001},
+OA = {Green Submitted},
+DA = {2026-04-17},
+}
+
+@article{ WOS:001693601500004,
+Author = {Janthong, Supakan and Duangsoithong, Rakkrit and Chalermyanont, Kusumal},
+Title = {Imaging Time-Series to Classify Energy Theft and Defective Meters in
+   Automatic Meter Reading Using Convolutional Neural Networks},
+Journal = {ENGINEERING JOURNAL-THAILAND},
+Year = {2026},
+Volume = {30},
+Number = {1},
+Pages = {69-85},
+Abstract = {Electricity distribution systems suffer significant non-technical losses
+   (NTL) from theft and meter defects. While automatic meter reading (AMR)
+   systems detect irregularities, they cannot distinguish specific
+   anomalies. This study transforms AMR voltage and current time-series
+   into 2D images using five methods; continuous wavelet transform (CWT),
+   spectrogram plots (SGP), recurrence plots (RCP), Markov transition Field
+   (MTF), and Gramian angular field (GAF), and classifies them into normal,
+   defective, and theft categories via a lightweight convolutional neural
+   network (CNN) with 5-fold nested cross-validation. On a real-world
+   Provincial Electricity Authority (PEA) dataset, CWT achieves 95.3\%
+   accuracy and 0.95 AUC-ROC, outperforming other transformations, 1D NNs,
+   and classical ML baselines. Grad-CAM confirms class-specific feature
+   focus. Using only AMR data, augmentation, this practical, interpretable
+   approach enables utilities to accurately differentiate theft from
+   defects for targeted intervention.},
+Publisher = {CHULALONGKORN UNIV, FAC ENGINEERING},
+Address = {254 PHAYATHAI RD, PATHUMWAN, BANGKOK, 10330, THAILAND},
+Type = {Article},
+Language = {English},
+Affiliation = {Chalermyanont, K (Corresponding Author), Prince Songkla Univ, Fac Engn, Dept Elect \& Biomed Engn, Hat Yai 90110, Thailand.
+   Janthong, Supakan; Duangsoithong, Rakkrit; Chalermyanont, Kusumal, Prince Songkla Univ, Fac Engn, Dept Elect \& Biomed Engn, Hat Yai 90110, Thailand.
+   Janthong, Supakan, Prov Elect Author, Bangkok 10900, Thailand.},
+DOI = {10.4186/ej.2026.30.1.69},
+ISSN = {0125-8281},
+Keywords = {Non-technical loss (NTL); energy theft; defective meters; automatic
+   meter reading (AMR); time-series imaging; convolutional neural networks
+   (CNN)},
+Keywords-Plus = {ELECTRICITY THEFT; DEEP},
+Research-Areas = {Engineering},
+Web-of-Science-Categories  = {Engineering, Multidisciplinary},
+Author-Email = {supakan.jan@pea.co.th
+   rakkrit.d@psu.ac.th
+   kusumal.c@psu.ac.th},
+Affiliations = {Prince of Songkla University},
+Funding-Acknowledgement = {Provincial Electricity Authority and Department of Electrical
+   Engineering, Faculty of Engineering, Prince of Songkla University},
+Funding-Text = {The authors would like to thank the Provincial Electricity Authority and
+   Department of Electrical Engineering, Faculty of Engineering, Prince of
+   Songkla University, for the financial support provided under the PEA-PSU
+   Program. The authors also gratefully acknowledge the Meter System
+   Development Division, PEA Area 3 (Southern) Yala Province, for data
+   support and valuable comments.},
+Number-of-Cited-References = {31},
+Times-Cited = {0},
+Usage-Count-Last-180-days = {0},
+Usage-Count-Since-2013 = {0},
+Journal-ISO = {Eng. J.-Thail.},
+Doc-Delivery-Number = {DW3CE},
+Web-of-Science-Index = {Emerging Sources Citation Index (ESCI)},
+Unique-ID = {WOS:001693601500004},
+DA = {2026-04-17},
+}
+
+@article{ WOS:001579010900005,
+Author = {Shangguan, Qican and Lian, Yue and Liao, Zhiwei and Chen, Jinshui and
+   Song, Yiru and Yao, Ligang and Jiang, Cai and Lu, Zongxing and Lin,
+   Zhonghua},
+Title = {A Lightweight CNN Approach for Hand Gesture Recognition via GAF Encoding
+   of A-Mode Ultrasound Signals},
+Journal = {IEEE TRANSACTIONS ON NEURAL SYSTEMS AND REHABILITATION ENGINEERING},
+Year = {2025},
+Volume = {33},
+Pages = {3734-3743},
+Abstract = {Hand gesture recognition(HGR) is a key technology in human-computer
+   interaction and human communication. This paper presents a lightweight,
+   parameter-free attention convolutional neural network (LPA-CNN) approach
+   leveraging Gramian Angular Field(GAF)transformation of A-mode ultrasound
+   signals for HGR. First, this paper maps 1-dimensional (1D) A-mode
+   ultrasound signals, collected from the forearm muscles of 10 healthy
+   participants, into 2-dimensional (2D) images. Second, GAF is selected
+   owing to its higher sensitivity against Markov Transition Field (MTF)
+   and Recurrence Plot (RP) in HGR. Third, a novel LPA-CNN consisting of
+   four components, i.e., a convolution-pooling block, an attention
+   mechanism, an inverted residual block, and a classification block, is
+   proposed. Among them, the convolution-pooling block consists of
+   convolutional and pooling layers, the attention mechanism is applied to
+   generate 3-D weights, the inverted residual block consists of multiple
+   channel shuffling units, and the classification block is performed
+   through fully connected layers. Fourth, comparative experiments were
+   conducted on GoogLeNet, MobileNet, and LPA-CNN to validate the
+   effectiveness of the proposed method. Experimental results show that
+   compared to GoogLeNet and MobileNet, LPA-CNN has a smaller model size
+   and better recognition performance, achieving a classification accuracy
+   of 0.98 +/- 0.02. This paper achieves efficient and high-accuracy HGR by
+   encoding A-mode ultrasound signals into 2D images and integrating the
+   LPA-CNN model, providing a new technological approach for HGR based on
+   ultrasonic signals.},
+Publisher = {IEEE-INST ELECTRICAL ELECTRONICS ENGINEERS INC},
+Address = {445 HOES LANE, PISCATAWAY, NJ 08855-4141 USA},
+Type = {Article},
+Language = {English},
+Affiliation = {Lu, ZX (Corresponding Author), Fuzhou Univ, Sch Mech Engn \& Automat, Fuzhou 350108, Peoples R China.
+   Lin, ZH (Corresponding Author), Fuzhou Univ, Rehabil Med Ctr, Affiliated Prov Hosp, Fuzhou 350001, Peoples R China.
+   Shangguan, Qican; Lian, Yue; Liao, Zhiwei; Song, Yiru; Yao, Ligang; Lu, Zongxing, Fuzhou Univ, Sch Mech Engn \& Automat, Fuzhou 350108, Peoples R China.
+   Chen, Jinshui, Fujian Med Univ, Fuzong Clin Med Coll, Fuzhou 350025, Peoples R China.
+   Jiang, Cai; Lin, Zhonghua, Fuzhou Univ, Rehabil Med Ctr, Affiliated Prov Hosp, Fuzhou 350001, Peoples R China.},
+DOI = {10.1109/TNSRE.2025.3608180},
+ISSN = {1534-4320},
+EISSN = {1558-0210},
+Keywords = {Ultrasonic imaging; Time series analysis; Convolutional neural networks;
+   Hands; Encoding; Muscles; Image coding; Gesture recognition;
+   Computational modeling; Accuracy; A-mode ultrasound; convolutional
+   neural network (CNN); deep learning; hand gesture recognition (HGR);
+   gramian angular field (GAF)},
+Keywords-Plus = {TECHNOLOGY},
+Research-Areas = {Engineering; Rehabilitation},
+Web-of-Science-Categories  = {Engineering, Biomedical; Rehabilitation},
+Author-Email = {shangguanqican@sina.com
+   lianyue\_fzu@sina.com
+   zwliao@fzu.edu.cn
+   cjswater@qq.com
+   230227136@fzu.edu.cn
+   ylgyao@fzu.edu.cn
+   jiangcai88@126.com
+   luzongxing@fzu.edu.cn
+   doctor\_lzh71@163.com},
+Affiliations = {Fuzhou University; Fujian Medical University; Fuzhou University},
+ResearcherID-Numbers = {Lian, Yue/JDV-8432-2023
+   Lu, Zongxing/ACG-6489-2022
+   zhiwei, liao/GWR-2841-2022},
+ORCID-Numbers = {Lian, Yue/0009-0009-7810-1411
+   , 卢宗兴/0000-0002-0965-1120
+   },
+Funding-Acknowledgement = {National Science Foundation of China {[}61801122]; Natural Science
+   Foundation of Fujian Province {[}2022J01542]},
+Funding-Text = {This work was supportedin part by the National Science Foundation of
+   China under Grant 61801122 and in part by the Natural Science Foundation
+   of Fujian Province under Grant 2022J01542.},
+Number-of-Cited-References = {43},
+Times-Cited = {1},
+Usage-Count-Last-180-days = {9},
+Usage-Count-Since-2013 = {12},
+Journal-ISO = {IEEE Trans. Neural Syst. Rehabil. Eng.},
+Doc-Delivery-Number = {7TC0T},
+Web-of-Science-Index = {Science Citation Index Expanded (SCI-EXPANDED)},
+Unique-ID = {WOS:001579010900005},
+OA = {Green Submitted, gold},
+DA = {2026-04-17},
+}
+
+@inproceedings{ WOS:000897033300027,
+Author = {Kachhi, Aastha and Therattil, Anand and Gupta, Priyanka and Patil,
+   Hemant A.},
+Editor = {Prasanna, SRM and Karpov, A and Samudravijaya, K and Agrawal, SS},
+Title = {Continuous Wavelet Transform for Severity-Level Classification of
+   Dysarthria},
+Booktitle = {SPEECH AND COMPUTER, SPECOM 2022},
+Series = {Lecture Notes in Artificial Intelligence},
+Year = {2022},
+Volume = {13721},
+Pages = {312-324},
+Note = {24th International Conference on Speech and Computer (SPECOM), Gurugram,
+   INDIA, NOV 14-16, 2022},
+Organization = {KIIT Coll Engn},
+Abstract = {Dysarthria is a neuro-motor speech defect that causes speech to be
+   unintelligible and is largely unnoticeable to humans at various
+   severity-levels. Dysarthric speech classification is used as a
+   diagnostic method to assess the progression of a patient's severity of
+   the condition, as well as to aid with automatic dysarthric speech
+   recognition systems (an important assistive speech technology). This
+   study investigates the significance of Generalized Morse Wavelet
+   (GMW)-based scalogram features for capturing the discriminative acoustic
+   cues of dysarthric severity-level classification for low-frequency
+   regions, using Convolutional Neural Network (CNN). The performance of
+   scalogram-based features is compared with Short-Time Fourier Transform
+   (STFT)-based features, and Mel spectrogram-based features. Compared to
+   the STFT-based baseline features with a classification accuracy of
+   91.76\%, the proposed Continuous Wavelet Transform (CWT)-based scalogram
+   features achieve significantly improved classification accuracy of
+   95.17\% on standard and statistically meaningful UA-Speech corpus. The
+   remarkably improved results signify that for better dysarthric
+   severity-level classification, the information in the low-frequency
+   regions is more discriminative, as the proposed CWT-based time-frequency
+   representation (scalogram) has a high-frequency resolution in the lower
+   frequencies. On the other hand, STFT-based representations have constant
+   resolution across all the frequency bands and therefore, are not as
+   better suited for dysarthric severity-level classification, as the
+   proposed Morse wavelet-based CWT features. In addition, we also perform
+   experiments on the Mel spectrogram to demonstrate that even though the
+   Mel spectrogram also has a high frequency resolution in the lower
+   frequencies with a classification accuracy of 92.65\%, the proposed
+   system is better suited. We see an increase of 3.41\% and 2.52\% in
+   classification accuracy of the proposed system to STFT and Mel
+   spectrogram respectively. To that effect, the performance of the STFT,
+   Mel spectrogram, and scalogram are analyzed using F1-Score, Matthew's
+   Correlation Coefficients (MCC), Jaccard Index, Hamming Loss, and Linear
+   Discriminant Analysis (LDA) scatter plots.},
+Publisher = {SPRINGER INTERNATIONAL PUBLISHING AG},
+Address = {GEWERBESTRASSE 11, CHAM, CH-6330, SWITZERLAND},
+Type = {Proceedings Paper},
+Language = {English},
+Affiliation = {Kachhi, A (Corresponding Author), DA IICT, Speech Res Lab, Gandhinagar 382007, Gujarat, India.
+   Kachhi, Aastha; Therattil, Anand; Gupta, Priyanka; Patil, Hemant A., DA IICT, Speech Res Lab, Gandhinagar 382007, Gujarat, India.},
+DOI = {10.1007/978-3-031-20980-2\_27},
+ISSN = {2945-9133},
+EISSN = {1611-3349},
+ISBN = {978-3-031-20979-6; 978-3-031-20980-2},
+Keywords = {Wavelet transform; Dysarthria; UA-Speech corpus; Morse wavelet; CNN},
+Keywords-Plus = {CONVOLUTIONAL NEURAL-NETWORK; SPEECH RECOGNITION; SCALOGRAM; FREQUENCY},
+Research-Areas = {Acoustics; Computer Science; Linguistics},
+Web-of-Science-Categories  = {Acoustics; Computer Science, Artificial Intelligence; Computer Science,
+   Theory \& Methods; Linguistics},
+Author-Email = {aastha\_kachhi@daiict.ac.in
+   anand\_therattil@daiict.ac.in
+   priyanka\_gupta@daiict.ac.in
+   hemant\_patil@daiict.ac.in},
+Affiliations = {Dhirubhai Ambani Institute of Information \& Communication Technology},
+ResearcherID-Numbers = {Gupta, Priyanka/JMA-9283-2023},
+ORCID-Numbers = {Gupta, Priyanka/0000-0002-4830-8739},
+Number-of-Cited-References = {25},
+Times-Cited = {5},
+Usage-Count-Last-180-days = {0},
+Usage-Count-Since-2013 = {3},
+Doc-Delivery-Number = {BU4FT},
+Web-of-Science-Index = {Conference Proceedings Citation Index - Science (CPCI-S); Conference Proceedings Citation Index - Social Science &amp; Humanities (CPCI-SSH)},
+Unique-ID = {WOS:000897033300027},
+DA = {2026-04-17},
+}
+
+@article{ WOS:001492115600001,
+Author = {Kahlessenane, Yaaqoub and Bouaziz, Fatiha and Siarry, Patrick},
+Title = {ECG Heartbeats Classification Using Two-Dimensional Deep Learning
+   Convolutional Neural Network},
+Journal = {CIRCUITS SYSTEMS AND SIGNAL PROCESSING},
+Year = {2025},
+Volume = {44},
+Number = {10},
+Pages = {7505-7525},
+Month = {OCT},
+Abstract = {The heartbeats classification represents a very important tool in
+   cardiology. Deep learning-based techniques for the analysis of ECG
+   signals aid human experts in the appropriate diagnosis of cardiac
+   diseases. This paper presents a two-dimensional deep learning technique
+   for ECG heartbeats classification based on a convolutional neural
+   network (CNN). We have considered five predominant kinds of ECG beats in
+   MIT-BIH database, which are: Normal (N), Left bundle branch block (L),
+   Right bundle branch block (R), Premature Ventricular Contraction (V),
+   and Atrial Premature Contraction (A). The ECG recordings were first
+   denoised and segmented into individual beats. Continuous wavelet
+   transform was then applied to generate scalogram images from these
+   beats, which were after used as inputs of the CNN neural network. The
+   proposed system exhibits excellent performance, achieving a positive
+   predictivity of 99.73\%, a sensitivity of 98.02\%, a precision of
+   98.68\%, and an overall accuracy of 99.59\%.},
+Publisher = {SPRINGER BIRKHAUSER},
+Address = {233 SPRING STREET, 6TH FLOOR, NEW YORK, NY 10013 USA},
+Type = {Article},
+Language = {English},
+Affiliation = {Kahlessenane, Y (Corresponding Author), Jijel Univ, Dept Elect, BP98, Jijel 18000, Algeria.
+   Kahlessenane, Y (Corresponding Author), Jijel Univ, Mechatron Lab LMT, Jijel 18000, Algeria.
+   Kahlessenane, Yaaqoub; Bouaziz, Fatiha, Jijel Univ, Dept Elect, BP98, Jijel 18000, Algeria.
+   Kahlessenane, Yaaqoub; Bouaziz, Fatiha, Jijel Univ, Mechatron Lab LMT, Jijel 18000, Algeria.
+   Siarry, Patrick, Paris East Creteil Univ, Lab Images Signals \& Intelligent Syst LISSI, Creteil, France.},
+DOI = {10.1007/s00034-025-03140-7},
+EarlyAccessDate = {MAY 2025},
+ISSN = {0278-081X},
+EISSN = {1531-5878},
+Keywords = {Convolutional neural network; Heartbeat classification; Continuous
+   wavelet transform; Deep learning},
+Research-Areas = {Engineering},
+Web-of-Science-Categories  = {Engineering, Electrical \& Electronic},
+Author-Email = {yaqoub.kahlessenane@univ-jijel.dz
+   bouhali.fatiha@yahoo.fr
+   siarry@u-pec.fr},
+Affiliations = {Universite de Jijel; Universite de Jijel; Universite
+   Paris-Est-Creteil-Val-de-Marne (UPEC)},
+Number-of-Cited-References = {45},
+Times-Cited = {5},
+Usage-Count-Last-180-days = {3},
+Usage-Count-Since-2013 = {6},
+Journal-ISO = {Circuits Syst. Signal Process.},
+Doc-Delivery-Number = {7SB2E},
+Web-of-Science-Index = {Science Citation Index Expanded (SCI-EXPANDED)},
+Unique-ID = {WOS:001492115600001},
+DA = {2026-04-17},
+}
+
+@article{ WOS:000702768400001,
+Author = {Wu, Jiaze and Liang, Hao and Ding, Changsong and Huang, Xindi and Huang,
+   Jianhua and Peng, Qinghua},
+Title = {Improving the Accuracy in Classification of Blood Pressure from
+   Photoplethysmography Using Continuous Wavelet Transform and Deep
+   Learning},
+Journal = {INTERNATIONAL JOURNAL OF HYPERTENSION},
+Year = {2021},
+Volume = {2021},
+Month = {AUG 5},
+Abstract = {Background. Continuous wavelet transform (CWT) based scalogram can be
+   used for photoplethysmography (PPG) signal transformation to classify
+   blood pressure (BP) with deep learning. We aimed to investigate the
+   determinants that can improve the accuracy of BP classification based on
+   PPG and deep learning and establish a better algorithm for the
+   prediction. Methods. The dataset from PhysioNet was accessed to extract
+   raw PPG signals for testing and its corresponding BPs as category
+   labels. The BP category of normal or abnormal followed the criteria of
+   the 2017 American College of Cardiology/American Heart Association
+   (ACC/AHA) Hypertension Guidelines. The PPG signals were transformed into
+   224 {*} 224 {*} 3-pixel scalogram via different CWTs and segment units.
+   All of them are fed into different convolutional neural networks (CNN)
+   for training and validation. The receiver-operating characteristic and
+   loss and accuracy curves were used to evaluate and compare the
+   performance of different methods. Results. Both wavelet type and segment
+   length could affect the accuracy, and Cgau1 wavelet and segment-300
+   revealed the best performance (accuracy 90\%) without obvious
+   overfitting. This method performed better than previously reported
+   MATLAB Morse wavelet transformed scalogram on both of our proposed CNN
+   and CNN-GoogLeNet. Conclusions. We have established a new algorithm with
+   high accuracy to predict BP classification from PPG via matching of CWT
+   type and segment length, which is a promising solution for rapid
+   prediction of BP classification from real-time processing of PPG signal
+   on a wearable device.},
+Publisher = {WILEY},
+Address = {111 RIVER ST, HOBOKEN 07030-5774, NJ USA},
+Type = {Article},
+Language = {English},
+Affiliation = {Liang, H; Peng, QH (Corresponding Author), Hunan Univ Chinese Med, Inst TCM Diagnost, Changsha 410208, Hunan, Peoples R China.
+   Liang, H; Peng, QH (Corresponding Author), Hunan Univ Chinese Med, Postdoctoral Res Stn Integrat Med, Changsha 410208, Hunan, Peoples R China.
+   Wu, Jiaze; Liang, Hao; Peng, Qinghua, Hunan Univ Chinese Med, Inst TCM Diagnost, Changsha 410208, Hunan, Peoples R China.
+   Liang, Hao; Peng, Qinghua, Hunan Univ Chinese Med, Postdoctoral Res Stn Integrat Med, Changsha 410208, Hunan, Peoples R China.
+   Ding, Changsong; Huang, Xindi, Hunan Univ Chinese Med, Sch Informat \& Engn, Changsha 410208, Hunan, Peoples R China.
+   Huang, Jianhua, Hunan Acad Chinese Med, Inst Herbs, Changsha 410208, Hunan, Peoples R China.},
+DOI = {10.1155/2021/9938584},
+Article-Number = {9938584},
+ISSN = {2090-0384},
+EISSN = {2090-0392},
+Keywords-Plus = {PULSE; TIME},
+Research-Areas = {Cardiovascular System \& Cardiology},
+Web-of-Science-Categories  = {Cardiac \& Cardiovascular Systems; Peripheral Vascular Disease},
+Author-Email = {lianghao@hnucm.edu.cn
+   pqh410007@126.com},
+Affiliations = {Hunan University of Chinese Medicine; Hunan University of Chinese
+   Medicine; Hunan University of Chinese Medicine; Hunan University of
+   Chinese Medicine},
+ResearcherID-Numbers = {Liang, Hao/AAX-1295-2020},
+ORCID-Numbers = {Wu, Jiaze/0000-0003-0932-1882
+   Liang, Hao/0000-0002-9045-9717},
+Funding-Acknowledgement = {China Postdoctoral Science Foundation {[}2020M682578]; Hunan Province
+   Outstanding Postdoctoral Innovative Talent Project {[}2020RC2061]; Hunan
+   Provincial Department of Education {[}18C0380, 18K070]},
+Funding-Text = {The authors are thankful to Mohamed Elgendi and his team, for guiding
+   them to their important publications and for the stimulating questions
+   on wavelet transform and deep learning in hypertension diagnosis. Their
+   articles were vital in inspiring the authors to think out the more
+   effective work. This work was supported by the grants from China
+   Postdoctoral Science Foundation (no. 2020M682578), Hunan Province
+   Outstanding Postdoctoral Innovative Talent Project (no. 2020RC2061), and
+   Hunan Provincial Department of Education (nos. 18C0380 and 18K070).},
+Number-of-Cited-References = {33},
+Times-Cited = {32},
+Usage-Count-Last-180-days = {4},
+Usage-Count-Since-2013 = {36},
+Journal-ISO = {Int. J. Hypertens.},
+Doc-Delivery-Number = {WA3CY},
+Web-of-Science-Index = {Science Citation Index Expanded (SCI-EXPANDED)},
+Unique-ID = {WOS:000702768400001},
+OA = {Green Submitted, gold},
+DA = {2026-04-17},
+}
+
+@inproceedings{ WOS:000704288401115,
+Author = {Ahmad, Zeeshan and Tabassum, Anika and Guan, Ling and Khan, Naimul},
+Book-Group-Author = {IEEE},
+Title = {ECG HEART-BEAT CLASSIFICATION USING MULTIMODAL IMAGE FUSION},
+Booktitle = {2021 IEEE INTERNATIONAL CONFERENCE ON ACOUSTICS, SPEECH AND SIGNAL
+   PROCESSING (ICASSP 2021)},
+Year = {2021},
+Pages = {1330-1334},
+Note = {IEEE International Conference on Acoustics, Speech and Signal Processing
+   (ICASSP), ELECTR NETWORK, JUN 06-11, 2021},
+Organization = {IEEE; Inst Elect \& Elect Engineers, Signal Proc Soc},
+Abstract = {In this paper, we present a novel Image Fusion Model (IFM) for ECG
+   heart-beat classification to overcome the weaknesses of existing machine
+   learning techniques that rely either on manual feature extraction or
+   direct utilization of 1D raw ECG signal. At the input of IFM, we first
+   convert the heart-beats of ECG into three different images using Gramian
+   Angular Field (GAF), Recurrence Plot (RP) and Markov Transition Field
+   (MTF) and then fuse these images to create a single imaging modality. We
+   use AlexNet for feature extraction and classification and thus employ
+   end-to-end deep learning. We perform experiments on PhysioNet's MIT-BIH
+   dataset for five different arrhythmias in accordance with the AAMI EC57
+   standard and on PTB diagnostics dataset for myocardial infarction (MI)
+   classification. We achieved an state-of-an-art results in terms of
+   prediction accuracy, precision and recall.},
+Publisher = {IEEE},
+Address = {345 E 47TH ST, NEW YORK, NY 10017 USA},
+Type = {Proceedings Paper},
+Language = {English},
+Affiliation = {Ahmad, Z (Corresponding Author), Ryerson Univ, Dept Elect Comp \& Biomed Engn, Toronto, ON, Canada.
+   Ahmad, Zeeshan; Guan, Ling; Khan, Naimul, Ryerson Univ, Dept Elect Comp \& Biomed Engn, Toronto, ON, Canada.
+   Tabassum, Anika, Ryerson Univ, Data Sci Program, Toronto, ON, Canada.},
+DOI = {10.1109/ICASSP39728.2021.9414709},
+ISBN = {978-1-7281-7605-5},
+Keywords = {AlexNet; ECG; heart-beat classification; multimodal fusion},
+Research-Areas = {Acoustics; Computer Science; Engineering; Imaging Science \&
+   Photographic Technology},
+Web-of-Science-Categories  = {Acoustics; Computer Science, Artificial Intelligence; Computer Science,
+   Software Engineering; Engineering, Electrical \& Electronic; Imaging
+   Science \& Photographic Technology},
+Affiliations = {Toronto Metropolitan University; Toronto Metropolitan University},
+ResearcherID-Numbers = {Khan, Naimul/AAC-6007-2020},
+Funding-Acknowledgement = {NSERC; Dapasoft Inc. {[}CRDPJ529677-18]},
+Funding-Text = {Financial support from NSERC and Dapasoft Inc. (CRDPJ529677-18) to
+   conduct the research is highly appreciated.},
+Number-of-Cited-References = {27},
+Times-Cited = {18},
+Usage-Count-Last-180-days = {0},
+Usage-Count-Since-2013 = {28},
+Doc-Delivery-Number = {BS2OF},
+Web-of-Science-Index = {Conference Proceedings Citation Index - Science (CPCI-S)},
+Unique-ID = {WOS:000704288401115},
+DA = {2026-04-17},
+}
+
+@article{ WOS:001376936100004,
+Author = {Tarek, Aroui and Fradj, Dorbez},
+Title = {Enhanced Deep Learning Approaches For Diagnosing Drilling Machine
+   Failures Using Gramian Angular Field And Markov Transition Field
+   Encoding},
+Journal = {JOURNAL OF APPLIED SCIENCE AND ENGINEERING},
+Year = {2025},
+Volume = {28},
+Number = {9},
+Pages = {1675-1681},
+Abstract = {In the era of Industry 4.0, applying deep learning models for analyzing
+   sensor data in machinery is a fundamental step toward developing
+   predictive maintenance strategies. Deep learning models can
+   automatically learn complex patterns and features from sensor data,
+   making them highly effective in identifying early signs of faults or
+   anomalies in machinery. This capability is often beyond the reach of
+   traditional analysis methods (e.g., statistical features), which may
+   miss subtle or non-linear patterns. By identifying these issues early,
+   deep learning models enable proactive scheduling of maintenance
+   activities, reducing unplanned downtime and preventing catastrophic
+   failures. This study adopts a specific approach by focusing on
+   diagnosing failures in the VALMET AB drilling machine. We use sound
+   signals captured by AudioBox iTwo Studio microphones as our primary data
+   source. The dataset, which includes 134 sounds categorized into Anomaly
+   and Normal classes, is augmented using advanced techniques. We then
+   employ the Markov Transition Field and the Gramian Angular Field
+   encoding methods to represent the sound signals as images. These encoded
+   images are subsequently used to train two deep-learning models with
+   distinct architectures: ResNet50 and InceptionV3. The study's results
+   are promising, affirming the efficacy of our approach in detecting and
+   diagnosing failures in drilling machines.},
+Publisher = {TAMKANG UNIV},
+Address = {GRAD SCHOOL LANG LIT, TAMSUI, TAIPEI, TAIWAN},
+Type = {Article},
+Language = {English},
+Affiliation = {Tarek, A (Corresponding Author), Univ Sousse, Ecole Natl Ingn Sousse ENISo, Sousse 4054, Tunisia.
+   Tarek, A (Corresponding Author), Univ Sfax, Ecole Natl Ingn Sfax ENIS, Lab Sci \& Tech Automat \& Informat Ind LabSTA, Sfax 3038, Tunisia.
+   Tarek, Aroui; Fradj, Dorbez, Univ Sousse, Ecole Natl Ingn Sousse ENISo, Sousse 4054, Tunisia.
+   Tarek, Aroui, Univ Sfax, Ecole Natl Ingn Sfax ENIS, Lab Sci \& Tech Automat \& Informat Ind LabSTA, Sfax 3038, Tunisia.},
+DOI = {10.6180/jase.202509\_28(9).0004},
+ISSN = {2708-9967},
+EISSN = {2708-9975},
+Keywords = {VALMET AB drilling machine; Gramian Angular Field; Markov Transition
+   Field; ResNet50; InceptionV3},
+Keywords-Plus = {SOUND SIGNALS},
+Research-Areas = {Engineering},
+Web-of-Science-Categories  = {Engineering, Multidisciplinary},
+Author-Email = {tarek.aroui@eniso.u-sousse.tn},
+Affiliations = {Universite de Sousse; Universite de Sfax; Ecole Nationale dIngenieurs de
+   Sfax (ENIS)},
+ORCID-Numbers = {tarek, aroui/0000-0001-9829-0672},
+Number-of-Cited-References = {19},
+Times-Cited = {0},
+Usage-Count-Last-180-days = {1},
+Usage-Count-Since-2013 = {3},
+Journal-ISO = {J. Appl. Sci. Eng.},
+Doc-Delivery-Number = {P3K3K},
+Web-of-Science-Index = {Emerging Sources Citation Index (ESCI)},
+Unique-ID = {WOS:001376936100004},
+DA = {2026-04-17},
+}
+
+@article{ WOS:001735806600001,
+Author = {Singh, Rahul and Ojha, Ragita and Harsha, Suraj P.},
+Title = {Intelligent fault diagnosis of roller bearings using a transfer
+   learning-based dual-input spectrogram-scalogram convolutional neural
+   network model},
+Journal = {PROCEEDINGS OF THE INSTITUTION OF MECHANICAL ENGINEERS PART K-JOURNAL OF
+   MULTI-BODY DYNAMICS},
+Year = {2026},
+Month = {2026 APR 9},
+Abstract = {This research proposes DiSCNet (Dual-input Spectrogram-Scalogram
+   Convolutional Network), a dual-input convolutional neural network (CNN)
+   designed for robust and highly accurate bearing fault diagnosis using
+   time-frequency representations of vibration signals. Unlike traditional
+   single-input models, DiSCNet employs a dual-branch architecture that
+   processes both spectrograms, derived via the short-time Fourier
+   transform, and scalograms, computed using the continuous wavelet
+   transform, in parallel. Each modality is passed through a pre-trained
+   ResNet-50 backbone to extract rich 2048-dimensional deep features, which
+   are concatenated and fed into a custom classification head consisting of
+   fully connected layers with dropout regularization to enhance
+   generalization. The model is trained end-to-end on matched
+   spectrogram-scalogram image pairs generated from vibration signals
+   acquired experimentally from a bearing test rig. Training utilizes the
+   Adam optimizer and cross-entropy loss, resulting in a low validation
+   loss of 0.0183. Extensive evaluation against seven state-of-the-art CNN
+   models - AlexNet, GoogLeNet, MobileNetV3, EfficientNet-B0, DenseNet-121,
+   ResNet-50, and ConvNeXt-Tiny - demonstrates DiSCNet's superior
+   performance. It achieves a validation accuracy of 99.38\%, with
+   outstanding results across additional metrics: F1-score (0.9932),
+   precision (0.9946), recall (0.9938), Matthews correlation coefficient
+   (0.9937), and Cohen's kappa (0.9936). The results highlight the
+   advantages of integrating spectral and wavelet-domain features into a
+   unified deep learning framework. By effectively leveraging complementary
+   information from both domains, DiSCNet enhances feature discriminability
+   and class separability, making it a highly promising approach for
+   practical industrial condition-monitoring and fault-diagnosis
+   applications.},
+Publisher = {SAGE PUBLICATIONS LTD},
+Address = {1 OLIVERS YARD, 55 CITY ROAD, LONDON EC1Y 1SP, ENGLAND},
+Type = {Article; Early Access},
+Language = {English},
+Affiliation = {Harsha, SP (Corresponding Author), Indian Inst Technol Roorkee, Mech \& Ind Engn Dept, Adv Mech Vibrat Lab, Roorkee, India.
+   Singh, Rahul; Ojha, Ragita; Harsha, Suraj P., Indian Inst Technol Roorkee, Mech \& Ind Engn Dept, Adv Mech Vibrat Lab, Roorkee, India.},
+DOI = {10.1177/14644193261438346},
+EarlyAccessDate = {APR 2026},
+ISSN = {1464-4193},
+EISSN = {2041-3068},
+Keywords = {Roller bearing; fault classification; pre-trained model; scalogram;
+   spectrogram; bearing fault diagnosis; time-frequency representation
+   (TFR); vibration signal analysis},
+Research-Areas = {Engineering; Mechanics},
+Web-of-Science-Categories  = {Engineering, Mechanical; Mechanics},
+Author-Email = {spharsha@me.iitr.ac.in},
+Affiliations = {Indian Institute of Technology System (IIT System); Indian Institute of
+   Technology (IIT) - Roorkee},
+Number-of-Cited-References = {38},
+Times-Cited = {0},
+Usage-Count-Last-180-days = {0},
+Usage-Count-Since-2013 = {0},
+Journal-ISO = {Proc. Inst. Mech Eng Pt K-J Multi-Body Dyn.},
+Doc-Delivery-Number = {GG4NE},
+Web-of-Science-Index = {Science Citation Index Expanded (SCI-EXPANDED)},
+Unique-ID = {WOS:001735806600001},
+DA = {2026-04-17},
+}
+
+@article{ WOS:000904997100002,
+Author = {Aslan, Zulfikar},
+Title = {Deep Convolutional Neural Network-Based Framework in the Automatic
+   Diagnosis of Migraine},
+Journal = {CIRCUITS SYSTEMS AND SIGNAL PROCESSING},
+Year = {2023},
+Volume = {42},
+Number = {5},
+Pages = {3054-3071},
+Month = {MAY},
+Abstract = {This study presents a computer-aided diagnosis (CAD) system that uses
+   deep learning to diagnose migraine from electroencephalogram (EEG)
+   signals. The proposed method converts EEG signals into scalogram images
+   using the continuous wavelet transform method. Afterward, these
+   scalogram images were given as input to the proposed convolutional
+   neural network (CNN) deep learning network. With the proposed CNN deep
+   learning model, 100\% classification success has been achieved with very
+   high accuracy compared to other related literature studies. Comparative
+   analyses of the classification success of the proposed method and the
+   classification performances obtained using state-of-the-art CNN models
+   (VGG16, DenseNet121, ResNET101, and Xception) are presented. It has been
+   observed that this study is superior to state-of-the-art CNN deep
+   learning models compared with low computational complexity, simple
+   network structure (less depth), and high classification performance. In
+   addition, interpretable Gradient-weighted Class Activation Mapping
+   (GradCAM) images were obtained to support the specialist in the
+   diagnosis of migraine. In the study, it is revealed that there is a
+   relationship between EEG recordings and migraine disease in terms of
+   frequency components. When interpretable GradCAM images are examined, it
+   is seen that mid- and high-frequency components are essential in
+   distinguishing between migraine and healthy individuals. Considering the
+   mentioned aspects, it is seen that this study has the potential to be
+   used as a CAD system that can contribute to the expert opinion in
+   distinguishing migraine patients and healthy controls.},
+Publisher = {SPRINGER BIRKHAUSER},
+Address = {233 SPRING STREET, 6TH FLOOR, NEW YORK, NY 10013 USA},
+Type = {Article},
+Language = {English},
+Affiliation = {Aslan, Z (Corresponding Author), Gaziantep Univ, Tech Sci Vocat Sch, TR-27310 Gaziantep, Turkey.
+   Aslan, Zulfikar, Gaziantep Univ, Tech Sci Vocat Sch, TR-27310 Gaziantep, Turkey.},
+DOI = {10.1007/s00034-022-02265-3},
+EarlyAccessDate = {DEC 2022},
+ISSN = {0278-081X},
+EISSN = {1531-5878},
+Keywords = {CNN; Deep learning; EEG; Migraine diagnosis; Scalogram},
+Keywords-Plus = {EEG SIGNALS; CLASSIFICATION; SCHIZOPHRENIA; STIMULATION; IMAGES},
+Research-Areas = {Engineering},
+Web-of-Science-Categories  = {Engineering, Electrical \& Electronic},
+Author-Email = {zulfikaraslan27@gmail.com},
+Affiliations = {Gaziantep University},
+ResearcherID-Numbers = {ASLAN, Zülfikar/AAR-2114-2021},
+ORCID-Numbers = {ASLAN, Zülfikar/0000-0002-2706-5715},
+Funding-Acknowledgement = {Gaziantep University Scientific Research Projects Commission; 
+   {[}GTBMYO.GAP.22.04]},
+Funding-Text = {AcknowledgementsThis study was supported by Gaziantep University
+   Scientific Research Projects Commission. (Project No.:
+   GTBMYO.GAP.22.04).},
+Number-of-Cited-References = {38},
+Times-Cited = {11},
+Usage-Count-Last-180-days = {3},
+Usage-Count-Since-2013 = {26},
+Journal-ISO = {Circuits Syst. Signal Process.},
+Doc-Delivery-Number = {E2AV7},
+Web-of-Science-Index = {Science Citation Index Expanded (SCI-EXPANDED)},
+Unique-ID = {WOS:000904997100002},
+DA = {2026-04-17},
+}
+
+@article{ WOS:000836118600001,
+Author = {Neili, Zakaria and Sundaraj, Kenneth},
+Title = {A comparative study of the spectrogram, scalogram, melspectrogram and
+   gammatonegram time-frequency representations for the classification of
+   lung sounds using the ICBHI database based on CNNs},
+Journal = {BIOMEDICAL ENGINEERING-BIOMEDIZINISCHE TECHNIK},
+Year = {2022},
+Volume = {67},
+Number = {5},
+Pages = {367-390},
+Month = {OCT 26},
+Abstract = {In lung sound classification using deep learning, many studies have
+   considered the use of short-time Fourier transform (STFT) as the most
+   commonly used 2D representation of the input data. Consequently, STFT
+   has been widely used as an analytical tool, but other versions of the
+   representation have also been developed. This study aims to evaluate and
+   compare the performance of the spectrogram, scalogram, melspectrogram
+   and gammatonegram representations, and provide comparative information
+   to users regarding the suitability of these time-frequency (TF)
+   techniques in lung sound classification. Lung sound signals used in this
+   study were obtained from the ICBHI 2017 respiratory sound database.
+   These lung sound recordings were converted into images of spectrogram,
+   scalogram, melspectrogram and gammatonegram TF representations
+   respectively. The four types of images were fed separately into the
+   VGG16, ResNet-50 and AlexNet deep-learning architectures. Network
+   performances were analyzed and compared based on accuracy, precision,
+   recall and F1-score. The results of the analysis on the performance of
+   the four representations using these three commonly used CNN
+   deep-learning networks indicate that the generated gammatonegram and
+   scalogram TF images coupled with ResNet-50 achieved maximum
+   classification accuracies.},
+Publisher = {WALTER DE GRUYTER GMBH},
+Address = {GENTHINER STRASSE 13, D-10785 BERLIN, GERMANY},
+Type = {Article},
+Language = {English},
+Affiliation = {Neili, Z (Corresponding Author), Univ Badji Mokhtar Annaba, Elect Dept, Annaba, Algeria.
+   Neili, Zakaria, Univ Badji Mokhtar Annaba, Elect Dept, Annaba, Algeria.
+   Sundaraj, Kenneth, Univ Tekn Malaysia Melaka, Fac Elect \& Comp Engn, Melaka, Malaysia.},
+DOI = {10.1515/bmt-2022-0180},
+EarlyAccessDate = {AUG 2022},
+ISSN = {0013-5585},
+EISSN = {1862-278X},
+Keywords = {deep learning architectures; gammatonegram; lung sounds; melspectrogram;
+   scalogram; spectrogram},
+Keywords-Plus = {WAVELET TRANSFORM; NEURAL-NETWORK; MODEL},
+Research-Areas = {Engineering; Medical Informatics},
+Web-of-Science-Categories  = {Engineering, Biomedical; Medical Informatics},
+Author-Email = {zaki.neli@yahoo.fr},
+Affiliations = {Universite Badji Mokhtar - Annaba; University Teknikal Malaysia Melaka},
+Number-of-Cited-References = {59},
+Times-Cited = {14},
+Usage-Count-Last-180-days = {2},
+Usage-Count-Since-2013 = {41},
+Journal-ISO = {Biomed. Eng.-Biomed. Tech.},
+Doc-Delivery-Number = {4L9KH},
+Web-of-Science-Index = {Science Citation Index Expanded (SCI-EXPANDED)},
+Unique-ID = {WOS:000836118600001},
+DA = {2026-04-17},
+}
+
+@article{ WOS:000833833400001,
+Author = {Ko, Dong-Woo and Yang, Jung-Jin},
+Title = {EEG-Based Schizophrenia Diagnosis through Time Series Image Conversion
+   and Deep Learning},
+Journal = {ELECTRONICS},
+Year = {2022},
+Volume = {11},
+Number = {14},
+Month = {JUL},
+Abstract = {Schizophrenia, a mental disorder experienced by more than 20 million
+   people worldwide, is emerging as a serious issue in society. Currently,
+   the diagnosis of schizophrenia is based only on mental disorder
+   diagnosis and/or diagnosis by a psychiatrist or mental health
+   professional using DSM-5, a diagnostic and statistical manual of mental
+   disorders. Furthermore, patients in countries with insufficient access
+   to healthcare are difficult to diagnose for schizophrenia and early
+   diagnosis is even more problematic. While various studies are being
+   conducted to solve the challenges of schizophrenia diagnosis,
+   methodology is considered to be limited, and diagnostic accuracy needs
+   to be improved. In this study, a new approach using EEG data and deep
+   learning is proposed to increase objectivity and efficiency of
+   schizophrenia diagnosis. Existing deep learning studies use EEG data to
+   classify schizophrenic patients and healthy subjects by learning EEG in
+   the form of graphs or tables. However, in this study, EEG, a time series
+   data, was converted into an image to improve classification accuracy,
+   and is then studied in deep learning models. This study used EEG data of
+   81 people, in which the difference in N100 EEG between schizophrenic
+   patients and healthy patients had been analyzed in prior research. EEGs
+   were converted into images using time series image conversion
+   algorithms, Recurrence Plot (RP) and Gramian Angular Field (GAF), and
+   converted EEG images were learned with Convolutional Neural Network
+   (CNN) models built based on VGGNet. When the trained deep learning model
+   was applied to the same data from prior research, it was demonstrated
+   that classification accuracy improved when compared to previous studies.
+   Among the two algorithms used for image conversion, the deep learning
+   model that learned through GAF showed significantly higher
+   classification accuracy. The results of this study suggest that the use
+   of GAF and CNN models based on EEG results can be an effective way to
+   increase objectivity and efficiency in diagnosing various mental
+   disorders, including schizophrenia.},
+Publisher = {MDPI},
+Address = {MDPI AG, Grosspeteranlage 5, CH-4052 BASEL, SWITZERLAND},
+Type = {Article},
+Language = {English},
+Affiliation = {Yang, JJ (Corresponding Author), Catholic Univ Korea, Sch Comp Sci \& Informat Engn, 43 Jibong Ro, Bucheon Si 14662, Gyeonggi Do, South Korea.
+   Ko, Dong-Woo; Yang, Jung-Jin, Catholic Univ Korea, Sch Comp Sci \& Informat Engn, 43 Jibong Ro, Bucheon Si 14662, Gyeonggi Do, South Korea.},
+DOI = {10.3390/electronics11142265},
+Article-Number = {2265},
+ISSN = {2079-9292},
+Keywords = {schizophrenia; EEG; Recurrence Plot; Gramian Angular Field},
+Keywords-Plus = {COMPLEXITY; CLASSIFICATION},
+Research-Areas = {Computer Science; Engineering; Physics},
+Web-of-Science-Categories  = {Computer Science, Information Systems; Engineering, Electrical \&
+   Electronic; Physics, Applied},
+Author-Email = {koodoowoo@catholic.ac.kr
+   jungjin@catholic.ac.kr},
+Affiliations = {Catholic University of Korea},
+Funding-Acknowledgement = {Global Research Laboratory (GRL) Program of the National Research
+   Foundation of Korea (NRF) - Korean government (Ministry of Science and
+   ICT) {[}NRF-2016K1A1A2912755]; Catholic University of Korea},
+Funding-Text = {This work was supported by a Global Research Laboratory (GRL) Program of
+   the National Research Foundation of Korea (NRF) grant funded by the
+   Korean government (Ministry of Science and ICT) (NRF-2016K1A1A2912755).
+   This work was supported by the Catholic University of Korea, Research
+   Fund, 2019.},
+Number-of-Cited-References = {28},
+Times-Cited = {29},
+Usage-Count-Last-180-days = {4},
+Usage-Count-Since-2013 = {47},
+Journal-ISO = {Electronics},
+Doc-Delivery-Number = {3K1GW},
+Web-of-Science-Index = {Science Citation Index Expanded (SCI-EXPANDED)},
+Unique-ID = {WOS:000833833400001},
+OA = {Green Submitted, gold},
+DA = {2026-04-17},
+}
+
+@inproceedings{ WOS:001533792800244,
+Author = {Ebrahimpour, Parisa M. T. and Soysal, Gokhan and Erogul, Osman and
+   Yetkin, Sinan},
+Book-Group-Author = {IEEE},
+Title = {Detection of Panic Attacks Using Convolutional Neural Networks on ECG
+   Data},
+Booktitle = {2025 7TH INTERNATIONAL CONGRESS ON HUMAN-COMPUTER INTERACTION,
+   OPTIMIZATION AND ROBOTIC APPLICATIONS, ICHORA},
+Series = {International Congress on Human-Computer Interaction Optimization and
+   Robotic Applications},
+Year = {2025},
+Note = {7th International Congress on Human-Computer Interaction, Optimization
+   and Robotic Applications-ICHORA, Ankara, TURKIYE, MAY 23-24, 2025},
+Organization = {Institute of Electrical and Electronics Engineers Inc; Ted University},
+Abstract = {Panic attacks are a prevalent psychiatric disease characterized by
+   abrupt and acute episodes of panic, accompanied by specific physical
+   symptoms such as heart palpitations and dyspnea. The prompt and precise
+   identification of these episodes is crucial for enhancing patients'
+   quality of life. This study proposes an artificial intelligence-based
+   classification method based on electrocardiography (ECG) signals to
+   detect panic attacks. Raw ECG signals are visualized by obtaining
+   two-dimensional scaled representations (scalograms) using continuous
+   wavelet transform (CWT). Then, these images are classified with deep
+   learning-based convolutional neural network (CNN) models. In the study,
+   scalogram images were obtained using 5-second ECG signal segments. Then,
+   they were classified with various CNN models, and their performances
+   were evaluated. The findings indicated that the ResNet50 model exhibited
+   the superior classification performance, achieving an accuracy of
+   99.83\% and an AUC value of 100\%. Consequently, it demonstrates that
+   the utilization of time-frequency-based information processed using deep
+   learning models yields great accuracy in detecting panic attacks.},
+Publisher = {IEEE},
+Address = {345 E 47TH ST, NEW YORK, NY 10017 USA},
+Type = {Proceedings Paper},
+Language = {English},
+Affiliation = {Ebrahimpour, MTP (Corresponding Author), Ankara Medipol Univ, Biomed Device Technol, Ankara, Turkiye.
+   Ebrahimpour, Parisa M. T., Ankara Medipol Univ, Biomed Device Technol, Ankara, Turkiye.
+   Soysal, Gokhan, Ankara Univ, Dept Elect \& Elect Engn, Ankara, Turkiye.
+   Erogul, Osman, TOBB Univ Econ \& Technol, Dept Biomed Engn, Ankara, Turkiye.
+   Yetkin, Sinan, Univ Hlth Sci, Dept Psychiat, Ankara, Turkiye.},
+DOI = {10.1109/ICHORA65333.2025.11017284},
+ISSN = {2996-4385},
+ISBN = {979-8-3315-1089-3; 979-8-3315-1088-6},
+Keywords = {Continuous wavelet transform; deep Learning; electrocardiography; panic
+   attacks},
+Research-Areas = {Computer Science; Robotics},
+Web-of-Science-Categories  = {Computer Science, Artificial Intelligence; Computer Science,
+   Interdisciplinary Applications; Robotics},
+Author-Email = {parisa.ebrahimpour@ankaramedipol.edu.tr
+   soysal@eng.ankara.edu.tr
+   erogul@etu.edu.tr
+   sinan.yetkin@sbu.edu.tr},
+Affiliations = {Ankara Medipol University; Ankara University; TOBB University of
+   Economics \& Technology; University of Health Sciences Turkey},
+ResearcherID-Numbers = {Erogul, Osman/AAW-3005-2021
+   YETKİN, SİNAN/JVP-2317-2024
+   Soysal, Gokhan/AAH-2516-2020
+   },
+ORCID-Numbers = {Soysal, Gokhan/0000-0002-1397-8564
+   EBRAHIMPOUR M.T, PARISA/0009-0000-2268-7876},
+Number-of-Cited-References = {21},
+Times-Cited = {0},
+Usage-Count-Last-180-days = {0},
+Usage-Count-Since-2013 = {0},
+Doc-Delivery-Number = {BZ0XL},
+Web-of-Science-Index = {Conference Proceedings Citation Index - Science (CPCI-S)},
+Unique-ID = {WOS:001533792800244},
+DA = {2026-04-17},
+}
+
+@article{ WOS:000795715700011,
+Author = {Qi, Yafeng and Zhang, Guochao and Yang, Lin and Liu, Bangxu and Zeng,
+   Hui and Xue, Qi and Liu, Dameng and Zheng, Qingfeng and Liu, Yuhong},
+Title = {High-Precision Intelligent Cancer Diagnosis Method: 2D Raman Figures
+   Combined with Deep Learning},
+Journal = {ANALYTICAL CHEMISTRY},
+Year = {2022},
+Volume = {94},
+Number = {17},
+Pages = {6491-6501},
+Month = {MAY 3},
+Abstract = {Raman spectroscopy, as a label-free detection technology, has been
+   widely used in tumor diagnosis. However, most tumor diagnosis procedures
+   utilize multivariate statistical analysis methods for classification,
+   which poses a major bottleneck toward achieving high accuracy. Here, we
+   propose a concept called the two-dimensional (2D) Raman figure combined
+   with convolutional neural network (CNN) to improve the accuracy.
+   Two-dimensional Raman figures can be obtained from four transformation
+   methods: spectral recurrence plot (SRP), spectral Gramian angular field
+   (SGAF), spectral short-time Fourier transform (SSTFT), and spectral
+   Markov transition field (SMTF). Two-dimensional CNN models all yield
+   more than 95\% accuracy, which is higher than the PCA-LDA method and the
+   Raman-spectrum-CNN method, indicating that 2D Raman figure inputs
+   combined with CNN may be one reason for gaining excellent performances.
+   Among 2D-CNN models, the main difference is the conversion, where SRP is
+   based on the structure of wavenumber series with the best performances
+   (98.9\% accuracy, 99.5\% sensitivity, 98.3\% specificity), followed by
+   SGAF on the wavenumber series, SSTFT on wavenumber and intensity
+   information, and information. The inclusion of external information in
+   the conversion may be another reason for improvement in the accuracy.
+   The excellent capability shows huge potential for tumor diagnosis via 2D
+   Raman figures and may be applied in other spectroscopy analytical
+   fields.},
+Publisher = {AMER CHEMICAL SOC},
+Address = {1155 16TH ST, NW, WASHINGTON, DC 20036 USA},
+Type = {Article},
+Language = {English},
+Affiliation = {Liu, YH (Corresponding Author), Tsinghua Univ, State Key Lab Tribol, Beijing 100084, Peoples R China.
+   Zheng, QF (Corresponding Author), Chinese Acad Med Sci \& Peking Union Med Coll, Canc Hosp, Natl Clin Res Ctr Canc, Dept Thorac Surg,Natl Canc Ctr, Beijing 100021, Peoples R China.
+   Qi, Yafeng; Liu, Bangxu; Liu, Dameng; Liu, Yuhong, Tsinghua Univ, State Key Lab Tribol, Beijing 100084, Peoples R China.
+   Zhang, Guochao; Zeng, Hui; Xue, Qi; Zheng, Qingfeng, Chinese Acad Med Sci \& Peking Union Med Coll, Canc Hosp, Natl Clin Res Ctr Canc, Dept Thorac Surg,Natl Canc Ctr, Beijing 100021, Peoples R China.
+   Yang, Lin, Chinese Acad Med Sci \& Peking Union Med Coll, Canc Hosp, Natl Clin Res Ctr Canc, Dept Pathol,Natl Canc Ctr, Beijing 100021, Peoples R China.},
+DOI = {10.1021/acs.analchem.1c05098},
+ISSN = {0003-2700},
+EISSN = {1520-6882},
+Research-Areas = {Chemistry},
+Web-of-Science-Categories  = {Chemistry, Analytical},
+Author-Email = {qfzhengpku@163.com
+   liuyuhong@tsinghua.edu.cn},
+Affiliations = {Tsinghua University; Chinese Academy of Medical Sciences - Peking Union
+   Medical College; Peking Union Medical College; Cancer Institute \&
+   Hospital - CAMS; Chinese Academy of Medical Sciences - Peking Union
+   Medical College; Cancer Institute \& Hospital - CAMS; Peking Union
+   Medical College},
+ResearcherID-Numbers = {LIU, Dameng/G-7059-2014
+   },
+ORCID-Numbers = {Liu, Yuhong/0000-0001-9364-0039},
+Funding-Acknowledgement = {National Natural Science Foundation of China {[}51875303]; Fund of State
+   Key Laboratory of Tribology, China {[}SKLT2021D15]; Tribology Science
+   Fund of State Key Laboratory of Tribology, China {[}SKLTKF19A04];
+   Beijing Hope Run Special Fund of Cancer Foundation of China
+   {[}LC2020A38]},
+Funding-Text = {This work was supported by the National Natural Science Foundation of
+   China (51875303), the Fund of State Key Laboratory of Tribology, China
+   (SKLT2021D15), the Beijing Hope Run Special Fund of Cancer Foundation of
+   China (LC2020A38), and the Tribology Science Fund of State Key
+   Laboratory of Tribology, China (SKLTKF19A04). Y.Q. would like to thank
+   Prof. Yu Vincent Fu for the helpful discussion.},
+Number-of-Cited-References = {35},
+Times-Cited = {41},
+Usage-Count-Last-180-days = {13},
+Usage-Count-Since-2013 = {128},
+Journal-ISO = {Anal. Chem.},
+Doc-Delivery-Number = {1G2XJ},
+Web-of-Science-Index = {Science Citation Index Expanded (SCI-EXPANDED)},
+Unique-ID = {WOS:000795715700011},
+DA = {2026-04-17},
+}
+
+@inproceedings{ WOS:000653136100464,
+Author = {Malik, Afrah Elfatih Farah and Barin, Sezin and Yuksel, Mehmet Emin},
+Book-Group-Author = {IEEE},
+Title = {Accurate Classification of Heart Sound Signals for Cardiovascular
+   Disease Diagnosis by Wavelet Analysis and Convolutional Neural Network:
+   Preliminary Results},
+Booktitle = {2020 28TH SIGNAL PROCESSING AND COMMUNICATIONS APPLICATIONS CONFERENCE
+   (SIU)},
+Series = {Signal Processing and Communications Applications Conference},
+Year = {2020},
+Note = {28th Signal Processing and Communications Applications Conference (SIU),
+   ELECTR NETWORK, OCT 05-07, 2020},
+Organization = {Istanbul Medipol Univ},
+Abstract = {Heart sound (HS) signals contain valuable diagnostic information for
+   detection of heart abnormalities. The early detection of heart
+   abnormalities plays an important role in reducing the mortality rate
+   caused by heart diseases. Auscultation, the process of listening to
+   heart sounds, is the first diagnostic method of heart diseases. This
+   process is highly dependent on the physician expertise, making the
+   diagnosis more of a subjective issue. There is ongoing research to
+   automate heart sound diagnosis. Advances in machine learning have
+   provided an easier, cheaper and objective diagnosis of diseases.
+   Algorithms developed for heart sound classifications rely on several
+   features and the accuracy of a model depends on the feature vector. The
+   advent of deep learning (DL) provides a possible solution to overcome
+   the overwhelming and time-consuming step of feature extraction.
+   Convolutional neural networks (CNN), popular deep network architectures,
+   offer high classification accuracies for 2D images and 1D time series.
+   This study proposes an efficient and highly accurate method for heart
+   sound signal classification. The continuous wavelet transform method is
+   employed to obtain scalogram images. The 2D scalogram images are fed to
+   a deep CNN classifier. Using the heart sound dataset consisting of 4
+   abnormal and 1 normal heart sound subsets, this study investigates both
+   binary classification and multi-class classification. The proposed
+   classification method outperformed the state-of-the-art methods in the
+   literature.},
+Publisher = {IEEE},
+Address = {345 E 47TH ST, NEW YORK, NY 10017 USA},
+Type = {Proceedings Paper},
+Language = {English},
+Affiliation = {Malik, AEF (Corresponding Author), Erciyes Univ, Fac Engn, Dept Biomed Engn, TR-38039 Kayseri, Turkey.
+   Malik, Afrah Elfatih Farah; Barin, Sezin; Yuksel, Mehmet Emin, Erciyes Univ, Fac Engn, Dept Biomed Engn, TR-38039 Kayseri, Turkey.},
+DOI = {10.1109/siu49456.2020.9302491},
+ISSN = {2165-0608},
+ISBN = {978-1-7281-7206-4},
+Keywords = {Continuous wavelet transform; Scalogram; Convolutional neural networks;
+   Deep learning},
+Keywords-Plus = {SEGMENTATION},
+Research-Areas = {Engineering; Telecommunications},
+Web-of-Science-Categories  = {Engineering, Electrical \& Electronic; Telecommunications},
+Author-Email = {afrah39farah@gmail.com
+   sezinbarin@gmail.com
+   yuksel@erciyes.edu.tr},
+Affiliations = {Erciyes University},
+ORCID-Numbers = {Malik, Afrah Elfatih Farah/0000-0003-4681-5304},
+Number-of-Cited-References = {26},
+Times-Cited = {3},
+Usage-Count-Last-180-days = {0},
+Usage-Count-Since-2013 = {5},
+Doc-Delivery-Number = {BR4SW},
+Web-of-Science-Index = {Conference Proceedings Citation Index - Science (CPCI-S)},
+Unique-ID = {WOS:000653136100464},
+DA = {2026-04-17},
+}
+
+@article{ WOS:000887780200001,
+Author = {Xu, Xuguang and Feng, Cunqian and Han, Lixun},
+Title = {Classification of Radar Targets with Micro-Motion Based on RCS Sequences
+   Encoding and Convolutional Neural Network},
+Journal = {REMOTE SENSING},
+Year = {2022},
+Volume = {14},
+Number = {22},
+Month = {NOV},
+Abstract = {Radar cross section (RCS) sequences, an easy-to-obtain target feature
+   with small data volume, play a significant role in radar target
+   classification. However, radar target classification based on RCS
+   sequences has the shortcomings of limited information and low
+   recognition accuracy. In order to overcome the shortcomings of RCS-based
+   methods, this paper proposes a spatial micro-motion target
+   classification method based on RCS sequences encoding and convolutional
+   neural network (CNN). First, we establish the micro-motion models of
+   spatial targets, including precession, swing and rolling. Second, we
+   introduce three approaches for encoding RCS sequences as images. These
+   three types of images are Gramian angular field (GAF), Markov transition
+   field (MTF) and recurrence plot (RP). Third, a multi-scale CNN is
+   developed to classify those RCS feature maps. Finally, the experimental
+   results demonstrate that RP is best at reflecting the characteristics of
+   the target among those three encoding methods. Moreover, the proposed
+   network outperforms other existing networks with the highest
+   classification accuracy.},
+Publisher = {MDPI},
+Address = {MDPI AG, Grosspeteranlage 5, CH-4052 BASEL, SWITZERLAND},
+Type = {Article},
+Language = {English},
+Affiliation = {Xu, XG (Corresponding Author), Air Force Engn Univ, Air \& Missile Def Coll, Xian 710038, Peoples R China.
+   Xu, Xuguang; Feng, Cunqian; Han, Lixun, Air Force Engn Univ, Air \& Missile Def Coll, Xian 710038, Peoples R China.},
+DOI = {10.3390/rs14225863},
+Article-Number = {5863},
+EISSN = {2072-4292},
+Keywords = {micro-motion; RCS sequences encoding; target classification; multi-scale
+   CNN},
+Keywords-Plus = {MICRO-DOPPLER; SPACE TARGET; TIME-SERIES; RECOGNITION; FUSION},
+Research-Areas = {Environmental Sciences \& Ecology; Geology; Remote Sensing; Imaging
+   Science \& Photographic Technology},
+Web-of-Science-Categories  = {Environmental Sciences; Geosciences, Multidisciplinary; Remote Sensing;
+   Imaging Science \& Photographic Technology},
+Author-Email = {xuxuguanghjbsqsbs@163.com},
+Affiliations = {Air Force Engineering University},
+ORCID-Numbers = {Han, Li-xun/0000-0002-0449-1957},
+Funding-Acknowledgement = {Natural Science Basic Research Program of Shaanxi {[}2021-JQ-361]},
+Funding-Text = {This work was supported in part by the Natural Science Basic Research
+   Program of Shaanxi (No. 2021-JQ-361).},
+Number-of-Cited-References = {46},
+Times-Cited = {12},
+Usage-Count-Last-180-days = {5},
+Usage-Count-Since-2013 = {59},
+Journal-ISO = {Remote Sens.},
+Doc-Delivery-Number = {6K8YN},
+Web-of-Science-Index = {Science Citation Index Expanded (SCI-EXPANDED)},
+Unique-ID = {WOS:000887780200001},
+OA = {Green Submitted, gold},
+DA = {2026-04-17},
+}
+
+@article{ WOS:001043037400001,
+Author = {Ge, Junfeng and Wang, Li and Gui, Kang and Ye, Lin},
+Title = {Temperature interpretation method for temperature indicating paint based
+   on spectrogram},
+Journal = {MEASUREMENT},
+Year = {2023},
+Volume = {219},
+Month = {SEP 30},
+Abstract = {Accurate interpretation of temperature indicating paint (TIP) is of
+   great importance in aviation and other industrial applications. This
+   study presents a novel temperature interpretation approach based on the
+   2D spectrogram of TIP. A deep learning model called ESTNet(efficient
+   spectrogram-temperature network) has been developed. The Gramian Angular
+   Field (GAF) and the Continuous Wavelet Transform (CWT) are used to
+   transform 1D reflectance spectrum into 2D spectrogram, GASF-Graph and
+   scale2-Graph. The residual blocks and two composite coefficients are
+   used to design RSTNet with an accuracy of 94\% on KN3A samples when the
+   input is GASF-Graph or scale2-Graph. Furthermore, RSTNet is optimized as
+   ESTNet by the spectrogram information fusion strategy and channel
+   attention mechanism. Using ESTNet, the interpretation accuracy of KN3A,
+   KN6, and KN8 samples is 96\%, 94\%, and 96\%, respectively, and RMSE is
+   1.5 \& DEG;C, 2.1 \& DEG;C, 1.8 \& DEG;C, respectively. This research
+   provides valuable insight and reference for other spectroscopic
+   applications.},
+Publisher = {ELSEVIER SCI LTD},
+Address = {125 London Wall, London, ENGLAND},
+Type = {Article},
+Language = {English},
+Affiliation = {Gui, K (Corresponding Author), Huazhong Univ Sci \& Technol, Sch Artificial Intelligence \& Automation, Room 311,Bldg East 2,1037 Luoyu Rd, Wuhan 430074, Hubei, Peoples R China.
+   Ge, Junfeng; Wang, Li; Gui, Kang; Ye, Lin, Huazhong Univ Sci \& Technol, Sch Artificial Intelligence \& Automation, Wuhan 430074, Hubei, Peoples R China.
+   Ge, Junfeng; Gui, Kang; Ye, Lin, Natl Key Lab Multispectral Informat Intelligent Pr, Wuhan 430074, Hubei, Peoples R China.
+   Gui, Kang, Huazhong Univ Sci \& Technol, Sch Artificial Intelligence \& Automation, Room 311,Bldg East 2,1037 Luoyu Rd, Wuhan 430074, Hubei, Peoples R China.},
+DOI = {10.1016/j.measurement.2023.113317},
+EarlyAccessDate = {JUL 2023},
+Article-Number = {113317},
+ISSN = {0263-2241},
+EISSN = {1873-412X},
+Keywords = {Temperature indicating paint; Reflectance spectrum; Spectrogram;
+   Convolutional Neural Network},
+Research-Areas = {Engineering; Instruments \& Instrumentation},
+Web-of-Science-Categories  = {Engineering, Multidisciplinary; Instruments \& Instrumentation},
+Author-Email = {gejf@hust.edu.cn
+   m202072713@hust.edu.cn
+   guik@hust.edu.cn
+   lye@hust.edu.cn},
+Affiliations = {Huazhong University of Science \& Technology; Huazhong University of
+   Science \& Technology},
+ResearcherID-Numbers = {Ge, Junfeng/IST-7502-2023
+   },
+ORCID-Numbers = {Ge, Junfeng/0000-0003-1572-8611
+   Gui, Kang/0000-0001-9581-9825},
+Number-of-Cited-References = {43},
+Times-Cited = {6},
+Usage-Count-Last-180-days = {2},
+Usage-Count-Since-2013 = {22},
+Journal-ISO = {Measurement},
+Doc-Delivery-Number = {O3SB2},
+Web-of-Science-Index = {Science Citation Index Expanded (SCI-EXPANDED)},
+Unique-ID = {WOS:001043037400001},
+DA = {2026-04-17},
+}
+
+@inproceedings{ WOS:000647642400031,
+Author = {Shankar, Anand and Khaing, Hnin Kay and Dandapat, Samarendra and Barma,
+   Shovan},
+Editor = {Dey, D and Dalai, S and Ray, S and Chatterjee, B},
+Title = {Epileptic Seizure Classification Based on Gramian Angular Field
+   Transformation and Deep Learning},
+Booktitle = {PROCEEDINGS OF 2020 IEEE APPLIED SIGNAL PROCESSING CONFERENCE (ASPCON
+   2020)},
+Year = {2020},
+Pages = {147-151},
+Note = {IEEE Applied Signal Processing Conference (ASPCON), ELECTR NETWORK, OCT
+   07-09, 2020},
+Organization = {IEEE; IEEE Signal Proc Soc, Kolkata Chapter; IEEE Kolkata Sect},
+Abstract = {This work proposes a new method to classify epileptic seizures based on
+   a well-known deep learning technique named convolutional neural network
+   (CNN), where the input images are generated by Gramian angular field
+   (GAF) transformation. For this purpose, the EEG signals have been
+   assumed as time series data. Certainly, two different signals such as
+   the EEG signal and its instantaneous power have been used for image
+   generation by two different ways Gramian angular summation field (GASF)
+   and Gramian angular difference field (GADF). The generated images are
+   directly fed into multilayer CNN having multiple hidden layers. For
+   experimental validation, EEG dataset from Bonn University has been
+   considered. The experimental results exhibit the classification accuracy
+   up to 98\%. The efficiency of the proposed method has been evaluated by
+   measuring sensitivity and specificity of 99\% and 98.9\% respectively.
+   In a comparative study, the proposed idea displays significant
+   improvement in seizure classification. Thus, the proposed idea reveals
+   the usefulness of GAF in deep learning framework for epileptic seizure
+   classification.},
+Publisher = {IEEE},
+Address = {345 E 47TH ST, NEW YORK, NY 10017 USA},
+Type = {Proceedings Paper},
+Language = {English},
+Affiliation = {Shankar, A (Corresponding Author), Indian Inst Informat Technol Guwahati, Dept Elect \& Commun Engn, Bongara, Assam, India.
+   Shankar, Anand; Barma, Shovan, Indian Inst Informat Technol Guwahati, Dept Elect \& Commun Engn, Bongara, Assam, India.
+   Khaing, Hnin Kay, Myanmar Inst Infromat Technol, Dept Elect \& Commun Engn, Mandalay, Myanmar, India.
+   Dandapat, Samarendra, Indian Inst Technol Guwahati, Dept Elect \& Elect Engn, Gauhati, Assam, India.},
+DOI = {10.1109/aspcon49795.2020.9276717},
+ISBN = {978-1-7281-6882-1},
+Keywords = {Gramian angular field; gramian matrix; epileptic seizure; convolution
+   neural network},
+Research-Areas = {Computer Science; Engineering; Imaging Science \& Photographic
+   Technology},
+Web-of-Science-Categories  = {Computer Science, Interdisciplinary Applications; Computer Science,
+   Software Engineering; Engineering, Electrical \& Electronic; Imaging
+   Science \& Photographic Technology},
+Author-Email = {anand.shankar@iiitg.ac.in
+   2015-miit-ece-019@miit.edu.mm
+   samaren@iitg.ac.in
+   shovan@iiitg.ac.in},
+Affiliations = {Indian Institute of Technology System (IIT System); Indian Institute of
+   Technology (IIT) - Guwahati},
+ResearcherID-Numbers = {Barma, Shovan/Y-2193-2019},
+ORCID-Numbers = {Barma, Shovan/0000-0001-8822-7362},
+Funding-Acknowledgement = {Department of Biotechnology (DBT), Ministry of Science and Technology,
+   Govt. of India {[}NECBH/2019-20/118, BT/COE/34/SP28408/2018]},
+Funding-Text = {The authors acknowledge Eureka/Sunrise/Early career Project with Ref:
+   NECBH/2019-20/118 under North East Centre for Biological Sciences and
+   Healthcare Engineering (NECBH) Twinning Outreach Programme hosted by
+   Indian Institute of Technology Guwahati (IITG), Guwahati, Assam funded
+   by Department of Biotechnology (DBT), Ministry of Science and
+   Technology, Govt. of India with number BT/COE/34/SP28408/2018 for
+   providing necessary financial support.},
+Number-of-Cited-References = {16},
+Times-Cited = {23},
+Usage-Count-Last-180-days = {0},
+Usage-Count-Since-2013 = {85},
+Doc-Delivery-Number = {BR3LT},
+Web-of-Science-Index = {Conference Proceedings Citation Index - Science (CPCI-S)},
+Unique-ID = {WOS:000647642400031},
+DA = {2026-04-17},
+}
+
+@article{ WOS:001010754200001,
+Author = {Siddique, Muhammad Farooq and Ahmad, Zahoor and Kim, Jong-Myon},
+Title = {Pipeline leak diagnosis based on leak-augmented scalograms and deep
+   learning},
+Journal = {ENGINEERING APPLICATIONS OF COMPUTATIONAL FLUID MECHANICS},
+Year = {2023},
+Volume = {17},
+Number = {1},
+Month = {DEC 31},
+Abstract = {This paper proposes a new framework for leak diagnosis in pipelines
+   using leak-augmented scalograms and deep learning. Acoustic emission
+   (AE) scalogram images obtained from the continuous wavelet transform
+   have been useful for pipeline health diagnosis, particularly when
+   combined with deep learning. However, background noise has a significant
+   impact on AE signals, which can reduce the accuracy of pipeline health
+   identification using classification models. To address this issue, a new
+   type of scalograms called leak-augmented scalogram is introduced, which
+   enhances the variation in colour intensities of AE scalogram images. The
+   leak-augmented scalograms are obtained by pre-processing them using
+   image-enhancing Gaussian and Laplacian filters. The proposed method
+   utilizes convolutional neural networks (CNNs) and convolutional
+   autoencoders (CAEs) for feature extraction. The CNN extracts patterns
+   specific to local changes, while the CAE extracts holistic patterns from
+   the leak-augmented scalograms. The resulting leak susceptible and leak
+   holistic indicators are merged into a single feature pool and provided
+   as input to a shallow artificial neural network (ANN) to evaluate
+   pipeline health conditions. The proposed method achieves high
+   classification as well as accuracy, precision, F-1 Score and recall,
+   compared to existing state of the art methods.},
+Publisher = {TAYLOR \& FRANCIS LTD},
+Address = {2-4 PARK SQUARE, MILTON PARK, ABINGDON OR14 4RN, OXON, ENGLAND},
+Type = {Article},
+Language = {English},
+Affiliation = {Kim, JM (Corresponding Author), Univ Ulsan, Dept Elect Elect \& Comp Engn, Ulsan 44610, South Korea.
+   Siddique, Muhammad Farooq; Ahmad, Zahoor; Kim, Jong-Myon, Univ Ulsan, Dept Elect Elect \& Comp Engn, Ulsan 44610, South Korea.
+   Kim, Jong-Myon, PD Technol, Ulsan, South Korea.},
+DOI = {10.1080/19942060.2023.2225577},
+Article-Number = {2225577},
+ISSN = {1994-2060},
+EISSN = {1997-003X},
+Keywords = {Acoustic emission signals; Gaussian and laplace filters; non-destructive
+   testing method; continuous wavelet transform; artificial neural network;
+   leak-augmented scalograms},
+Keywords-Plus = {ACOUSTIC-EMISSION; NETWORK; CLASSIFICATION; LOCALIZATION; FAILURE},
+Research-Areas = {Engineering; Mechanics},
+Web-of-Science-Categories  = {Engineering, Multidisciplinary; Engineering, Mechanical; Mechanics},
+Author-Email = {jmkim07@ulsan.ac.kr},
+Affiliations = {University of Ulsan},
+ResearcherID-Numbers = {Farooq Siddique, Muhammad/JUV-5129-2023
+   Ahmad, Zahoor/AGZ-8861-2022},
+ORCID-Numbers = {Farooq Siddique, Muhammad/0009-0005-5807-7056
+   Ahmad, Zahoor/0000-0002-3571-8907},
+Funding-Acknowledgement = {Ministry of Trade, Industry and Energy (MOTIE); Korea Evaluation
+   Institute of Industrial Technology (KIET) {[}RS-2022-00142509];
+   Technology Infrastructure Program - Ministry of SMEs and Startups (MSS,
+   Korea); Korea Industrial Complex Corporation - Korea Government (MOTIE)
+   {[}SG20220905]},
+Funding-Text = {This research was funded by Ministry of Trade, Industry and Energy
+   (MOTIE) and supported by Korea Evaluation Institute of Industrial
+   Technology (KIET) {[}RS-2022-00142509, The development of simulation
+   stage and digital twin for Land Based Test Site and hydrogen powered
+   vessel with fuel cell]. This work was also supported by the Technology
+   Infrastructure Program funded by the Ministry of SMEs and Startups (MSS,
+   Korea) and by the Korea Industrial Complex Corporation grant funded by
+   the Korea Government (MOTIE) (SG20220905).},
+Number-of-Cited-References = {40},
+Times-Cited = {82},
+Usage-Count-Last-180-days = {9},
+Usage-Count-Since-2013 = {102},
+Journal-ISO = {Eng. Appl. Comp. Fluid Mech.},
+Doc-Delivery-Number = {J6NB3},
+Web-of-Science-Index = {Science Citation Index Expanded (SCI-EXPANDED)},
+Unique-ID = {WOS:001010754200001},
+OA = {Green Submitted, gold},
+DA = {2026-04-17},
+}
+
+@article{ WOS:000472778800010,
+Author = {Singh, Sinam Ajitkumar and Majumder, Swanirbhar},
+Title = {A NOVEL APPROACH OSA DETECTION USING SINGLE-LEAD ECG SCALOGRAM BASED ON
+   DEEP NEURAL NETWORK},
+Journal = {JOURNAL OF MECHANICS IN MEDICINE AND BIOLOGY},
+Year = {2019},
+Volume = {19},
+Number = {4},
+Month = {JUN},
+Abstract = {Obstructive sleep apnea (OSA) is the most common and severe breathing
+   dysfunction which frequently freezes the breathing for longer than 10 s
+   while sleeping. Polysomnography (PSG) is the conventional approach
+   concerning the treatment of OSA detection. But, this approach is a
+   costly and cumbersome process. To overcome the above complication, a
+   satisfactory and novel technique for interpretation of sleep apnea using
+   ECG were recording is under development. The methods for OSA analysis
+   based on ECG were analyzed for numerous years. Early work concentrated
+   on extracting features, which depend entirely on the experience of human
+   specialists. A novel approach for the prediction of sleep apnea disorder
+   based on the convolutional neural network (CNN) using a pre-trained
+   (AlexNet) model is analyzed in this study. After filtering per-minute
+   segment of the single-lead ECG recording accompanied by continuous
+   wavelet transform (CWT), the 2D scalogram images are generated. Finally,
+   CNN based on deep learning algorithm is adopted to enhance the
+   classification performance. The efficiency of the proposed model is
+   compared with the previous methods that used the same datasets. Proposed
+   method based on CNN is able to achieve the accuracy of 86.22\% with 90\%
+   sensitivity in per-minute segment OSA classification. Based on
+   per-recording OSA diagnosis, our works correctly classify all the
+   abnormal apneic recording with 100\% accuracy. Our OSA analysis model
+   using time-frequency scalogram generates excellent independent
+   validation performance with different state-of-the-art OSA
+   classification systems. Experimental results proved that the proposed
+   method produces excellent performance outcomes with low cost and less
+   complexity.},
+Publisher = {WORLD SCIENTIFIC PUBL CO PTE LTD},
+Address = {5 TOH TUCK LINK, SINGAPORE 596224, SINGAPORE},
+Type = {Article},
+Language = {English},
+Affiliation = {Singh, SA (Corresponding Author), NERIST, Dept Elect \& Commun Engn, Nirjuli 791109, Arunachal Prade, India.
+   Singh, Sinam Ajitkumar, NERIST, Dept Elect \& Commun Engn, Nirjuli 791109, Arunachal Prade, India.
+   Majumder, Swanirbhar, Tripura Univ, Dept Informat Technol, Agartala 799022, India.},
+DOI = {10.1142/S021951941950026X},
+Article-Number = {1950026},
+ISSN = {0219-5194},
+EISSN = {1793-6810},
+Keywords = {Electrocardiogram; continuous wavelet transform; convolutional neural
+   network; deep learning; scalogram; obstructive sleep apnea},
+Keywords-Plus = {SLEEP-APNEA; ALGORITHM},
+Research-Areas = {Biophysics; Engineering},
+Web-of-Science-Categories  = {Biophysics; Engineering, Biomedical},
+Author-Email = {ajit\_sinam@yahoo.com
+   swanirbhar@ieee.org},
+Affiliations = {North Eastern Regional Institute of Science \& Technology (NERIST);
+   Tripura University},
+ResearcherID-Numbers = {Majumder, Swanirbhar/E-4772-2012
+   , Sinam Ajitkumar Singh/AAA-7379-2020},
+ORCID-Numbers = {Majumder, Swanirbhar/0000-0002-1046-1682
+   , Sinam Ajitkumar Singh/0000-0001-7148-1233},
+Number-of-Cited-References = {38},
+Times-Cited = {63},
+Usage-Count-Last-180-days = {0},
+Usage-Count-Since-2013 = {52},
+Journal-ISO = {J. Mech. Med. Biol.},
+Doc-Delivery-Number = {IF0PE},
+Web-of-Science-Index = {Science Citation Index Expanded (SCI-EXPANDED)},
+Unique-ID = {WOS:000472778800010},
+DA = {2026-04-17},
+}
+
+@article{ WOS:000597788600001,
+Author = {Ciocoiu, Iulian B. and Cleju, Nicolae},
+Title = {Off-Person ECG Biometrics Using Spatial Representations and
+   Convolutional Neural Networks},
+Journal = {IEEE ACCESS},
+Year = {2020},
+Volume = {8},
+Pages = {218966-218981},
+Abstract = {Targeting off-person ECG-based biometrics, we report a comparative
+   analysis of identification accuracy and verification Equal Error Rate
+   (EER) performances of four distinct types of spatial representations of
+   ECG signals applied as inputs to Convolutional Neural Networks. The
+   actual algorithms used to transform the original time series into 2D/3D
+   images are based on a modified version of the Continuous Wavelet
+   Transform (the S-Transform), the Gramian Angular Field, the recurrence
+   plot, and state-space representations. Extensive experiments have been
+   conducted using UofT and CYBHI datasets including recordings acquired on
+   fingers and hand palm under various activity scenarios. The
+   wavelet-based approach yielded best results, while all analyzed
+   solutions compare favorably with previously reported performances.},
+Publisher = {IEEE-INST ELECTRICAL ELECTRONICS ENGINEERS INC},
+Address = {445 HOES LANE, PISCATAWAY, NJ 08855-4141 USA},
+Type = {Article},
+Language = {English},
+Affiliation = {Ciocoiu, IB (Corresponding Author), Gheorghe Asachi Tech Univ Iasi, Fac Elect Telecommun \& Informat Technol, Iasi 700506, Romania.
+   Ciocoiu, Iulian B.; Cleju, Nicolae, Gheorghe Asachi Tech Univ Iasi, Fac Elect Telecommun \& Informat Technol, Iasi 700506, Romania.},
+DOI = {10.1109/ACCESS.2020.3042547},
+ISSN = {2169-3536},
+Keywords = {Biometrics; off-person; ECG; spatial representation; deep learning},
+Keywords-Plus = {RECURRENCE PLOTS; IDENTIFICATION; CHALLENGES},
+Research-Areas = {Computer Science; Engineering; Telecommunications},
+Web-of-Science-Categories  = {Computer Science, Information Systems; Engineering, Electrical \&
+   Electronic; Telecommunications},
+Author-Email = {iciocoiu@etti.tuiasi.ro},
+Affiliations = {GH Asachi Technical University},
+ResearcherID-Numbers = {Ciocoiu, Iulian/A-5230-2010
+   Cleju, Nicolae/C-3174-2015},
+ORCID-Numbers = {Ciocoiu, Iulian/0000-0002-6935-3387
+   Cleju, Nicolae/0000-0002-9861-0872},
+Funding-Acknowledgement = {Technical University of Iasi through the Research Grant
+   {[}TUIASI-GI-2018-0127]},
+Funding-Text = {This work was supported by the Technical University of Iasi through the
+   Research Grant under Project TUIASI-GI-2018-0127.},
+Number-of-Cited-References = {53},
+Times-Cited = {11},
+Usage-Count-Last-180-days = {1},
+Usage-Count-Since-2013 = {24},
+Journal-ISO = {IEEE Access},
+Doc-Delivery-Number = {PD6JL},
+Web-of-Science-Index = {Science Citation Index Expanded (SCI-EXPANDED)},
+Unique-ID = {WOS:000597788600001},
+OA = {Green Submitted, gold},
+DA = {2026-04-17},
+}
+
+@article{ WOS:001240354600001,
+Author = {Zhou, George and Chien, Candace and Chen, Justin and Luan, Lucille and
+   Chen, Yunchan and Carroll, Sheila and Dayton, Jeffrey and Thanjan, Maria
+   and Bayle, Ken and Flynn, Patrick},
+Title = {Identifying pediatric heart murmurs and distinguishing innocent from
+   pathologic using deep learning},
+Journal = {ARTIFICIAL INTELLIGENCE IN MEDICINE},
+Year = {2024},
+Volume = {153},
+Month = {JUL},
+Abstract = {Objective: To develop a deep learning algorithm to perform multi-class
+   classification of normal pediatric heart sounds, innocent murmurs, and
+   pathologic murmurs. Methods: We prospectively enrolled children under
+   age 18 being evaluated by the Division of Pediatric Cardiology. Parents
+   provided consent for a deidentified recording of their child's heart
+   sounds with a digital stethoscope. Innocent murmurs were validated by a
+   pediatric cardiologist and pathologic murmurs were validated by
+   echocardiogram. To augment our collection of normal heart sounds, we
+   utilized a public database of pediatric heart sound recordings
+   (Oliveira, 2022). We propose two novel approaches for this audio
+   classification task. We train a vision transformer on either Markov
+   transition field or Gramian angular field image representations of the
+   frequency spectrum. We benchmark our results against a ResNet-50 CNN
+   trained on spectrogram images. Results: Our final dataset consisted of
+   366 normal heart sounds, 175 innocent murmurs, and 216 pathologic
+   murmurs. Innocent murmurs collected include Still's murmur, venous hum,
+   and flow murmurs. Pathologic murmurs included ventricular septal defect,
+   tetralogy of Fallot, aortic regurgitation, aortic stenosis, pulmonary
+   stenosis, mitral regurgitation and stenosis, and tricuspid
+   regurgitation. We find that the Vision Transformer consistently
+   outperforms the ResNet-50 on all three image representations, and that
+   the Gramian angular field is the superior image representation for
+   pediatric heart sounds. We calculated a one-vs-rest multi-class ROC
+   curve for each of the three classes. Our best model achieves an area
+   under the curve (AUC) value of 0.92 +/- 0.05, 0.83 +/- 0.04, and 0.88
+   +/- 0.04 for identifying normal heart sounds, innocent murmurs, and
+   pathologic murmurs, respectively. Conclusion: We present two novel
+   methods for pediatric heart sound classification, which outperforms the
+   current standard of using a convolutional neural network trained on
+   spectrogram images. To our knowledge, we are the first to demonstrate
+   multi-class classification of pediatric murmurs. Multiclass output
+   affords a more explainable and interpretable model, which can facilitate
+   further model improvement in the downstream model development cycle and
+   enhance clinician trust and therefore adoption.},
+Publisher = {ELSEVIER},
+Address = {RADARWEG 29, 1043 NX AMSTERDAM, NETHERLANDS},
+Type = {Article},
+Language = {English},
+Affiliation = {Zhou, GR (Corresponding Author), Weill Cornell Med, New York, NY 10021 USA.
+   Zhou, George; Chen, Yunchan, Weill Cornell Med, New York, NY 10021 USA.
+   Chien, Candace, Childrens Hosp Los Angeles, Los Angeles, CA 90027 USA.
+   Chen, Justin, Staten Isl Univ Hosp, Northwell Hlth, Staten Isl, NY 10305 USA.
+   Luan, Lucille, Columbia Univ, Teachers Coll, New York, NY 10027 USA.
+   Carroll, Sheila; Dayton, Jeffrey; Flynn, Patrick, NewYork Presbyterian Hosp, Div Pediat Cardiol, New York, NY 10021 USA.
+   Thanjan, Maria; Bayle, Ken, NewYork Presbyterian Hosp Queens, Div Pediat Cardiol, New York, NY 11355 USA.},
+DOI = {10.1016/j.artmed.2024.102867},
+EarlyAccessDate = {MAY 2024},
+Article-Number = {102867},
+ISSN = {0933-3657},
+EISSN = {1873-2860},
+Keywords = {Pediatric heart sounds; Innocent murmur; Pathologic murmur; AI; Deep
+   learning},
+Keywords-Plus = {NEURAL-NETWORKS; RECOGNITION; DIAGNOSIS},
+Research-Areas = {Computer Science; Engineering; Medical Informatics},
+Web-of-Science-Categories  = {Computer Science, Artificial Intelligence; Engineering, Biomedical;
+   Medical Informatics},
+Author-Email = {gez4001@med.cornell.edu},
+Affiliations = {Cornell University; Weill Cornell Medicine; Children's Hospital Los
+   Angeles; Northwell Health; Columbia University; Columbia University
+   Teachers College; Cornell University; Weill Cornell Medicine;
+   NewYork-Presbyterian Hospital},
+Number-of-Cited-References = {62},
+Times-Cited = {6},
+Usage-Count-Last-180-days = {1},
+Usage-Count-Since-2013 = {29},
+Journal-ISO = {Artif. Intell. Med.},
+Doc-Delivery-Number = {TH4E3},
+Web-of-Science-Index = {Science Citation Index Expanded (SCI-EXPANDED)},
+Unique-ID = {WOS:001240354600001},
+DA = {2026-04-17},
+}
+
+@inproceedings{ WOS:001031560600082,
+Author = {Bayram, Fatih S. and Amin, Md Nur and Melke, Aleksandra and Schneider,
+   Roland and Radtke, Roman and Jesser, Alexander},
+Book-Group-Author = {IEEE},
+Title = {Encoding Techniques on Multivariate Time Series Signals for Failure
+   Prevention of Industrial Assets with Unsupervised Deep Anomaly Detection},
+Booktitle = {2023 IEEE 6TH INTERNATIONAL CONFERENCE ON INDUSTRIAL CYBER-PHYSICAL
+   SYSTEMS, ICPS},
+Series = {Industrial Cyber Physical Systems},
+Year = {2023},
+Note = {IEEE 6th International Conference on Industrial Cyber-Physical Systems
+   (ICPS), Wuhan, PEOPLES R CHINA, MAY 08-11, 2023},
+Organization = {Inst Elect \& Elect Engineers; IEEE Ind Elect Soc; China Univ
+   Geosciences},
+Abstract = {This paper addresses the use of encoding techniques of time series data
+   in a Predictive Maintenance (PdM) system for failure prevention of
+   industrial assets. Baseline is a dataset of an electric motor from an
+   industrial application. Goal of this work is to compare the
+   effectiveness of the different encoding techniques with the raw time
+   series using an unsupervised deep learning approach for anomaly
+   detection in multivariate time series based on a Convolutional
+   Autoencoder (CAE). The encoding techniques investigated here are Gramian
+   Angular Field, Markov Transition Field and Recurrence Plot. For this
+   task, 37 experiments have been realized. It has been demonstrated that
+   anomaly detection with almost all of the encoding techniques performed
+   better than with the use of raw time series. Finally, the proposed
+   approaches have been evaluated and further potential research work in
+   this area has been pointed out.},
+Publisher = {IEEE},
+Address = {345 E 47TH ST, NEW YORK, NY 10017 USA},
+Type = {Proceedings Paper},
+Language = {English},
+Affiliation = {Bayram, FS (Corresponding Author), Heilbronn Univ Appl Sci, Inst Intelligent Cyber Phys Syst, Kunzelsau, Germany.
+   Bayram, Fatih S.; Amin, Md Nur; Radtke, Roman; Jesser, Alexander, Heilbronn Univ Appl Sci, Inst Intelligent Cyber Phys Syst, Kunzelsau, Germany.
+   Melke, Aleksandra; Schneider, Roland, Adolf Wirth GmbH \& Co KG, Operat Excellence, Kunzelsau, Germany.},
+DOI = {10.1109/ICPS58381.2023.10128068},
+ISSN = {2769-3902},
+ISBN = {979-8-3503-1125-9},
+Keywords = {Predictive Maintenance; Anomaly Detection; Encoding Techniques;
+   Multivariate Time Series; Deep Learning; Convolutional Autoencoder},
+Keywords-Plus = {CLASSIFICATION},
+Research-Areas = {Computer Science; Engineering},
+Web-of-Science-Categories  = {Computer Science, Interdisciplinary Applications; Engineering,
+   Industrial},
+Author-Email = {fatih.bayram@hs-heilbronn.de
+   and-nur.amin@hs-heilbronn.de
+   aleksandra.melke@wuerth.com
+   roland.schneider@wuerth.com
+   roman.radtke@hs-heilbronn.de
+   alexander.jesser@hs-heilbronn.de},
+ResearcherID-Numbers = {Jesser, Alexander/JFB-1094-2023},
+ORCID-Numbers = {Jesser, Alexander/0000-0003-2067-6860},
+Funding-Acknowledgement = {Adolf Wurth GmbH Co. KG},
+Funding-Text = {This work was funded by Adolf Wurth GmbH \& Co. KG as part of the
+   project ``Development and Implementation of a Predictive Maintenance
+   System based on Artificial Intelligence Methods{''}. We gratefully
+   acknowledge this support.},
+Number-of-Cited-References = {21},
+Times-Cited = {2},
+Usage-Count-Last-180-days = {2},
+Usage-Count-Since-2013 = {7},
+Doc-Delivery-Number = {BV4HY},
+Web-of-Science-Index = {Conference Proceedings Citation Index - Science (CPCI-S)},
+Unique-ID = {WOS:001031560600082},
+DA = {2026-04-17},
+}
+
+@article{ WOS:001141862700012,
+Author = {Kang, Xudong and Zhu, Yongxiang and Duan, Puhong and Li, Shutao},
+Title = {Two-Dimensional Spectral Representation},
+Journal = {IEEE TRANSACTIONS ON GEOSCIENCE AND REMOTE SENSING},
+Year = {2024},
+Volume = {62},
+Abstract = {In this article, a two-dimensional (2-D) spectral representation is
+   proposed for the visualization and classification of hyperspectral
+   images (HSIs). First, several sequence data processing methods, i.e.,
+   Gramian angular field (GAF) algorithm, Markov transition field (MTF),
+   and recurrence plot (REP), are applied to obtain multiple 2-D features
+   of a one-dimensional (1-D) spectrum. Second, the 2-D spectral features
+   are stacked together to form the final 2-D spectral representation.
+   Finally, many excellent classifiers in computer vision field are applied
+   on the 2-D spectral representation to obtain the final classification
+   result. Furthermore, 114 target spectral visualization maps are
+   established based on their 1-D spectra. Experimental results reveal that
+   the 2-D spectral representation has multiple advantages in terms of
+   better visual quality and classification accuracies. The code of this
+   work is available at
+   https://github.com/zhuyongxiang1/two-dimensional-spectral-representation
+   .},
+Publisher = {IEEE-INST ELECTRICAL ELECTRONICS ENGINEERS INC},
+Address = {445 HOES LANE, PISCATAWAY, NJ 08855-4141 USA},
+Type = {Article},
+Language = {English},
+Affiliation = {Duan, PH (Corresponding Author), Hunan Univ, Coll Elect \& Informat Engn, Changsha 410082, Peoples R China.
+   Duan, PH (Corresponding Author), Hunan Univ, Key Lab Visual Percept \& Artificial Intelligence, Changsha 410082, Peoples R China.
+   Kang, Xudong, Hunan Univ, Sch Robot, Changsha 410082, Peoples R China.
+   Kang, Xudong, Hunan Univ, Key Lab Visual Percept \& Artificial Intelligence, Changsha 410082, Peoples R China.
+   Zhu, Yongxiang; Duan, Puhong; Li, Shutao, Hunan Univ, Coll Elect \& Informat Engn, Changsha 410082, Peoples R China.
+   Zhu, Yongxiang; Duan, Puhong; Li, Shutao, Hunan Univ, Key Lab Visual Percept \& Artificial Intelligence, Changsha 410082, Peoples R China.},
+DOI = {10.1109/TGRS.2023.3343909},
+Article-Number = {5502809},
+ISSN = {0196-2892},
+EISSN = {1558-0644},
+Keywords = {Hyperspectral imaging; Feature extraction; Deep learning; Markov
+   processes; Computational modeling; Convolutional neural networks;
+   Visualization; Hyperspectral image (HSI); spectral representation;
+   spectral visualization},
+Keywords-Plus = {HYPERSPECTRAL IMAGE CLASSIFICATION; CLASSIFIERS},
+Research-Areas = {Geochemistry \& Geophysics; Engineering; Remote Sensing; Imaging Science
+   \& Photographic Technology},
+Web-of-Science-Categories  = {Geochemistry \& Geophysics; Engineering, Electrical \& Electronic;
+   Remote Sensing; Imaging Science \& Photographic Technology},
+Author-Email = {xudong\_kang@163.com
+   s220900683@hnu.edu.cn
+   puhong\_duan@hnu.edu.cn
+   shutao\_li@hnu.edu.cn},
+Affiliations = {Hunan University; Hunan University; Hunan University; Hunan University},
+ResearcherID-Numbers = {Kang, Xudong/JOZ-0917-2023
+   Li, Shutao/Y-3102-2019},
+ORCID-Numbers = {Duan, Puhong/0000-0001-5066-4399
+   Kang, Xudong/0000-0002-3807-2531
+   Li, Shutao/0000-0002-0585-9848},
+Funding-Acknowledgement = {National Natural Science Foundation of China},
+Funding-Text = {No Statement Available},
+Number-of-Cited-References = {54},
+Times-Cited = {19},
+Usage-Count-Last-180-days = {3},
+Usage-Count-Since-2013 = {56},
+Journal-ISO = {IEEE Trans. Geosci. Remote Sensing},
+Doc-Delivery-Number = {EW0X4},
+Web-of-Science-Index = {Science Citation Index Expanded (SCI-EXPANDED)},
+Unique-ID = {WOS:001141862700012},
+DA = {2026-04-17},
+}
+
+@article{ WOS:001647024200001,
+Author = {Al Joumaa, Hammoud and Al-Shrouf, Loui and Jelali, Mohieddine},
+Title = {Time Series-to-Image Encoding for Classification Using Convolutional
+   Neural Networks: A Novel and Robust Approach},
+Journal = {MACHINE LEARNING AND KNOWLEDGE EXTRACTION},
+Year = {2025},
+Volume = {7},
+Number = {4},
+Month = {NOV 28},
+Abstract = {In recent decades, data collection technologies have evolved to
+   facilitate the monitoring and improvement of numerous activities and
+   processes in everyday human life. Their evolution is propelled by the
+   advancement of artificial intelligence (AI), which aims to emulate human
+   intelligence in the execution of related tasks. The remarkable success
+   of deep learning (DL) and computer vision (CV) on image data prompted
+   researchers to consider its application to time series and multivariate
+   data. In this context, time series imaging has been identified as the
+   research field for the transformation of time series data (a
+   one-dimensional data format) into images (a two-dimensional data
+   format). These data can be the variables or features of a system or
+   phenomenon under consideration. State-of-the-art techniques for time
+   series imaging include recurrence plot (RP), Gramian angular field
+   (GAF), and Markov transition field (MTF). This paper proposes a novel,
+   robust, and simple technique of time series imaging using Grayscale
+   Fingerprint Features Field Imaging (G3FI). This novel technique is
+   distinguished by the low resolution of the resulting image and the
+   simplicity of the transformation procedure. The efficacy of the novel
+   and state-of-the-art techniques for enhancing the performance of
+   CNN-based classification models on time series datasets is thoroughly
+   examined and compared.},
+Publisher = {MDPI},
+Address = {MDPI AG, Grosspeteranlage 5, CH-4052 BASEL, SWITZERLAND},
+Type = {Article},
+Language = {English},
+Affiliation = {Al Joumaa, H; Jelali, M (Corresponding Author), TH Koln Univ Appl Sci, Inst Prod Dev \& Engn Design, Fac Proc Engn Energy \& Mech Syst, Cologne Lab Artificial Intelligence \& Smart Automa, Betzdorfer St 2, D-50679 Cologne, Germany.
+   Al Joumaa, Hammoud; Al-Shrouf, Loui; Jelali, Mohieddine, TH Koln Univ Appl Sci, Inst Prod Dev \& Engn Design, Fac Proc Engn Energy \& Mech Syst, Cologne Lab Artificial Intelligence \& Smart Automa, Betzdorfer St 2, D-50679 Cologne, Germany.},
+DOI = {10.3390/make7040155},
+Article-Number = {155},
+EISSN = {2504-4990},
+Keywords = {deep learning; convolutional neural networks; computer vision; image
+   classification; imaging time series; grayscale fingerprint features
+   field imaging},
+Research-Areas = {Computer Science; Engineering},
+Web-of-Science-Categories  = {Computer Science, Artificial Intelligence; Computer Science,
+   Interdisciplinary Applications; Engineering, Electrical \& Electronic},
+Author-Email = {hammoud.al\_joumaa@th-koeln.de
+   loui.al-shrouf@th-koeln.de
+   mohieddine.jelali@th-koeln.de},
+ORCID-Numbers = {Jelali, Mohieddine/0000-0002-0347-9913},
+Funding-Acknowledgement = {German Federal Ministry for Economic Affairs and Climate Action
+   {[}16KN120120]},
+Funding-Text = {This research was partly funded by the Central Innovation Programme for
+   small- and medium-sized enterprises (SMEs) of the German Federal
+   Ministry for Economic Affairs and Climate Action, grant number
+   16KN120120.},
+Number-of-Cited-References = {35},
+Times-Cited = {0},
+Usage-Count-Last-180-days = {0},
+Usage-Count-Since-2013 = {0},
+Journal-ISO = {Mach. Learn. Knowl. Extr.},
+Doc-Delivery-Number = {AF6XE},
+Web-of-Science-Index = {Emerging Sources Citation Index (ESCI)},
+Unique-ID = {WOS:001647024200001},
+OA = {Green Submitted, gold},
+DA = {2026-04-17},
+}
+
+@inproceedings{ WOS:000570425300059,
+Author = {Gharbali, Ali Abdollahi and Najdi, Shirin and Fonseca, Jose Manuel},
+Editor = {Campilho, A and Karray, F and Romeny, BT},
+Title = {Transfer Learning of Spectrogram Image for Automatic Sleep Stage
+   Classification},
+Booktitle = {IMAGE ANALYSIS AND RECOGNITION (ICIAR 2018)},
+Series = {Lecture Notes in Computer Science},
+Year = {2018},
+Volume = {10882},
+Pages = {522-528},
+Note = {15th International Conference on Image Analysis and Recognition (ICIAR),
+   Povoa de Varzim, PORTUGAL, JUN 27-29, 2018},
+Organization = {Assoc Image \& Machine Intelligence},
+Abstract = {Most of the existing methods for automatic sleep stage classification
+   are relying on hand-crafted features. In this paper, the goal is to
+   develop a deep learning-based method that automatically exploits
+   time-frequency spectrum of Electroencephalogram (EEG) signal, removing
+   the need for manual feature extraction. Using Continuous Wavelet
+   Transform (CWT), we extracted the time-frequency spectrogram for EEG
+   signal of 10 healthy subjects and converted to RGB images. The images
+   were classified using transfer learning of a pre-trained Convolutional
+   Neural Network (CNN), AlexNet. The proposed method was evaluated using a
+   publicly available dataset. Evaluation results show that our method can
+   achieve state of the art accuracy, while having higher overall
+   sensitivity.},
+Publisher = {SPRINGER INTERNATIONAL PUBLISHING AG},
+Address = {GEWERBESTRASSE 11, CHAM, CH-6330, SWITZERLAND},
+Type = {Proceedings Paper},
+Language = {English},
+Affiliation = {Gharbali, AA (Corresponding Author), Univ Nova Lisboa, CTS, P-2829516 Caparica, Portugal.
+   Gharbali, AA (Corresponding Author), Univ Nova Lisboa, Fac Ciencias \& Tecnol, Campus Caparica, P-2829516 Monte De Caparica, Portugal.
+   Gharbali, Ali Abdollahi; Najdi, Shirin; Fonseca, Jose Manuel, Univ Nova Lisboa, CTS, P-2829516 Caparica, Portugal.
+   Gharbali, Ali Abdollahi; Najdi, Shirin; Fonseca, Jose Manuel, Univ Nova Lisboa, Fac Ciencias \& Tecnol, Campus Caparica, P-2829516 Monte De Caparica, Portugal.},
+DOI = {10.1007/978-3-319-93000-8\_59},
+ISSN = {0302-9743},
+EISSN = {1611-3349},
+ISBN = {978-3-319-93000-8; 978-3-319-92999-6},
+Keywords = {Sleep stage classification; Spectrogram; Deep learning; Transfer
+   learning; Convolutional Neural Network; Discrete Wavelet Transform},
+Research-Areas = {Computer Science; Imaging Science \& Photographic Technology},
+Web-of-Science-Categories  = {Computer Science, Theory \& Methods; Imaging Science \& Photographic
+   Technology},
+Author-Email = {a.gharbali@campus.fct.unl.pt
+   s.najdi@campus.fct.unl.pt
+   jmrf@fct.unl.pt},
+Affiliations = {Universidade Nova de Lisboa; Universidade Nova de Lisboa},
+ResearcherID-Numbers = {Fonseca, Jose/C-9497-2013
+   Najdi, Shirin/I-2200-2018},
+ORCID-Numbers = {Fonseca, Jose/0000-0001-7173-7374
+   },
+Funding-Acknowledgement = {FCT Strategic Program of UNINOVA, CTS {[}UID/EEA/00066/203]},
+Funding-Text = {Authors would like to thank professor Andre Damas Mora for the useful
+   comments and suggestions on sleep image processing. This work was
+   partially funded by FCT Strategic Program UID/EEA/00066/203 of UNINOVA,
+   CTS.},
+Number-of-Cited-References = {23},
+Times-Cited = {2},
+Usage-Count-Last-180-days = {0},
+Usage-Count-Since-2013 = {12},
+Doc-Delivery-Number = {BP9PX},
+Web-of-Science-Index = {Conference Proceedings Citation Index - Science (CPCI-S)},
+Unique-ID = {WOS:000570425300059},
+DA = {2026-04-17},
+}
+
+@article{ WOS:001522919000015,
+Author = {Durga Prasad Varma, M. and Reddy Yeduri, Sreenivasa and Reddy Yakkati,
+   Rakesh and Bhaskar Boddu, Anudeep and Cenkeramaddi, Linga Reddy},
+Title = {Wireless Technology Identification Using Continuous Wavelet Transform
+   and Deep Learning},
+Journal = {IEEE SENSORS JOURNAL},
+Year = {2025},
+Volume = {25},
+Number = {13},
+Pages = {23284-23291},
+Month = {JUL 1},
+Abstract = {The identification of wireless technology is vital due to the rising use
+   of wireless devices and the coexistence of multiple technologies. It
+   enables dynamic spectrum access, facilitating efficient spectrum sharing
+   among multiple users and applications within the same frequency bands,
+   optimizing utilization, and minimizing interference. This study proposes
+   a novel wireless technology identification approach that utilizes
+   continuous wavelet transform (CWT) and a lightweight convolutional
+   neural network (CNN). First, we use the CWT to generate the spectrogram
+   images from the in-phase and quadrature (IQ) samples collected from
+   various communication technologies. These spectrogram images are then
+   fed to CNN to identify the coexistence of different communication
+   technologies. The proposed model achieves an accuracy of 90.6\%,
+   surpassing the benchmark models. In addition, our model has a compact
+   size of only 1.04 MB, making it notably lighter than other models. We
+   further evaluate the time it takes for our model to make inferences on a
+   Raspberry Pi 5 and other hardware, demonstrating its efficiency and
+   practicality for real-world deployment.},
+Publisher = {IEEE-INST ELECTRICAL ELECTRONICS ENGINEERS INC},
+Address = {445 HOES LANE, PISCATAWAY, NJ 08855-4141 USA},
+Type = {Article},
+Language = {English},
+Affiliation = {Cenkeramaddi, LR (Corresponding Author), Univ Agder, Dept Informat \& Commun Technol ICT, Autonomous \& Cyber Phys Syst ACPS Res Grp, Campus Grimstad, N-4879 Grimstad, Norway.
+   Durga Prasad Varma, M., Indian Inst Informat Technol Kurnool, Dept Comp Sci Engn, Kurnool 518007, India.
+   Reddy Yeduri, Sreenivasa; Reddy Yakkati, Rakesh; Cenkeramaddi, Linga Reddy, Univ Agder, Dept Informat \& Commun Technol ICT, Autonomous \& Cyber Phys Syst ACPS Res Grp, Campus Grimstad, N-4879 Grimstad, Norway.
+   Bhaskar Boddu, Anudeep, Stevens Inst Technol, Dept Comp Sci, Hoboken, NJ 07030 USA.},
+DOI = {10.1109/JSEN.2024.3467681},
+ISSN = {1530-437X},
+EISSN = {1558-1748},
+Keywords = {Wireless communication; Continuous wavelet transforms; Wireless sensor
+   networks; Convolutional neural networks; Accuracy; Transforms; Feature
+   extraction; Long Term Evolution; Time-frequency analysis; Spectrogram;
+   Continuous wavelet transform (CWT); convolutional neural network (CNN);
+   in-phase and quadrature (IQ) samples; Raspberry Pi 5; wireless
+   technology},
+Keywords-Plus = {CLASSIFICATION; NETWORKS},
+Research-Areas = {Engineering; Instruments \& Instrumentation; Physics},
+Web-of-Science-Categories  = {Engineering, Electrical \& Electronic; Instruments \& Instrumentation;
+   Physics, Applied},
+Author-Email = {mdpvarma2002@gmail.com
+   sreenivasa.r.yeduri@uia.no
+   yrakesh2109@gmail.com
+   anudeep.bhaskar@gmail.com
+   linga.cenkeramaddi@uia.no},
+Affiliations = {University of Agder; Stevens Institute of Technology},
+ResearcherID-Numbers = {CENKERAMADDI, LINGA REDDY/AEN-8785-2022
+   },
+ORCID-Numbers = {CENKERAMADDI, LINGA REDDY/0000-0002-1023-2118
+   , Yeduri Sreenivasa Reddy/0000-0002-4589-8120
+   yakkati, Rakesh Reddy/0000-0003-4358-7262},
+Funding-Acknowledgement = {Indo-Norwegian Collaboration in Autonomous Cyber-Physical Systems
+   (INCAPS) Project through the International Partnerships for Excellent
+   Education, Research and Innovation (INTPART) Program from the Research
+   Council of Norway {[}287918]},
+Funding-Text = {This work was supported in part by the Indo-Norwegian Collaboration in
+   Autonomous Cyber-Physical Systems (INCAPS) Project through the
+   International Partnerships for Excellent Education, Research and
+   Innovation (INTPART) Program from the Research Council of Norway, under
+   Grant 287918.},
+Number-of-Cited-References = {22},
+Times-Cited = {1},
+Usage-Count-Last-180-days = {0},
+Usage-Count-Since-2013 = {0},
+Journal-ISO = {IEEE Sens. J.},
+Doc-Delivery-Number = {4ON5P},
+Web-of-Science-Index = {Science Citation Index Expanded (SCI-EXPANDED)},
+Unique-ID = {WOS:001522919000015},
+DA = {2026-04-17},
+}
+
+@article{ WOS:001685672000001,
+Author = {Dharmawan, Willy and Hamid, Nur and Saleh, Haitham and Nurwidya, Amalia
+   Irma and Widati, Peni Laksmita},
+Title = {Explainable wavelet-scalogram learning for quasi-stationary faults in
+   automotive DC motors using AERIS-Wave},
+Journal = {ADVANCED ENGINEERING INFORMATICS},
+Year = {2026},
+Volume = {71},
+Number = {C},
+Month = {APR},
+Abstract = {Noise diagnostics in automotive brushed DC motors are crucial for
+   ensuring reliability and compliance with strict manufacturing standards.
+   Traditional human-based inspection methods are often subjective and
+   inconsistent, necessitating automated, data-driven solutions. This study
+   introduces an explainable wavelet-based classification framework for
+   diagnosing quasi-stationary motor faults using accelerometer data. The
+   framework employs the Continuous Wavelet Transform (CWT) to extract rich
+   time-frequency features, including scalograms, ridge trajectories,
+   periodograms, and statistical descriptors, serving as discriminative
+   representations of mechanical behavior. These features are evaluated
+   using both classical machine learning algorithms (Random Forest,
+   XGBoost) and deep learning architectures such as ResNet18, VGG16,
+   CNN-LSTM, CNN-GRU, and WaveNet. Building upon these baselines, the
+   proposed AERIS-Wave (Attention-Enhanced Residual Interpretable Scalogram
+   Network) integrates multi-level attention, LayerScale normalization, and
+   explainable-AI components (Integrated Gradients, Grad-CAM, SHAP) to
+   visualize spectral contributions that drive decisions. Experimental
+   results show that AERIS-Wave achieves 97.72\% accuracy and an AUC of
+   0.9991, surpassing all benchmark models, including WaveNet and ResNet18.
+   The findings confirm that wavelet-based representations, combined with
+   interpretable deep learning, enable high-precision, explainable, and
+   scalable fault classification suitable for real-time quality control in
+   industrial environments.},
+Publisher = {ELSEVIER SCI LTD},
+Address = {125 London Wall, London, ENGLAND},
+Type = {Article},
+Language = {English},
+Affiliation = {Dharmawan, W (Corresponding Author), King Fahd Univ Petr \& Mineral, Interdisciplinary Res Ctr Smart Mobil \& Logist, Dhahran 31261, Saudi Arabia.
+   Dharmawan, Willy; Hamid, Nur; Saleh, Haitham, King Fahd Univ Petr \& Mineral, Interdisciplinary Res Ctr Smart Mobil \& Logist, Dhahran 31261, Saudi Arabia.
+   Saleh, Haitham, KFUPM, Ind \& Syst Engn Dept, Dhahran 31261, Saudi Arabia.
+   Saleh, Haitham, KFUPM, Cognit Analyt \& Decis Intelligence CADI Lab, Dhahran 31261, Saudi Arabia.
+   Nurwidya, Amalia Irma; Widati, Peni Laksmita, BRIN PUSPIPTEK, Res Org Energy \& Manufacture, South Tangerang 15314, Indonesia.},
+DOI = {10.1016/j.aei.2026.104394},
+EarlyAccessDate = {FEB 2026},
+Article-Number = {104394},
+ISSN = {1474-0346},
+EISSN = {1873-5320},
+Keywords = {Wavelet transform; AERIS-Wave; Explainable AI; Scalogram; WaveNet; Deep
+   learning; Noise classification},
+Keywords-Plus = {DECOMPOSITION},
+Research-Areas = {Computer Science; Engineering},
+Web-of-Science-Categories  = {Computer Science, Artificial Intelligence; Engineering,
+   Multidisciplinary},
+Author-Email = {willy.dharmawan@kfupm.edu.sa
+   nur.hamid@kfupm.edu.sa
+   haithamhs@kfupm.edu.sa
+   amal006@brin.go.id
+   peni004@brin.go.id},
+Affiliations = {King Fahd University of Petroleum \& Minerals; King Fahd University of
+   Petroleum \& Minerals; King Fahd University of Petroleum \& Minerals},
+ResearcherID-Numbers = {Saleh, Haitham/B-2479-2013
+   },
+ORCID-Numbers = {Saleh, Haitham/0000-0003-0997-9481
+   Dharmawan, Willy/0000-0002-6172-8180},
+Funding-Acknowledgement = {King Fahd University of Petroleum and Minerals (KFUPM);
+   Interdisciplinary Research Center for Smart Mobility and Logistics
+   (IRC-SML)},
+Funding-Text = {The authors would like to present gratitude for the support from King
+   Fahd University of Petroleum and Minerals (KFUPM) and the
+   Interdisciplinary Research Center for Smart Mobility and Logistics
+   (IRC-SML) for supporting this research. The authors also acknowledge the
+   National Research and Innovation Agency of Indonesia (BRIN) , as well as
+   PT. Denso Manufacturing Indonesia (PT. DMIA) , for their valuable
+   collaboration and support in this research.},
+Number-of-Cited-References = {34},
+Times-Cited = {0},
+Usage-Count-Last-180-days = {0},
+Usage-Count-Since-2013 = {0},
+Journal-ISO = {Adv. Eng. Inform.},
+Doc-Delivery-Number = {DK6JF},
+Web-of-Science-Index = {Science Citation Index Expanded (SCI-EXPANDED)},
+Unique-ID = {WOS:001685672000001},
+OA = {hybrid},
+DA = {2026-04-17},
+}
+
+@article{ WOS:000675192800001,
+Author = {Ahmad, Zeeshan and Tabassum, Anika and Guan, Ling and Khan, Naimul
+   Mefraz},
+Title = {ECG Heartbeat Classification Using Multimodal Fusion},
+Journal = {IEEE ACCESS},
+Year = {2021},
+Volume = {9},
+Pages = {100615-100626},
+Abstract = {Electrocardiogram (ECG) is an authoritative source to diagnose and
+   counter critical cardiovascular syndromes such as arrhythmia and
+   myocardial infarction (MI). Current machine learning techniques either
+   depend on manually extracted features or large and complex deep learning
+   networks which merely utilize the 1D ECG signal directly. Since
+   intelligent multimodal fusion can perform at the state-of-the-art level
+   with an efficient deep network, therefore, in this paper, we propose two
+   computationally efficient multimodal fusion frameworks for ECG heart
+   beat classification called Multimodal Image Fusion (MIF) and Multimodal
+   Feature Fusion (MFF). At the input of these frameworks, we convert the
+   raw ECG data into three different images using Gramian Angular Field
+   (GAF), Recurrence Plot (RP) and Markov Transition Field (MTF). In MIF,
+   we first perform image fusion by combining three imaging modalities to
+   create a single image modality which serves as input to the
+   Convolutional Neural Network (CNN). In MFF, we extracted features from
+   penultimate layer of CNNs and fused them to get unique and
+   interdependent information necessary for better performance of
+   classifier. These informational features are finally used to train a
+   Support Vector Machine (SVM) classifier for ECG heart-beat
+   classification. We demonstrate the superiority of the proposed fusion
+   models by performing experiments on PhysioNet's MIT-BIH dataset for five
+   distinct conditions of arrhythmias which are consistent with the AAMI
+   EC57 protocols and on PTB diagnostics dataset for Myocardial Infarction
+   (MI) classification. We achieved classification accuracy of 99.7\% and
+   99.2\% on arrhythmia and MI classification, respectively. Source code at
+   https://github.com/zaamad/ECG-Heartbeat-Classification-Using-Multimodal-
+   Fusion},
+Publisher = {IEEE-INST ELECTRICAL ELECTRONICS ENGINEERS INC},
+Address = {445 HOES LANE, PISCATAWAY, NJ 08855-4141 USA},
+Type = {Article},
+Language = {English},
+Affiliation = {Ahmad, Z (Corresponding Author), Ryerson Univ, Dept Elect Comp \& Biomed Engn, Toronto, ON M5B 2K3, Canada.
+   Ahmad, Zeeshan; Guan, Ling; Khan, Naimul Mefraz, Ryerson Univ, Dept Elect Comp \& Biomed Engn, Toronto, ON M5B 2K3, Canada.
+   Tabassum, Anika, Ryerson Univ, Data Sci \& Analyt Program, Toronto, ON M5B 2K3, Canada.},
+DOI = {10.1109/ACCESS.2021.3097614},
+ISSN = {2169-3536},
+Keywords = {Electrocardiography; Feature extraction; Heart beat; Deep learning;
+   Convolution; Hidden Markov models; Heart; Convolutional neural network;
+   deep learning; ECG; image fusion; multimodal fusion},
+Keywords-Plus = {MYOCARDIAL-INFARCTION; AUTOMATED DETECTION; NEURAL-NETWORKS; SIGNALS;
+   LOCALIZATION; RECOGNITION; MIXTURE; CNN},
+Research-Areas = {Computer Science; Engineering; Telecommunications},
+Web-of-Science-Categories  = {Computer Science, Information Systems; Engineering, Electrical \&
+   Electronic; Telecommunications},
+Author-Email = {z1ahmad@ryerson.ca},
+Affiliations = {Toronto Metropolitan University; Toronto Metropolitan University},
+ResearcherID-Numbers = {Khan, Naimul/AAC-6007-2020
+   },
+ORCID-Numbers = {AHMAD, ZEESHAN/0000-0003-2950-2840},
+Funding-Acknowledgement = {Natural Sciences and Engineering Research Council of Canada (NSERC);
+   Dapasoft Inc. {[}CRDPJ529677-18]},
+Funding-Text = {This work was supported by the Natural Sciences and Engineering Research
+   Council of Canada (NSERC) and Dapasoft Inc., to conduct the research is
+   highly appreciated, under Grant CRDPJ529677-18.},
+Number-of-Cited-References = {71},
+Times-Cited = {97},
+Usage-Count-Last-180-days = {3},
+Usage-Count-Since-2013 = {138},
+Journal-ISO = {IEEE Access},
+Doc-Delivery-Number = {TL9SM},
+Web-of-Science-Index = {Science Citation Index Expanded (SCI-EXPANDED)},
+Unique-ID = {WOS:000675192800001},
+OA = {Green Submitted, gold},
+DA = {2026-04-17},
+}
+
+@article{ WOS:001301567600001,
+Author = {Ong, Pauline and Jian, Jinbao and Li, Xiuhua and Zou, Chengwu and Yin,
+   Jianghua and Ma, Guodong},
+Title = {Sugarcane disease recognition through visible and near-infrared
+   spectroscopy using deep learning assisted continuous wavelet
+   transform-based spectrogram},
+Journal = {SPECTROCHIMICA ACTA PART A-MOLECULAR AND BIOMOLECULAR SPECTROSCOPY},
+Year = {2025},
+Volume = {324},
+Month = {JAN 5},
+Abstract = {Utilizing visible and near-infrared (Vis-NIR) spectroscopy in
+   conjunction with chemometrics methods has been widespread for
+   identifying plant diseases. However, a key obstacle involves the
+   extraction of relevant spectral characteristics. This study aimed to
+   enhance sugarcane disease recognition by combining convolutional neural
+   network (CNN) with continuous wavelet transform (CWT) spectrograms for
+   spectral features extraction within the Vis-NIR spectra (380-1400 nm) to
+   improve the accuracy of sugarcane diseases recognition. Using 130
+   sugarcane leaf samples, the obtained one-dimensional CWT coefficients
+   from Vis-NIR spectra were transformed into two-dimensional spectrograms.
+   Employing CNN, spectrogram features were extracted and incorporated into
+   decision tree, K-nearest neighbour, partial least squares discriminant
+   analysis, and random forest (RF) calibration models. The RF model,
+   integrating spectrogram-derived features, demonstrated the best
+   performance with an average precision of 0.9111, sensitivity of 0.9733,
+   specificity of 0.9791, and accuracy of 0.9487. This study may offer a
+   non-destructive, rapid, and accurate means to detect sugarcane diseases,
+   enabling farmers to receive timely and actionable insights on the crops'
+   health, thus minimizing crop loss and optimizing yields.},
+Publisher = {PERGAMON-ELSEVIER SCIENCE LTD},
+Address = {THE BOULEVARD, LANGFORD LANE, KIDLINGTON, OXFORD OX5 1GB, ENGLAND},
+Type = {Article},
+Language = {English},
+Affiliation = {Jian, JB (Corresponding Author), Guangxi Minzu Univ, Coll Math \& Phys, Ctr Appl Math Guangxi, Nanning 530006, Peoples R China.
+   Li, XH (Corresponding Author), Guangxi Univ, Sch Elect Engn, Nanning 530005, Peoples R China.
+   Ong, Pauline; Jian, Jinbao; Yin, Jianghua; Ma, Guodong, Guangxi Minzu Univ, Coll Math \& Phys, Ctr Appl Math Guangxi, Nanning 530006, Peoples R China.
+   Ong, Pauline, Univ Tun Hussein Onn Malaysia, Fac Mech \& Mfg Engn, Batu Pahat 86400, Johor, Malaysia.
+   Jian, Jinbao, Guangxi Minzu Univ, Guangxi Key Lab Hybrid Computat \& IC Design Anal, Nanning 530006, Peoples R China.
+   Li, Xiuhua, Guangxi Univ, Sch Elect Engn, Nanning 530005, Peoples R China.
+   Li, Xiuhua; Zou, Chengwu, Guangxi Univ, Guangxi Key Lab Sugarcane Biol, Nanning 530005, Peoples R China.
+   Zou, Chengwu, Guangxi Univ, Coll Agr, Nanning 530005, Peoples R China.
+   Zou, Chengwu, Guangxi Univ, State Key Lab Conservat \& Utilizat Subtrop Agrobi, Nanning 530005, Peoples R China.},
+DOI = {10.1016/j.saa.2024.125001},
+EarlyAccessDate = {AUG 2024},
+Article-Number = {125001},
+ISSN = {1386-1425},
+EISSN = {1873-3557},
+Keywords = {Continuous wavelet transform; Deep learning; Near-infrared; Plant
+   disease; Sugarcane},
+Research-Areas = {Spectroscopy},
+Web-of-Science-Categories  = {Spectroscopy},
+Author-Email = {ongp@uthm.edu.my
+   jianjb@gxu.edu.cn
+   lixh@gxu.edu.cn
+   zouchengwu@gxu.edu.cn},
+Affiliations = {Guangxi Minzu University; University of Tun Hussein Onn Malaysia;
+   Guangxi Minzu University; Guangxi University; Guangxi University;
+   Guangxi University; Guangxi University},
+ResearcherID-Numbers = {Yin, Jianghua/NRY-7397-2025
+   Zou, Chengwu/GXW-2438-2022},
+Funding-Acknowledgement = {Department of Science and Technology of Guangxi Zhuang Autonomous Region
+   through ASEAN Talented Young Scientist Program of Guangxi {[}ATYSP
+   2022007]; Guangxi Science-Technology Base and Talents Spe-cial Program
+   {[}AD23023001]; Science and Technology Major Project of Guangxi, China
+   {[}Gui Ke AA22117004, Gui Ke 2018-266-Z01]; Natural Science Foundation
+   of Guangxi Province {[}2023GXNSFAA026158]; Xiangsihu Young Scholars
+   Innovative Research Team of Guangxi Minzu University {[}2022GXUNXSHQN04]},
+Funding-Text = {The authors gratefully acknowledge the funding provided by Department of
+   Science and Technology of Guangxi Zhuang Autonomous Region through ASEAN
+   Talented Young Scientist Program of Guangxi (ATYSP 2022007) , Guangxi
+   Science-Technology Base and Talents Spe-cial Program (Grant AD23023001)
+   , Science and Technology Major Project of Guangxi, China (Gui Ke
+   AA22117004, Gui Ke 2018-266-Z01) , Natural Science Foundation of Guangxi
+   Province (2023GXNSFAA026158) and the Xiangsihu Young Scholars Innovative
+   Research Team of Guangxi Minzu University (2022GXUNXSHQN04) . The
+   authors would like to express their gratitude to Chang Liu, Hanyin Su,
+   Huojuan Qin, Yuming Liang, and Xuechen Li from the au-thors' Guangxi
+   University laboratory for their assistance in conducting the
+   experiments.},
+Number-of-Cited-References = {46},
+Times-Cited = {8},
+Usage-Count-Last-180-days = {7},
+Usage-Count-Since-2013 = {36},
+Journal-ISO = {Spectroc. Acta Pt. A-Molec. Biomolec. Spectr.},
+Doc-Delivery-Number = {E2T1Q},
+Web-of-Science-Index = {Science Citation Index Expanded (SCI-EXPANDED)},
+Unique-ID = {WOS:001301567600001},
+DA = {2026-04-17},
+}
+
+@article{ WOS:001340000600003,
+Author = {Bukowski, Michal and Antoniuk, Izabella and Szymanowski, Karol and
+   Krupa, Artur and Kurek, Jaroslaw},
+Title = {Multiple input CNN architecture for tool state recognition in the
+   milling process based on time series signals},
+Journal = {OPERATIONS RESEARCH AND DECISIONS},
+Year = {2024},
+Volume = {34},
+Number = {3},
+Pages = {41-60},
+Abstract = {The study presents a tailored application of a multiple-input
+   convolutional neural network (CNN) for tool state recognition in the
+   milling process. Our approach uniquely applies an 11-input CNN to
+   classify tool wear in chipboard milling, utilizing scalogram images
+   derived from time-series signals. The primary objective was to
+   categorize tool wear into three classes: green, yellow, and red,
+   signifying the progression of wear. The study involved 75 samples (25
+   samples per class), each comprising 11 signals transformed into
+   scalograms via continuous wavelet transform. The dataset of 825
+   scalogram images enabled the development of a CNN-based diagnostic
+   model, achieving a notable accuracy of 96.00\%, which is an improvement
+   over a previous methods (93.33\%).},
+Publisher = {WROCLAW UNIV SCIENCE \& TECHNOLOGY, FAC MANAGEMENT},
+Address = {WYBRZEZE WYSPIANSKIEGO 27, WROCLAW, 50-370, POLAND},
+Type = {Article},
+Language = {English},
+Affiliation = {Kurek, J (Corresponding Author), Warsaw Univ Life Sci, Inst Informat Technol, Dept Artificial Intelligence, Warsaw, Poland.
+   Bukowski, Michal; Antoniuk, Izabella; Krupa, Artur; Kurek, Jaroslaw, Warsaw Univ Life Sci, Inst Informat Technol, Dept Artificial Intelligence, Warsaw, Poland.
+   Szymanowski, Karol, Warsaw Univ Life Sci, Inst Wood Sci \& Furniture, Dept Mech Proc Wood, Warsaw, Poland.},
+DOI = {10.37190/ord240303},
+ISSN = {2081-8858},
+EISSN = {2391-6060},
+Keywords = {convolution neural network; tool condition monitoring; multiple input
+   convolution neural network; deep learning},
+Keywords-Plus = {PROCESS MONITORING TECHNIQUES; WOOD ROUTER; NEURAL-NETWORKS; WEAR;
+   CLASSIFICATION; SYSTEM},
+Research-Areas = {Operations Research \& Management Science},
+Web-of-Science-Categories  = {Operations Research \& Management Science},
+Author-Email = {jaroslaw\_kurek@sggw.edu.pl},
+Affiliations = {Warsaw University of Life Sciences; Warsaw University of Life Sciences},
+ResearcherID-Numbers = {Kurek, Jaroslaw/AAC-3114-2019
+   Bukowski, Michał/JZD-9561-2024
+   Antoniuk, Izabella/F-6134-2018
+   Krupa, Artur/AAB-1839-2020},
+Number-of-Cited-References = {31},
+Times-Cited = {0},
+Usage-Count-Last-180-days = {2},
+Usage-Count-Since-2013 = {3},
+Journal-ISO = {Oper. Res. Decis.},
+Doc-Delivery-Number = {J9D6V},
+Web-of-Science-Index = {Emerging Sources Citation Index (ESCI)},
+Unique-ID = {WOS:001340000600003},
+OA = {Green Submitted, gold},
+DA = {2026-04-17},
+}
+
+@article{ WOS:001492893400001,
+Author = {Zhang, Peng and Cheng, Jun and Chen, Qinglan and Zheng, Zhiqiang and
+   Wei, Chengjiang and Zou, Tengyue and Sun, Weijiang and Huang, Yan},
+Title = {Near-infrared spectroscopy coupled with Gramian angular field
+   two-dimensional convolutional neural network for white tea adulteration
+   detection},
+Journal = {JOURNAL OF THE SCIENCE OF FOOD AND AGRICULTURE},
+Year = {2025},
+Volume = {105},
+Number = {11},
+Pages = {6269-6279},
+Month = {AUG 30},
+Abstract = {BACKGROUNDThe flavor profile and product quality of white tea, heavily
+   dependent on its place of origin, significantly influence consumers'
+   purchasing decisions. Quantitative adulteration testing for tea origin
+   has encountered challenges due to the poor performance in random
+   external validation, which has severely hindered the practical
+   application of near-infrared (NIR) technology.RESULTSThis study employs
+   a two-dimensional convolutional neural network (2D-CNN) deep learning
+   model combined with Gramian angular field (GAF) image coding technology
+   (GAF-2D-CNN) to quantitatively detect geographical origin adulteration
+   of white tea using near-infrared spectral (NIRS) data. The results
+   demonstrate that the GAF-2D-CNN model can effectively process raw
+   spectral data and predict the untrained random adulteration ratio data
+   with high accuracy. The average R2 and root mean square error in the
+   external verification of the original data reach 0.9754 and 0.0349,
+   respectively, which meet practical production needs. Moreover, the
+   GAF-2D-CNN significantly outperforms traditional regression models and
+   1D-CNN models.CONCLUSIONThis study introduces the application of the NIR
+   spectral image coding method in tea regression and highlights the
+   advantages of deep learning image processing in the tea industry. (c)
+   2025 Society of Chemical Industry.},
+Publisher = {WILEY},
+Address = {111 RIVER ST, HOBOKEN 07030-5774, NJ USA},
+Type = {Article},
+Language = {English},
+Affiliation = {Sun, WJ; Huang, Y (Corresponding Author), Fujian Agr \& Forestry Univ, Coll Hort, Fuzhou 350002, Peoples R China.
+   Zhang, Peng; Chen, Qinglan; Zheng, Zhiqiang; Wei, Chengjiang; Sun, Weijiang; Huang, Yan, Fujian Agr \& Forestry Univ, Coll Hort, Fuzhou 350002, Peoples R China.
+   Cheng, Jun; Zou, Tengyue, Fujian Agr \& Forestry Univ, Coll Mech \& Elect Engn, Fuzhou, Peoples R China.
+   Huang, Yan, Fujian Agr \& Forestry Univ, Anxi Coll Tea Sci, Quanzhou, Peoples R China.},
+DOI = {10.1002/jsfa.14353},
+EarlyAccessDate = {MAY 2025},
+ISSN = {0022-5142},
+EISSN = {1097-0010},
+Keywords = {geographical adulteration; near-infrared spectral image coding;
+   two-dimensional convolutional neural networks; Gramian angular field},
+Keywords-Plus = {PREDICTION},
+Research-Areas = {Agriculture; Chemistry; Food Science \& Technology},
+Web-of-Science-Categories  = {Agriculture, Multidisciplinary; Chemistry, Applied; Food Science \&
+   Technology},
+Author-Email = {000q020007@fafu.edu.cn
+   yanhuang@fafu.edu.cn},
+Affiliations = {Fujian Agriculture \& Forestry University; Fujian Agriculture \&
+   Forestry University; Fujian Agriculture \& Forestry University},
+Funding-Acknowledgement = {Spark Program of Fujian Provincial Department of Science and Technology
+   (2024S0066)},
+Funding-Text = {This work was supported by the National Natural Science Foundation of
+   China (Grant No. 32372769), the special fund for science and technology
+   innovation of Fujian Zhang Tianfu Tea Development Foundation (FJZTF01),
+   Institute of Chinese White Tea Open Subjects (BCY2024K02), and Spark
+   Program of Fujian Provincial Department of Science and Technology
+   (2024S0066).},
+Number-of-Cited-References = {42},
+Times-Cited = {2},
+Usage-Count-Last-180-days = {17},
+Usage-Count-Since-2013 = {31},
+Journal-ISO = {J. Sci. Food Agric.},
+Doc-Delivery-Number = {4WD6G},
+Web-of-Science-Index = {Science Citation Index Expanded (SCI-EXPANDED)},
+Unique-ID = {WOS:001492893400001},
+OA = {Bronze},
+DA = {2026-04-17},
+}
+
+@article{ WOS:000610109500001,
+Author = {Wang, Tao and Lu, Changhua and Sun, Yining and Yang, Mei and Liu, Chun
+   and Ou, Chunsheng},
+Title = {Automatic ECG Classification Using Continuous Wavelet Transform and
+   Convolutional Neural Network},
+Journal = {ENTROPY},
+Year = {2021},
+Volume = {23},
+Number = {1},
+Month = {JAN},
+Abstract = {Early detection of arrhythmia and effective treatment can prevent deaths
+   caused by cardiovascular disease (CVD). In clinical practice, the
+   diagnosis is made by checking the electrocardiogram (ECG) beat-by-beat,
+   but this is usually time-consuming and laborious. In the paper, we
+   propose an automatic ECG classification method based on Continuous
+   Wavelet Transform (CWT) and Convolutional Neural Network (CNN). CWT is
+   used to decompose ECG signals to obtain different time-frequency
+   components, and CNN is used to extract features from the 2D-scalogram
+   composed of the above time-frequency components. Considering the
+   surrounding R peak interval (also called RR interval) is also useful for
+   the diagnosis of arrhythmia, four RR interval features are extracted and
+   combined with the CNN features to input into a fully connected layer for
+   ECG classification. By testing in the MIT-BIH arrhythmia database, our
+   method achieves an overall performance of 70.75\%, 67.47\%, 68.76\%, and
+   98.74\% for positive predictive value, sensitivity, F1-score, and
+   accuracy, respectively. Compared with existing methods, the overall
+   F1-score of our method is increased by 4.75 similar to 16.85\%. Because
+   our method is simple and highly accurate, it can potentially be used as
+   a clinical auxiliary diagnostic tool.},
+Publisher = {MDPI},
+Address = {MDPI AG, Grosspeteranlage 5, CH-4052 BASEL, SWITZERLAND},
+Type = {Article},
+Language = {English},
+Affiliation = {Wang, T; Ou, CS (Corresponding Author), Hefei Univ Technol, Sch Comp \& Informat, Hefei 230009, Peoples R China.
+   Wang, Tao; Lu, Changhua; Ou, Chunsheng, Hefei Univ Technol, Sch Comp \& Informat, Hefei 230009, Peoples R China.
+   Sun, Yining, Chinese Acad Sci, Inst Intelligent Machines, Hefei 230031, Peoples R China.
+   Yang, Mei, Beijing Huaru Technol Co Ltd, Hefei Branch, Hefei 230088, Peoples R China.
+   Liu, Chun, Hefei Univ Technol, Sch Elect Engn \& Automat, Hefei 230009, Peoples R China.},
+DOI = {10.3390/e23010119},
+Article-Number = {119},
+EISSN = {1099-4300},
+Keywords = {arrhythmia; continuous wavelet transform; convolutional neural network;
+   deep learning; ECG classification; heartbeat classification},
+Keywords-Plus = {HEARTBEAT CLASSIFICATION; DYNAMIC FEATURES; REPRESENTATION; MORPHOLOGY},
+Research-Areas = {Physics},
+Web-of-Science-Categories  = {Physics, Multidisciplinary},
+Author-Email = {wtustc@mail.ustc.edu.cn
+   lch6208@163.com
+   ynsun@iim.ac.cn
+   ym1377689441@hotmail.com
+   dqlch03@hfut.edu.cn
+   ouchunsheng@hfut.edu.cn},
+Affiliations = {Hefei University of Technology; Chinese Academy of Sciences; Hefei
+   Institutes of Physical Science, CAS; Hefei University of Technology},
+ResearcherID-Numbers = {lu, chang/MCX-4366-2025},
+ORCID-Numbers = {Wang, Tao/0000-0002-2926-3977
+   Yang, Mei/0009-0009-9499-2867
+   },
+Funding-Acknowledgement = {Science and Technology Service Network Initiative of the Chinese Academy
+   of Sciences {[}KFJ-STS-ZDTP-079]},
+Funding-Text = {The work is supported by the Science and Technology Service Network
+   Initiative of the Chinese Academy of Sciences (Grant No.
+   KFJ-STS-ZDTP-079).},
+Number-of-Cited-References = {32},
+Times-Cited = {184},
+Usage-Count-Last-180-days = {16},
+Usage-Count-Since-2013 = {135},
+Journal-ISO = {Entropy},
+Doc-Delivery-Number = {PV6QB},
+Web-of-Science-Index = {Science Citation Index Expanded (SCI-EXPANDED)},
+Unique-ID = {WOS:000610109500001},
+OA = {Green Submitted, gold},
+ESI-Highly-Cited-Paper = {Y},
+ESI-Hot-Paper = {N},
+DA = {2026-04-17},
+}
+
+@article{ WOS:001256820500001,
+Author = {Hu, Baoquan and Liu, Jun and Zhao, Rongzhen and Xu, Yue and Huo,
+   Tianlong},
+Title = {A new dual-channel convolutional neural network and its application in
+   rolling bearing fault diagnosis},
+Journal = {MEASUREMENT SCIENCE AND TECHNOLOGY},
+Year = {2024},
+Volume = {35},
+Number = {9},
+Month = {SEP 1},
+Abstract = {Recently, deep learning has received widespread attention in the field
+   of bearing fault diagnosis due to its powerful feature learning
+   capability. However, when the actual working conditions are complex and
+   variable, the fault information in a single domain is limited, making it
+   difficult to achieve high accuracy. To overcome these challenges, this
+   paper proposes a bearing fault diagnosis method based on the Markov
+   transition field, continuous wavelet transform (CWT), and dual-channel
+   convolutional neural network (CNN). The method combines the descriptive
+   ability of the Markov model for state transfer, the time-frequency
+   analysis ability of CWT for signal, and the excellent performance of CNN
+   with attention mechanism in feature extraction and classification.
+   Specifically, we first propose a multi-channel Markov transition field
+   method, which is combined with CWT to obtain two different
+   representations of two-dimensional (2D) images. To comprehensively mine
+   fault information, we further propose a dual-channel CNN with an
+   attention mechanism. The design of this network structure aims to
+   extract multi-level features from two types of 2D images. At the same
+   time, we designed and embedded an attention mechanism to enable the
+   network to focus more on extracting effective features, thereby
+   improving the performance and accuracy of the network. To verify the
+   effectiveness of the proposed method, three datasets were used for
+   empirical research. The results show that this method exhibits superior
+   performance in bearing fault diagnosis and has higher accuracy compared
+   to traditional methods.},
+Publisher = {IOP Publishing Ltd},
+Address = {No.2 The Distillery, Glassfields, Avon Street, Bristol, ENGLAND},
+Type = {Article},
+Language = {English},
+Affiliation = {Liu, J (Corresponding Author), Lanzhou Univ Technol, Sch Mech \& Elect Engn, Lanzhou 730050, Gansu, Peoples R China.
+   Hu, Baoquan; Liu, Jun; Zhao, Rongzhen; Huo, Tianlong, Lanzhou Univ Technol, Sch Mech \& Elect Engn, Lanzhou 730050, Gansu, Peoples R China.
+   Hu, Baoquan, Xian Int Univ, Sch Engn, Xian 710077, Peoples R China.
+   Zhao, Rongzhen, Guangzhou Inst Sci \& Technol, Sch Intelligent Mfg \& Elect Engn, Guangzhou 510540, Peoples R China.
+   Xu, Yue, Northwestern Polytech Univ, Sch Automat, Xian 710129, Peoples R China.},
+DOI = {10.1088/1361-6501/ad5861},
+Article-Number = {096130},
+ISSN = {0957-0233},
+EISSN = {1361-6501},
+Keywords = {fault diagnosis; rolling bearing; CNN; Markov transition field;
+   continuous wavelet transform},
+Keywords-Plus = {SYSTEM},
+Research-Areas = {Engineering; Instruments \& Instrumentation},
+Web-of-Science-Categories  = {Engineering, Multidisciplinary; Instruments \& Instrumentation},
+Author-Email = {liuj@lut.edu.cn},
+Affiliations = {Lanzhou University of Technology; Northwestern Polytechnical University},
+ResearcherID-Numbers = {Xu, Yue/MSX-8537-2025
+   },
+ORCID-Numbers = {Xu, Yue/0009-0002-0784-9616
+   Hu, Baoquan/0000-0002-0730-3229},
+Funding-Acknowledgement = {National Natural Science Foundation of China {[}71861025]; National Key
+   Research and Development Program of China {[}2018YFB1703105]; Hongliu
+   First-class Disciplines Development Program of Lanzhou University of
+   Technology},
+Funding-Text = {This research work was partially supported by National Natural Science
+   Foundation of China (Grant No. 71861025); the National Key Research and
+   Development Program of China (Grant No. 2018YFB1703105); and the Hongliu
+   First-class Disciplines Development Program of Lanzhou University of
+   Technology.},
+Number-of-Cited-References = {39},
+Times-Cited = {19},
+Usage-Count-Last-180-days = {12},
+Usage-Count-Since-2013 = {67},
+Journal-ISO = {Meas. Sci. Technol.},
+Doc-Delivery-Number = {WS3J3},
+Web-of-Science-Index = {Science Citation Index Expanded (SCI-EXPANDED)},
+Unique-ID = {WOS:001256820500001},
+OA = {hybrid},
+DA = {2026-04-17},
+}
+
+@article{ WOS:000867192900001,
+Author = {Toma, Tabassum Islam and Choi, Sunwoong},
+Title = {A Parallel Cross Convolutional Recurrent Neural Network for Automatic
+   Imbalanced ECG Arrhythmia Detection with Continuous Wavelet Transform},
+Journal = {SENSORS},
+Year = {2022},
+Volume = {22},
+Number = {19},
+Month = {OCT},
+Abstract = {Automatic detection of arrhythmia using electrocardiogram (ECG) and deep
+   learning (DL) is very important to reduce the global death rate from
+   cardiovascular diseases (CVD). Previous studies on automatic arrhythmia
+   detection relied largely on various ECG features and have achieved
+   considerable classification accuracy using DL-based models. However,
+   most previous research has ignored multi-class imbalanced problems in
+   ECG arrhythmia detection. Therefore, it remains a challenge to improve
+   the classification performance of the DL-based models. This paper
+   proposes a novel parallel cross convolutional recurrent neural network
+   in order to improve the arrhythmia detection performance of imbalanced
+   ECG signals. The proposed model incorporates a recurrent neural network
+   and a two-dimensional (2D) convolutional neural network (CNN) and can
+   effectively learn temporal characteristics and rich spatial information
+   of raw ECG signals. Continuous wavelet transform (CWT) is used to
+   transform the ECG signals into a 2D scalogram composed of time-frequency
+   components, and subsequently, the 2D-CNN can learn spatial information
+   from the 2D scalogram. The proposed model is not only efficient in
+   learning features with imbalanced samples but can also significantly
+   improve model convergence with higher accuracy. The overall performance
+   of our proposed model is evaluated based on the MIT-BIH arrhythmia
+   dataset. Detailed analysis of evaluation metrics reveals that the
+   proposed model is very effective in arrhythmia detection and
+   significantly better than the existing hierarchical network models.},
+Publisher = {MDPI},
+Address = {MDPI AG, Grosspeteranlage 5, CH-4052 BASEL, SWITZERLAND},
+Type = {Article},
+Language = {English},
+Affiliation = {Choi, S (Corresponding Author), Kookmin Univ, Sch Elect Engn, Seoul 02707, South Korea.
+   Toma, Tabassum Islam; Choi, Sunwoong, Kookmin Univ, Sch Elect Engn, Seoul 02707, South Korea.},
+DOI = {10.3390/s22197396},
+Article-Number = {7396},
+EISSN = {1424-8220},
+Keywords = {cardiac arrhythmia; convolutional neural network; continuous wavelet
+   transform; electrocardiogram; recurrent neural network},
+Keywords-Plus = {DYNAMIC FEATURES; CLASSIFICATION},
+Research-Areas = {Chemistry; Engineering; Instruments \& Instrumentation},
+Web-of-Science-Categories  = {Chemistry, Analytical; Engineering, Electrical \& Electronic;
+   Instruments \& Instrumentation},
+Author-Email = {schoi@kookmin.ac.kr},
+Affiliations = {Kookmin University},
+ORCID-Numbers = {Choi, Sunwoong/0000-0002-8719-8181
+   Toma, Tabassum Islam/0000-0003-4447-9562},
+Funding-Acknowledgement = {National Research Foundation of Korea (NRF) - Korean Government (MSIT)
+   {[}2016R1A5A1012966, 2021R1F1A1062285]},
+Funding-Text = {This work was supported by the National Research Foundation of Korea
+   (NRF) Grant, funded by the Korean Government (MSIT) (Nos.
+   2016R1A5A1012966 and 2021R1F1A1062285).},
+Number-of-Cited-References = {40},
+Times-Cited = {10},
+Usage-Count-Last-180-days = {0},
+Usage-Count-Since-2013 = {27},
+Journal-ISO = {Sensors},
+Doc-Delivery-Number = {5G7RZ},
+Web-of-Science-Index = {Science Citation Index Expanded (SCI-EXPANDED)},
+Unique-ID = {WOS:000867192900001},
+OA = {Green Submitted, gold},
+DA = {2026-04-17},
+}
+
+@article{ WOS:001594703800001,
+Author = {Cherif, Sofiane and Kaddour, Abdelhafid and Benkada, Abdelmoudjib and
+   Karoui, Said},
+Title = {Detection of Laryngeal Pathologies from Voice using EMD-based
+   Mel-Spectrograms and Scalograms with AlexNet},
+Journal = {MEASUREMENT SCIENCE REVIEW},
+Year = {2025},
+Volume = {25},
+Number = {5},
+Pages = {276-283},
+Month = {OCT 1},
+Abstract = {In this paper, a novel method for detecting of laryngeal pathologies
+   using deep neural networks and time-frequency signal processing
+   techniques is presented. The proposed approach combines empirical mode
+   decomposition (EMD) and wavelet analysis to extract discriminative
+   features from healthy and pathological voice recordings obtained from
+   the Saarbr \& uuml;cken Voice Database (SVD). Each voice signal is
+   pre-processed and decomposed into intrinsic mode functions (IMFs), from
+   which the most relevant IMF is selected based on a temporal energy
+   criterion. Two sets of features are derived from the selected IMF:
+   Mel-frequency cepstral coefficients (MFCCs) and continuous wavelet
+   transform (CWT) coefficients. These features are converted into
+   Mel-spectrogram and scalogram images, respectively, which serve as
+   inputs to the AlexNet convolutional neural network (AlexNet-CNN) for
+   automatic binary classification. To the best of our knowledge, this is
+   the first study to incorporate scalogram representations with
+   AlexNet-CNN in the context of pathological voice detection. The results
+   show that the proposed method achieves a classification accuracy of
+   85.66 \% when using Mel-spectrograms and 86.4 \% when using scalograms,
+   demonstrating its potential for effective and interpretable voice
+   pathology screening.},
+Publisher = {SCIENDO},
+Address = {BOGUMILA ZUGA 32A, WARSAW, MAZOVIA, POLAND},
+Type = {Article},
+Language = {English},
+Affiliation = {Cherif, S (Corresponding Author), Univ Sci \& Technol Oran Mohamed Boudiaf USTO MB, Fac Elect Engn, Elect Dept, Signal Syst \& Data Lab LSSD, Oran, Algeria.
+   Cherif, Sofiane; Kaddour, Abdelhafid; Benkada, Abdelmoudjib; Karoui, Said, Univ Sci \& Technol Oran Mohamed Boudiaf USTO MB, Fac Elect Engn, Elect Dept, Signal Syst \& Data Lab LSSD, Oran, Algeria.},
+DOI = {10.2478/msr-2025-0030},
+ISSN = {1335-8871},
+Keywords = {laryngeal pathology detection; voice signal processing; empirical mode
+   decomposition; Mel-spectrogram; scalogram; AlexNet convolutional neural
+   network},
+Keywords-Plus = {EMPIRICAL MODE DECOMPOSITION; AUTOMATIC DETECTION; PARAMETERS},
+Research-Areas = {Instruments \& Instrumentation},
+Web-of-Science-Categories  = {Instruments \& Instrumentation},
+Author-Email = {sofiane.cherif@univ-usto.dz},
+Affiliations = {Universite des Sciences et de la Technologie d'Oran Mohamed Boudiaf},
+ResearcherID-Numbers = {Benkada, Abdelmoudjib/C-5748-2014
+   Karoui, Said/KVB-9158-2024},
+ORCID-Numbers = {Benkada, Abdelmoudjib/0000-0002-9948-3123
+   Kaddour, Abdelhafid/0009-0008-0630-0932
+   Karoui, Said/0009-0004-1244-4132},
+Number-of-Cited-References = {35},
+Times-Cited = {0},
+Usage-Count-Last-180-days = {6},
+Usage-Count-Since-2013 = {6},
+Journal-ISO = {Meas. Sci. Rev.},
+Doc-Delivery-Number = {8QE6O},
+Web-of-Science-Index = {Science Citation Index Expanded (SCI-EXPANDED)},
+Unique-ID = {WOS:001594703800001},
+OA = {Green Submitted, gold},
+DA = {2026-04-17},
+}
+
+@inproceedings{ WOS:000518786200005,
+Author = {Taleb, Catherine and Khachab, Maha and Mokbel, Chafic and
+   Likforman-Sulem, Laurence},
+Book-Group-Author = {IEEE},
+Title = {Visual Representation of Online Handwriting Time Series for Deep
+   Learning Parkinson's Disease Detection},
+Booktitle = {2019 INTERNATIONAL CONFERENCE ON DOCUMENT ANALYSIS AND RECOGNITION
+   WORKSHOPS (ICDARW) AND 3RD INTERNATIONAL WORKSHOP ON ARABIC AND DERIVED
+   SCRIPT ANALYSIS AND RECOGNITION (ASAR 2019), VOL 6},
+Series = {Proceedings of the International Conference on Document Analysis and
+   Recognition},
+Year = {2019},
+Pages = {25-30},
+Note = {15th IAPR International Conference on Document Analysis and Recognition
+   (ICDAR) / 3rd International Workshop on Arabic and derived Script
+   Analysis and Recognition (ASAR), Sydney, AUSTRALIA, FEB 22-25, 2019},
+Organization = {Univ Lorraine, LORIA Lab; Univ Sfax, REGIM Lab; IAPR},
+Abstract = {Parkinson's disease (PD) is a neurological disorder associated with a
+   progressive decline in motor skills, speech, and cognitive processes.
+   Since the diagnosis of Parkinson's disease is difficult, researchers
+   have worked to develop a support tool based on algorithms to separate
+   healthy controls from PD patients. Online handwriting dynamic signals
+   can provide more detailed and complex information for PD detection task.
+   Existing techniques often depended on hand-crafted features that
+   required expert knowledge of the field. In this paper, it is suggested
+   to learn pen-based features by means of deep learning for automatic
+   classification of PD. For this purpose, a visual representation of the
+   time series can be computed and used at the input of a convolutional
+   neural network (CNN) as in {[}4]. Classically, the time series is
+   transformed into a fixed dimension image applying normalization on the
+   time dimension. In this work we have experimented several visual
+   representations, including the spectrogram where normalization of the
+   time scale is applied after short term information has been extracted
+   locally. We have been able to show that considering the local short term
+   information allows the deep learning models to provide better
+   classification results compared to a globally normalized fixed dimension
+   visual representation. For validation purpose, a CNN-BLSTM was directly
+   applied on the time series, without any normalization of the time scale
+   which led to best performance equivalent to the one obtained on
+   spectrogram representation.},
+Publisher = {IEEE},
+Address = {345 E 47TH ST, NEW YORK, NY 10017 USA},
+Type = {Proceedings Paper},
+Language = {English},
+Affiliation = {Taleb, C (Corresponding Author), Univ Balamand, Balamand, El Koura, Lebanon.
+   Taleb, Catherine; Khachab, Maha; Mokbel, Chafic, Univ Balamand, Balamand, El Koura, Lebanon.
+   Likforman-Sulem, Laurence, Inst Polytech Paris, Telecom Paris, LTCI, Paris, France.},
+DOI = {10.1109/ICDARW.2019.50111},
+ISSN = {1520-5363},
+ISBN = {978-1-7281-5054-3},
+Keywords = {PDMultiMC dataset; Parkinson's Disease; CNN; CNN-BLSTM; Spectrogram
+   images; Gramian Angular Field images},
+Research-Areas = {Computer Science; Engineering},
+Web-of-Science-Categories  = {Computer Science, Artificial Intelligence; Engineering, Electrical \&
+   Electronic},
+Author-Email = {catherine.taleb@std.balamand.edu.lb
+   Maha.Khachab@balamand.edu.lb
+   chafic.mokbel@balamand.edu.lb
+   likforman@telecom-paristech.fr},
+Affiliations = {University Balamand; IMT - Institut Mines-Telecom; Institut
+   Polytechnique de Paris; Telecom Paris},
+ResearcherID-Numbers = {Mokbel, Chafic/LTZ-5986-2024},
+ORCID-Numbers = {Taleb, Catherine/0000-0002-4669-6491
+   },
+Number-of-Cited-References = {15},
+Times-Cited = {11},
+Usage-Count-Last-180-days = {0},
+Usage-Count-Since-2013 = {7},
+Doc-Delivery-Number = {BO5SS},
+Web-of-Science-Index = {Conference Proceedings Citation Index - Science (CPCI-S)},
+Unique-ID = {WOS:000518786200005},
+DA = {2026-04-17},
+}
+
+@inproceedings{ WOS:000568621300008,
+Author = {Copiaco, Abigail and Ritz, Christian and Fasciani, Stefano and
+   Abdulaziz, Nidhal},
+Book-Group-Author = {IEEE},
+Title = {Scalogram Neural Network Activations with Machine Learning for Domestic
+   Multi-channel Audio Classification},
+Booktitle = {2019 IEEE 19TH INTERNATIONAL SYMPOSIUM ON SIGNAL PROCESSING AND
+   INFORMATION TECHNOLOGY (ISSPIT 2019)},
+Series = {IEEE International Symposium on Signal Processing and Information
+   Technology},
+Year = {2019},
+Note = {19th IEEE International Symposium on Signal Processing and Information
+   Technology (ISSPIT), Ajman, U ARAB EMIRATES, DEC 10-12, 2019},
+Organization = {IEEE},
+Abstract = {Current methodologies explored for audio classification, particularly
+   multi-channel audio, commonly involve the use of individual deep
+   learning approaches. In this paper, we look at domestic multi-channel
+   audio classification through a comparison of various combinations of
+   existing pre-trained Neural Network (NN) models, with Support Vector
+   Machine (SVM) for classification. The NN model is first trained with
+   spectro-temporal features extracted from the audio, characterized by
+   scalogram images that are generated through the Continuous Wavelet
+   Transform (CWT). Activations that are extracted from the selected layer
+   of the concerned neural network model, are then sent as features used to
+   train the machine learning approach for classification. Utilization of
+   the network activations learnt from the deep learning component of the
+   classifier strengthens the time-frequency features of the signal that
+   are extracted from the spectrogram. This therefore allows further
+   improvement to the accuracy. For the full SINS development database,
+   best results yielded an F1-score of over 97\% for the tenth layer of the
+   Xception network when combined with the multi-class Linear SVM, showing
+   a drastic improvement from the top performing F1-score achieved in the
+   DCASE 2018 Task 5 challenge, which rests at around 89\%.},
+Publisher = {IEEE},
+Address = {345 E 47TH ST, NEW YORK, NY 10017 USA},
+Type = {Proceedings Paper},
+Language = {English},
+Affiliation = {Copiaco, A (Corresponding Author), Univ Wollongong, Dubai, U Arab Emirates.
+   Copiaco, Abigail; Abdulaziz, Nidhal, Univ Wollongong, Dubai, U Arab Emirates.
+   Copiaco, Abigail; Ritz, Christian, Univ Wollongong, Wollongong, NSW, Australia.
+   Fasciani, Stefano, Univ Oslo, Oslo, Norway.},
+DOI = {10.1109/isspit47144.2019.9001814},
+ISSN = {2162-7843},
+ISBN = {978-1-7281-5341-4},
+Keywords = {Machine Learning; deep learning; multi-channel audio; classification;
+   support vector machines},
+Research-Areas = {Computer Science; Engineering; Telecommunications},
+Web-of-Science-Categories  = {Computer Science, Hardware \& Architecture; Engineering, Electrical \&
+   Electronic; Telecommunications},
+Author-Email = {abigailc@uow.edu.au
+   critz@uow.edu.au
+   stefano.fasciani@imv.uio.no
+   nidhalabdulaziz@uowdubai.ac.ae},
+Affiliations = {University of Wollongong; University of Oslo},
+ResearcherID-Numbers = {Ritz, Christian/AGE-1439-2022},
+ORCID-Numbers = {Copiaco, Abigail/0000-0003-2542-8604
+   Abdulaziz, Nidhal/0000-0002-8560-3067
+   },
+Number-of-Cited-References = {30},
+Times-Cited = {8},
+Usage-Count-Last-180-days = {0},
+Usage-Count-Since-2013 = {1},
+Doc-Delivery-Number = {BP9AG},
+Web-of-Science-Index = {Conference Proceedings Citation Index - Science (CPCI-S)},
+Unique-ID = {WOS:000568621300008},
+DA = {2026-04-17},
+}
+
+@article{ WOS:001450780800001,
+Author = {Indrasiri, Pubudu L. and Kashyap, Bipasha and Pathirana, Pubudu N.},
+Title = {Image encoded time series classification of small datasets: an
+   innovative architecture using deep learning ensembles},
+Journal = {INTERNATIONAL JOURNAL OF MACHINE LEARNING AND CYBERNETICS},
+Year = {2025},
+Volume = {16},
+Number = {9},
+Pages = {6065-6080},
+Month = {SEP},
+Abstract = {Convolutional neural networks (CNNs) are often favored for their strong
+   learning abilities in tackling automatic intelligent models. The
+   classification of time series data streams spans across many
+   applications of intelligent systems. However, the scarcity of effective
+   Machine Learning architectures to handle limited time-series data
+   adversely affects the realization of some crucial applications. In
+   particular, healthcare-related applications are inherently concerned
+   with limited time series datasets. Indeed, building effective artificial
+   intelligence (AI) models for rare diseases using conventional techniques
+   can pose a significant challenge. Utilizing recent advances in deep
+   learning and signal processing techniques, this study introduces a new
+   ensemble deep learning (DL) approach for time series categorization in
+   the presence of limited datasets. Physiological data, such as ECG and
+   voice, are used to demonstrate the functionality of the proposed DL
+   architecture with data obtained from IoT and non-IoT devices. The
+   proposed framework comprises a self-designed deep CNN-LSTM along with
+   ResNet50 and MobileNet transfer learning approaches. The CNN-LSTM
+   architecture includes an enhanced squeeze and excitation block that
+   improves overall performance.This architecture processes time series
+   data transformed into a 3-Channel image structure via improved
+   recurrence plot (RP), Gramian angular field (GAF), and fuzzy recurrence
+   plot (FRP) methods. The proposed model demonstrated superior
+   classification accuracy on the ECG5000 and TESS datasets compared to
+   other state-of-the-art techniques, validating its efficacy for binary
+   and multiclass classification.},
+Publisher = {SPRINGER HEIDELBERG},
+Address = {TIERGARTENSTRASSE 17, D-69121 HEIDELBERG, GERMANY},
+Type = {Article},
+Language = {English},
+Affiliation = {Indrasiri, PL (Corresponding Author), Deakin Univ, Sch Engn, 75,Pigdons Rd, Waurn Ponds, Vic 3216, Australia.
+   Indrasiri, Pubudu L.; Kashyap, Bipasha; Pathirana, Pubudu N., Deakin Univ, Sch Engn, 75,Pigdons Rd, Waurn Ponds, Vic 3216, Australia.},
+DOI = {10.1007/s13042-025-02613-0},
+EarlyAccessDate = {MAR 2025},
+ISSN = {1868-8071},
+EISSN = {1868-808X},
+Keywords = {Limited datasets; Healthcare time series; Squeeze and excitation;
+   Ensemble learning},
+Keywords-Plus = {HUMAN ACTIVITY RECOGNITION; NETWORKS; HEALTH},
+Research-Areas = {Computer Science},
+Web-of-Science-Categories  = {Computer Science, Artificial Intelligence},
+Author-Email = {pranpatidewage@deakin.edu.au
+   b.kashyap@deakin.edu.au
+   pubudu.pathirana@deakin.edu.au},
+Affiliations = {Deakin University},
+ResearcherID-Numbers = {Kashyap, Bipasha/ABC-8954-2020
+   Pathirana, Pubudu/Q-2132-2018},
+Number-of-Cited-References = {69},
+Times-Cited = {3},
+Usage-Count-Last-180-days = {3},
+Usage-Count-Since-2013 = {14},
+Journal-ISO = {Int. J. Mach. Learn. Cybern.},
+Doc-Delivery-Number = {6YG6F},
+Web-of-Science-Index = {Science Citation Index Expanded (SCI-EXPANDED)},
+Unique-ID = {WOS:001450780800001},
+DA = {2026-04-17},
+}
+
+@inproceedings{ WOS:000568630900275,
+Author = {Singh, Sinam Ajitkumar and Majumder, Swanirbhar and Mishra, Madhusudhan},
+Book-Group-Author = {IEEE},
+Title = {Classification of short unsegmented heart sound based on deep learning},
+Booktitle = {2019 IEEE INTERNATIONAL INSTRUMENTATION AND MEASUREMENT TECHNOLOGY
+   CONFERENCE (I2MTC)},
+Series = {IEEE Instrumentation and Measurement Technology Conference},
+Year = {2019},
+Pages = {1558-1563},
+Note = {IEEE International Instrumentation and Measurement Technology Conference
+   (I2MTC), Auckland, NEW ZEALAND, MAY 20-23, 2019},
+Organization = {IEEE; IEEE Instrumentat \& Measurement Soc; Auckland Bioengineering
+   Inst; Natl Instruments; RF Test Solut \& ADLINK; Measurement Stand Lab
+   New Zealand},
+Abstract = {Heart-related ailments are one of the primary causes of death worldwide.
+   Hence the early investigation of a heart for such ailments is crucial.
+   Recent approaches for automated analysis of the heart sounds require
+   segmentation of Phonocardiograms (PCG) signal. However,segmentation of
+   PCG adds up to the complexity and expanded computational difficulty in
+   the algorithm. Thereby, the main aim of this paper is to eliminate the
+   segmentation process and to measure the benefit for accurate and
+   detailed classification of short unsegmented 5 second PCG recordings. A
+   novel approach for the classification of heart sounds that had been
+   provided by PhysioNet2016 challenge, based on the convolutional neural
+   network using a pre-trained (AlexNet) model has been analyzed in this
+   study. After pre-processing short 5 second PCG recordings accompanied by
+   continuous wavelet transform (CWT) results to the generation of 21)
+   scalogram images. The scalogram images have been used to train and test
+   Convolutional neural network based on deep learning. The proposed design
+   has obtained comparable performance compared to the state-of-the-art
+   methods. Test results have demonstrated that the proposed technique
+   presents excellent performance outcomes by reducing segmentation
+   complexity.},
+Publisher = {IEEE},
+Address = {345 E 47TH ST, NEW YORK, NY 10017 USA},
+Type = {Proceedings Paper},
+Language = {English},
+Affiliation = {Singh, SA (Corresponding Author), NERIST, Dept ECE, Nirjuli, Arunachal Prade, India.
+   Singh, Sinam Ajitkumar; Mishra, Madhusudhan, NERIST, Dept ECE, Nirjuli, Arunachal Prade, India.
+   Majumder, Swanirbhar, Tripura Univ, Dept IT, Agartala, India.},
+DOI = {10.1109/i2mtc.2019.8826991},
+ISSN = {1091-5281},
+ISBN = {978-1-5386-3460-8},
+Keywords = {Phonocardiogram; Scalogram; Filtering; Convolution neural network; Deep
+   learning; Continuous wavelet transform; Neural network},
+Keywords-Plus = {NEURAL-NETWORKS; RECOGNITION; SIGNAL},
+Research-Areas = {Engineering; Instruments \& Instrumentation},
+Web-of-Science-Categories  = {Engineering, Electrical \& Electronic; Instruments \& Instrumentation},
+Author-Email = {ajit\_sinam@yahoo.com
+   swanirbhar@ieee.org
+   ecmadhusudhan@gmail.com},
+Affiliations = {North Eastern Regional Institute of Science \& Technology (NERIST);
+   Tripura University},
+ResearcherID-Numbers = {Majumder, Swanirbhar/E-4772-2012
+   , Sinam Ajitkumar Singh/AAA-7379-2020
+   Mishra, Madhusudhan/Y-7951-2018},
+ORCID-Numbers = {Majumder, Swanirbhar/0000-0002-1046-1682
+   , Sinam Ajitkumar Singh/0000-0001-7148-1233
+   },
+Number-of-Cited-References = {29},
+Times-Cited = {16},
+Usage-Count-Last-180-days = {1},
+Usage-Count-Since-2013 = {2},
+Doc-Delivery-Number = {BP9AW},
+Web-of-Science-Index = {Conference Proceedings Citation Index - Science (CPCI-S)},
+Unique-ID = {WOS:000568630900275},
+DA = {2026-04-17},
+}
+
+@article{ WOS:000800260000001,
+Author = {Sabarivani, A. and Ramadevi, R.},
+Title = {RETRACTED: Detection and classification of epilepsy using hybrid
+   convolutional neural network (Retracted Article)},
+Journal = {CONCURRENT ENGINEERING-RESEARCH AND APPLICATIONS},
+Year = {2022},
+Volume = {30},
+Number = {3, SI},
+Pages = {253-261},
+Month = {SEP},
+Abstract = {In recent years, more than 50 million people have been affected by the
+   epilepsy, neurological disorder diseases. To monitor the situation of
+   the epilepsy patient requires experienced and skilled person. In order
+   to overcome these issues, autonomous detection of electroencephalogram
+   (EEG) signal by deep learning model has evolved. Convolutional neural
+   network (CNN) is one of the sub-category of neural network and widely
+   used in the various field such as weather forecasting, signal processing
+   and medical applications. In this article, the University of California
+   Irvine (UCI) respiratory EEG signals are used to analyse the proposed
+   hybrid CNN and results are compared to the pre-trained GoogleNet
+   Network. EEG signals are initially converted into three different forms
+   such as scalogram, spectrogram and time domain images and classification
+   of images are carried out by the pre-trained GoogleNet network results
+   in an accuracy of 85\%. Then time domain images are combined with
+   spectrogram and scalogram EEG signal separately and detection has been
+   carried out by the CNN. It is found that the CNN network yields an
+   accuracy of 92\% which was higher than the pre-trained GoogleNet. To
+   enhance the classification accuracy further, scalogram, spectrogram and
+   time domain images are combined as single input images and applied to
+   the CNN network and it results with the accuracy of 98\%. The
+   performance metrics such as Sensitivity, Specificity, F1 Score,
+   Precision and misclassification rate of GoogleNet and proposed hybrid
+   CNN networks are evaluated. It is observed from the result that proposed
+   CNN results less than 10\% misclassification rate, whereas for GoogleNet
+   it was more than 20\%. Similarly, the precision value of GoogleNet and
+   proposed CNN networks are 82\% and 93\%, respectively.},
+Publisher = {SAGE PUBLICATIONS LTD},
+Address = {1 OLIVERS YARD, 55 CITY ROAD, LONDON EC1Y 1SP, ENGLAND},
+Type = {Article; Retracted Publication},
+Language = {English},
+Affiliation = {Sabarivani, A (Corresponding Author), Sathyabama Inst Sci \& Technol, Chennai, Tamil Nadu, India.
+   Sabarivani, A., Sathyabama Inst Sci \& Technol, Chennai, Tamil Nadu, India.
+   Ramadevi, R., SIMATS Chennai, Dept Biomed Engn, Saveetha Sch Engn, Chennai, Tamil Nadu, India.},
+DOI = {10.1177/1063293X221089089},
+EarlyAccessDate = {MAY 2022},
+Article-Number = {1063293X221089089},
+ISSN = {1063-293X},
+EISSN = {1531-2003},
+Keywords = {Spectrogram; scalogram; convolution neural network;
+   electroencephalography; F1 score; misclassification rate and hanning
+   window},
+Keywords-Plus = {ACCELEROMETRY; SEIZURES},
+Research-Areas = {Computer Science; Engineering; Operations Research \& Management Science},
+Web-of-Science-Categories  = {Computer Science, Interdisciplinary Applications; Engineering,
+   Manufacturing; Operations Research \& Management Science},
+Affiliations = {Sathyabama Institute of Science \& Technology; Saveetha Institute of
+   Medical \& Technical Science; Saveetha School of Engineering},
+ResearcherID-Numbers = {rathinasapathy, ramadevi/AAP-7708-2021
+   A, SABARIVANI/AAA-4006-2022},
+ORCID-Numbers = {rathinasapathy, ramadevi/0000-0001-6685-7902
+   },
+Number-of-Cited-References = {17},
+Times-Cited = {3},
+Usage-Count-Last-180-days = {1},
+Usage-Count-Since-2013 = {16},
+Journal-ISO = {Concurrent Eng.-Res. Appl.},
+Doc-Delivery-Number = {4O5NN},
+Web-of-Science-Index = {Science Citation Index Expanded (SCI-EXPANDED)},
+Unique-ID = {WOS:000800260000001},
+DA = {2026-04-17},
+}
+
+@article{ WOS:001383458500001,
+Author = {Charakanam, Durga Prasad and Tumapala, Swaroop Teja and Kumar, M. N. V.
+   S. S. and Nalla, Maheswara Rao},
+Title = {Stockwell transform empowered attention-guided residual CNN for sleep
+   Apnea classification},
+Journal = {INTERNATIONAL JOURNAL OF SYSTEM ASSURANCE ENGINEERING AND MANAGEMENT},
+Year = {2025},
+Volume = {16},
+Number = {2},
+Pages = {805-817},
+Month = {FEB},
+Abstract = {Obstructive sleep apnea (OSA) is a chronic sleep disorder linked to
+   severe health conditions such as hypertension and stroke. OSA is
+   typically diagnosed through polysomnography (PSG), an expensive and
+   time-consuming process. To address these limitations, this study
+   proposes an efficient method for OSA detection using a novel
+   time-frequency analysis approach. Traditional techniques for analyzing
+   ECG signals to detect OSA have involved spectrogram and scalogram
+   methods, using Short-Time Fourier Transform (STFT) and Continuous
+   Wavelet Transform (CWT) respectively. However, these methods suffer from
+   limitations like spectral leakage and poor time-frequency resolution. To
+   overcome these challenges, we employ the Stockwell transform for feature
+   extraction and segmentation. This transformed data is then fed into a
+   2D-CNN deep learning model enhanced with channel-wise attention,
+   residual connections, and depth concatenation. Our proposed method
+   demonstrates superior performance, achieving an average accuracy of
+   95.55\%, specificity of 93.64\%, sensitivity of 95.55\%, and recall of
+   96.77\%. The results show that our framework significantly outperforms
+   existing state-of-the-art methodologies for OSA detection, providing a
+   more efficient and reliable alternative to conventional diagnostic
+   techniques.},
+Publisher = {SPRINGER INDIA},
+Address = {7TH FLOOR, VIJAYA BUILDING, 17, BARAKHAMBA ROAD, NEW DELHI, 110 001,
+   INDIA},
+Type = {Article},
+Language = {English},
+Affiliation = {Charakanam, DP (Corresponding Author), AITAM, Dept ECE, Tekkali 532201, Andhra Prades, India.
+   Charakanam, Durga Prasad; Kumar, M. N. V. S. S., AITAM, Dept ECE, Tekkali 532201, Andhra Prades, India.
+   Tumapala, Swaroop Teja, BARC, Bhabha Atom Res Ctr, Mumbai 400085, Maharashtra, India.
+   Nalla, Maheswara Rao, Natl Inst Technol Rourkela, Dept BME, Rourkela 769005, Odisha, India.},
+DOI = {10.1007/s13198-024-02674-4},
+EarlyAccessDate = {DEC 2024},
+ISSN = {0975-6809},
+EISSN = {0976-4348},
+Keywords = {Single-lead ECG signals; Obstructive sleep apnea; Stockwell transform;
+   Convolutional neural network; Deep learning},
+Keywords-Plus = {DIAGNOSIS},
+Research-Areas = {Engineering},
+Web-of-Science-Categories  = {Engineering, Multidisciplinary},
+Author-Email = {durgaprasadch16@gmail.com
+   tejswrp49@gmail.com
+   muvvala\_sai@yahoo.co.in
+   nallamaheshnitrkl@gmail.com},
+Affiliations = {Bhabha Atomic Research Center (BARC); National Institute of Technology
+   (NIT System); National Institute of Technology Rourkela},
+ResearcherID-Numbers = {CHARAKANAM, DURGA PRASAD/KFR-2831-2024
+   Kumar, M/P-4706-2015
+   },
+ORCID-Numbers = {CHARAKANAM, DURGA PRASAD/0009-0005-8676-4734
+   Maheswara rao, Nalla/0000-0003-2522-8418},
+Number-of-Cited-References = {36},
+Times-Cited = {0},
+Usage-Count-Last-180-days = {0},
+Usage-Count-Since-2013 = {2},
+Journal-ISO = {Int. J. Syst. Assur. Eng. Manag.},
+Doc-Delivery-Number = {Y5E8K},
+Web-of-Science-Index = {Emerging Sources Citation Index (ESCI)},
+Unique-ID = {WOS:001383458500001},
+DA = {2026-04-17},
+}
+
+@inproceedings{ WOS:001258410400041,
+Author = {Herath, Nirasha and Herath, Madhawa and Thilakanayake, Thakshila and
+   Angammana, Chitral and Liyanage, Migara},
+Book-Group-Author = {IEEE},
+Title = {An Image-Based Disaggregation Study of Time Series Energy Data Using
+   Gramian Angular Field},
+Booktitle = {2023 IEEE PES 15TH ASIA-PACIFIC POWER AND ENERGY ENGINEERING CONFERENCE,
+   APPEEC},
+Year = {2023},
+Note = {15th Asia-Pacific Power and Energy Engineering Conference (APPEEC),
+   Chiang Mai, THAILAND, DEC 06-09, 2023},
+Organization = {IEEE},
+Abstract = {Non-intrusive Load Monitoring (NILM) proves effective in disaggregating
+   energy consumption data for individual household appliances. Traditional
+   NILM techniques rely on one-dimensional (1D) time series signal (TSS)
+   analysis to predict the energy usage of distinct appliances.
+   Nonetheless, these approaches have limitations in handling data with
+   non-linear behavior and complex patterns. To address this challenge,
+   prior studies have proposed converting 1D TSS into two-dimensional (2D)
+   images using techniques like Gramian Angular Field (GAF), Markov
+   Transition Field (MTF), and Recurrence Plot (RP). Recent research
+   underscores the effectiveness of the Gramian Angular Summation Field
+   (GASF) and Gramian Angular Difference Field (GADF), both variants of
+   GAF, in the NILM domain. This study assesses the performance of three
+   distinct 1D to 2D conversion approaches for energy disaggregation: GADF,
+   GASF, and an enhanced hybrid method integrating GADF and GASF.
+   Performance evaluation utilizes matrices, including accuracy, precision,
+   recall, and the F1 score. The experiments are conducted on a publicly
+   accessible real-world energy dataset encompassing different appliances.
+   The results demonstrate that the combined GADF and GASF method
+   introduced in this study outperforms their individual counterparts with
+   better performance and faster convergence, particularly in the context
+   of energy disaggregation. The findings offer valuable insights for
+   advancing the development of more accurate and efficient NILM
+   techniques.},
+Publisher = {IEEE},
+Address = {345 E 47TH ST, NEW YORK, NY 10017 USA},
+Type = {Proceedings Paper},
+Language = {English},
+Affiliation = {Herath, N (Corresponding Author), Mem Univ Newfoundland, Fac Engn \& Appl Sci, St John, NF, Canada.
+   Herath, Nirasha; Thilakanayake, Thakshila, Mem Univ Newfoundland, Fac Engn \& Appl Sci, St John, NF, Canada.
+   Herath, Madhawa; Liyanage, Migara, Sri Lanka Inst Informat Technol, Fac Engn, Malabe, Sri Lanka.
+   Angammana, Chitral, Univ Waterloo, Dept Elect \& Comp Engn, Waterloo, ON, Canada.},
+DOI = {10.1109/APPEEC57400.2023.10561942},
+Article-Number = {P02775},
+ISBN = {979-8-3503-1810-4; 979-8-3503-1809-8},
+Keywords = {CNN; Energy Disaggregation; Gramian Angular Field; NILM; Time Series
+   Signal},
+Research-Areas = {Energy \& Fuels; Engineering},
+Web-of-Science-Categories  = {Energy \& Fuels; Engineering, Multidisciplinary; Engineering, Electrical
+   \& Electronic},
+Author-Email = {vnherath@mun.ca
+   madhawa.h@sliit.lk
+   dthilakanaya@mun.ca
+   cjangamm@uwaterloo.ca
+   migara.h@sliit.lk},
+Affiliations = {Memorial University Newfoundland; Sri Lanka Institute of Information
+   Technology (SLIIT); University of Waterloo},
+ResearcherID-Numbers = {Thilakanayake, Thakshila/MEP-5746-2025
+   Herath, Nirasha/LXW-8630-2024},
+ORCID-Numbers = {Liyanage, Migara/0000-0001-7779-7140
+   Herath, Nirasha/0009-0003-5849-2888},
+Number-of-Cited-References = {24},
+Times-Cited = {4},
+Usage-Count-Last-180-days = {3},
+Usage-Count-Since-2013 = {8},
+Doc-Delivery-Number = {BX2DX},
+Web-of-Science-Index = {Conference Proceedings Citation Index - Science (CPCI-S)},
+Unique-ID = {WOS:001258410400041},
+DA = {2026-04-17},
+}
+
+@article{ WOS:001412876700001,
+Author = {Liu, Xu and Lv, Chengcong and Cao, Linchun and Guo, Xingming},
+Title = {Detection of coronary artery disease using a triplet network and hybrid
+   loss function on heart sound signal},
+Journal = {BIOMEDICAL SIGNAL PROCESSING AND CONTROL},
+Year = {2025},
+Volume = {104},
+Month = {JUN},
+Abstract = {Coronary artery disease (CAD) is currently one of the most common
+   cardiovascular diseases. Its high incidence and mortality pose a serious
+   threat to human health and cause a huge burden on the social medical
+   system. As a traditional, simple, non-invasive and non-intrusive
+   detection method, auscultation has important application value in the
+   detection of CAD. At present, most deep learning methods for detecting
+   CAD based on heart sounds mainly rely on the deep learning model
+   framework and have not fully utilized the distance differences of heart
+   sound data in the mapping space under different physiological states.
+   Therefore, in this paper, the deep metric learning method is introduced
+   to construct a three-input Triplet Network and improve the Triplet loss
+   function by combining the cross-entropy loss, so that the classification
+   task is also involved in the model training to obtain a more
+   comprehensive feature expression and improve the model performance. At
+   the same time, this paper explores the performance of Continuous Wavelet
+   Transform (CWT), Gramian Angular Field (GAF), Mel Frequency Cepstrum
+   Coefficient (MFCC), Markov Transition Field (MTF)and Power Spectrogram
+   (PS) based on heart sound signals in the proposed model. Through
+   five-fold cross-validation, the results show that CWT is the most
+   suitable among the five methods for CAD detection. The model with CWT as
+   input performs better than other methods, with an accuracy rate of 93.91
+   \%, a sensitivity of 92.73 \%, a specificity of 95.00 \%, an F1 score of
+   93.89 \%, and a precision of 94.14 \% at the subject-level.},
+Publisher = {ELSEVIER SCI LTD},
+Address = {125 London Wall, London, ENGLAND},
+Type = {Article},
+Language = {English},
+Affiliation = {Guo, XM (Corresponding Author), Chongqing Univ, Coll Bioengn, Key Lab Biorheol Sci \& Technol, Minist Educ, Chongqing 400044, Peoples R China.
+   Liu, Xu; Lv, Chengcong; Guo, Xingming, Chongqing Univ, Coll Bioengn, Key Lab Biorheol Sci \& Technol, Minist Educ, Chongqing 400044, Peoples R China.
+   Cao, Linchun, Chongqing Med Univ, Affiliated Hosp 1, Dept Cardiol, Chongqing 400016, Peoples R China.},
+DOI = {10.1016/j.bspc.2025.107601},
+EarlyAccessDate = {JAN 2025},
+Article-Number = {107601},
+ISSN = {1746-8094},
+EISSN = {1746-8108},
+Keywords = {CAD; Heart sound; Triplet network; Hybrid loss function; CWT},
+Research-Areas = {Engineering},
+Web-of-Science-Categories  = {Engineering, Biomedical},
+Author-Email = {guoxm@cqu.edu.cn},
+Affiliations = {Chongqing University; Chongqing Medical University},
+ResearcherID-Numbers = {lv, chengcong/KCY-8113-2024},
+Funding-Acknowledgement = {National Natural Science Foundation of China {[}31870980]},
+Funding-Text = {This work was supported by National Natural Science Foundation of China
+   {[}No. 31870980] .},
+Number-of-Cited-References = {49},
+Times-Cited = {5},
+Usage-Count-Last-180-days = {10},
+Usage-Count-Since-2013 = {26},
+Journal-ISO = {Biomed. Signal Process. Control},
+Doc-Delivery-Number = {U6L1Y},
+Web-of-Science-Index = {Science Citation Index Expanded (SCI-EXPANDED)},
+Unique-ID = {WOS:001412876700001},
+DA = {2026-04-17},
+}

@@ -91,3 +91,4 @@ paper/
 # Reference papers (large PDFs)
 data/papers/*.pdf
 data/papers/*.docx
+.gitnexus

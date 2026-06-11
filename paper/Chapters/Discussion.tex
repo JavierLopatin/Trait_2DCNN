@@ -1,0 +1,368 @@
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{Why reshaping spectra into images improves trait retrieval}
+\label{sec:disc_reshape}
+
+% --- Opening: headline finding in context ---
+ - This study demonstrates that a simple reshape of 1D
+   hyperspectral reflectance into a 2D image significantly
+   improves multi-trait retrieval ($R^2 = 0.684$ vs 0.587
+   for supervised 1D-CNN)
+ - Consistent across all eight traits --- no trait is
+   degraded by the 2D representation
+ - Reshape outperformed five alternative transformations,
+   confirming prior findings that direct reshaping is
+   competitive or superior to engineered encodings
+   \citep{hennessy2022reshaping, deev2024spectrum,
+   sharma2019deepinsight}, and extending this to
+   multi-trait regression with heterogeneous field data
+
+% --- Mechanism: multi-scale receptive field ---
+ - The $42 \times 42$ reshape creates a topology where a
+   single $3 \times 3$ kernel spans $\sim$84\,nm of
+   spectral range (vertical stride of 42\,nm), versus
+   $\sim$3\,nm for an equivalent 1D kernel
+ - After a few pooling stages in EfficientNet-B0, the
+   effective receptive field covers hundreds of nm ---
+   enough to simultaneously capture pigment absorption
+   at 680\,nm, the red-edge at 750\,nm, and SWIR
+   structural features
+ - In a 1D-CNN, achieving the same spectral reach
+   requires very deep networks or large kernels ($k > 80$),
+   increasing overfitting risk with limited labeled data
+   ($n = 4{,}508$) \citep{cherif2023spectra}
+ - The reshaped image also encodes trait-specific
+   ``spectral textures'' --- visually distinct spatial
+   patterns arising from different biochemical
+   compositions (Figure~\ref{fig:transforms_example}) ---
+   that 2D convolutions are specifically designed to
+   detect
+
+% --- Per-trait evidence supports the mechanism ---
+ - The per-trait improvement gradient directly supports
+   the cross-band correlation mechanism
+ - Largest gains for traits with broad, distributed
+   absorption features:
+   C$_\text{bc}$ ($\Delta R^2 = +0.245$, carbon-based
+   constituents absorbing across 1700--2300\,nm),
+   Anth ($\Delta = +0.174$, interacting with chlorophyll
+   features $\sim$80--180\,nm apart),
+   and C$_\text{m}$ ($\Delta = +0.122$, dry matter
+   spanning multiple SWIR windows)
+   \citep{curran1989imaging, feret2021prospectpro}
+ - Moderate gains for pigments (C$_\text{ab}$
+   $\Delta = +0.080$, C$_\text{ar}$ $\Delta = +0.070$):
+   narrower visible-range features already partially
+   captured by 1D convolutions, though 2D adds
+   correlations with red-edge and NIR regions
+   \citep{homolova2013review}
+ - Near-zero gain for C$_\text{p}$ ($\Delta = +0.008$):
+   protein has a narrow absorption at $\sim$2100\,nm
+   \citep{feret2021prospectpro} --- cross-band
+   correlations add minimal information for spectrally
+   confined signals
+ - This gradient (broad features $\rightarrow$ largest
+   gains; narrow features $\rightarrow$ smallest gains)
+   is consistent with the hypothesis that the 2D
+   advantage arises from multi-scale cross-band
+   integration
+
+% --- Why complex transforms underperform ---
+ - CWT ($R^2 = 0.641$) and Spectrogram ($R^2 = 0.636$)
+   formed a second tier --- both preserve some spectral
+   locality through windowed decomposition
+   \citep{addison2017wavelet, shuai2025multichannel},
+   but placing wavelength on one axis and scale/frequency
+   on the other breaks the wavelength-to-wavelength
+   adjacency that Reshape preserves
+ - These transforms have proven effective for
+   classification tasks where scale-specific
+   discriminative features matter
+   \citep{ong2025sugarcane, zhuang2023cwt,
+   shuai2025multichannel, zhang2025gaf}, but for
+   continuous regression the direct wavelength topology
+   appears more informative
+ - GAF ($R^2 = 0.609$) maps spectral values to angular
+   space, grouping bands by reflectance magnitude rather
+   than wavelength position, thus losing the physical
+   ordering that connects absorption features to
+   biochemistry \citep{wang2015gaf, ganesan2021gaf};
+   GAF and MTF were designed for time-series
+   classification where phase dynamics carry
+   discriminative information --- a fundamentally
+   different task
+ - 2D-COS ($R^2 = 0.555$, std $= 0.077$) showed the
+   highest seed variability; our single-sample adaptation
+   via windowed segmentation \citep{noda2004twodimensional}
+   is an ad-hoc perturbation that may introduce noise
+   rather than meaningful correlation structure
+ - MTF ($R^2 = 0.419$) was the only transform worse than
+   the 1D baseline --- quantile-based discretisation
+   destroys continuous spectral information critical for
+   regression \citep{wang2015gaf}
+ - Overall: transforms preserving natural wavelength
+   ordering and continuous values outperform those
+   remapping spectral information into abstract
+   mathematical spaces
+
+
+\subsection{\jl{What the model learns from the 2D representation}}
+\label{sec:disc_importance}
+
+% --- 2D importance makes the receptive-field mechanism empirical ---
+\jl{ - The variable importance analysis gives empirical
+   support to the receptive-field mechanism proposed in
+   Section~\ref{sec:disc_reshape}. Grad-CAM relevance
+   forms compact 2D clusters. Once unfolded to wavelength,
+   six of the eight traits concentrate importance in known
+   absorption regions above chance
+   (Figure~\ref{fig:importance}).}
+
+\jl{ - The unfolded maps expose how the model reads the
+   image. Horizontal neighbours are adjacent bands.
+   Vertical neighbours are bands 42 positions apart. A
+   single 2D kernel reads both at once. The model can
+   co-weight a visible feature and its shortwave-infrared
+   overtone about 42 bands away inside one receptive
+   field. A 1D kernel of the same size cannot.}
+
+\jl{ - Integrated Gradients and Grad-CAM agree. IG works at
+   the fine, signed, band level. Grad-CAM works at the
+   coarse, region level. Their agreement raises confidence
+   that the importance reflects learned spectral structure
+   rather than an artifact of one method.}
+
+% --- Relation to known absorption regions and why they differ ---
+\jl{ - Six traits concentrate importance in physically
+   grounded regions. Anthocyanins, leaf mass per area,
+   carbon-based constituents, chlorophyll, and protein all
+   stay above chance. Their peaks fall on the red-edge
+   (C\textsubscript{ab} at 703\,nm) and on shortwave-infrared
+   cellulose, lignin, and protein features (near 2144\,nm).
+   These match constituent absorption reported at the leaf
+   level \citep{serbin2020scaling, angel2022remote,
+   curran1989imaging, feret2021prospectpro}.}
+
+\jl{ - These windows come from constituent absorption
+   physics, not from the model. Pigment electronic
+   transitions in the visible, and water, protein,
+   cellulose, and lignin vibrational overtones in the
+   shortwave infrared, occupy stable wavelength ranges
+   across studies \citep{curran1989foliar, fourty1996leaf,
+   feret2021prospectpro}. They are independent of the
+   retrieval method. Band importance derived from the model
+   itself shifts with the algorithm, the regularisation,
+   and the training data. We compared against the physical
+   regions to keep the reference independent of our model.}
+
+\jl{ - Carotenoids ($0.82\times$) and equivalent water
+   thickness ($0.81\times$) fall below chance. The model
+   predicts both well, so the mismatch reflects where the
+   model looks rather than how well it performs. Several
+   non-exclusive reasons explain the difference from the
+   literature.}
+
+\jl{ - Scale differs. The reference regions come from leaf
+   or constituent spectra. GreenHyperSpectra holds canopy
+   reflectance. Canopy structure, leaf area index, soil
+   background, and multiple scattering broaden, shift, and
+   saturate absorption features. The predictive bands need
+   not match the leaf-level maxima \citep{homolova2013review}.}
+
+\jl{ - Traits covary. The multi-trait model can predict a
+   weakly featured trait through a correlated strong one.
+   Carotenoids share variance with chlorophyll. The model
+   leans on the chlorophyll red-edge at 703\,nm rather than
+   the weak carotenoid feature at 440--520\,nm. A good
+   R\textsuperscript{2} of 0.707 with low enrichment reflects
+   this shortcut.}
+
+\jl{ - Preprocessing removed water bands. The strongest
+   water features near 1450 and 1940\,nm fall partly inside
+   the removed gaps (1351--1430 and 1801--2050\,nm). The
+   model uses the surviving edge at 1431\,nm. The low water
+   enrichment is partly a preprocessing artifact, not
+   biology.}
+
+\jl{ - The metric depends on our window choice. We set the
+   absorption windows from the literature. Narrow windows
+   penalise the legitimate use of adjacent bands and lower
+   the enrichment for traits with broad or shifted
+   features.}
+
+
+\subsection{Self-supervised pretraining in the 2D framework}
+\label{sec:disc_pretraining}
+
+% --- Key comparison ---
+ - The 2D supervised baseline ($R^2 = 0.684$) surpassed
+   all 1D methods, including the best self-supervised
+   MAE-1D FT ($R^2 = 0.645$) of
+   \citet{cherif2025greenhyperspectra}
+ - The representational advantage of 2D images alone
+   (+0.039 over MAE-1D FT) exceeds the benefit of
+   pretraining on 139K unlabeled spectra within the 1D
+   framework (+0.058 over supervised 1D)
+ - The 2D representation is therefore the dominant factor,
+   not the learning strategy
+
+% --- MAE-2D results ---
+ - MAE-2D FT ($R^2 = 0.667 \pm 0.006$) outperformed
+   MAE-1D FT by +0.022, confirming the 2D advantage
+   extends to self-supervised learning
+ - However, MAE-2D FT did not surpass supervised 2D
+   ($-0.017$), contrasting with natural image domains
+   where MAE pretraining typically helps \citep{he2022mae}
+ - Linear probing ($R^2 = 0.646 \pm 0.020$, only 38.6K
+   trainable parameters) exceeded all 1D baselines
+   including MAE-1D FT --- capturing 97\% of fine-tuned
+   performance and indicating the frozen encoder already
+   encodes most trait-relevant spectral information
+
+% --- Why supervised 2D > MAE-2D FT ---
+ - Three non-mutually exclusive hypotheses:
+   (1) Architecture mismatch --- EfficientNet-B0's spatial
+   inductive biases (local connectivity, translation
+   equivariance) outperform ViT's learned attention with
+   only $n = 4{,}508$ labeled samples
+   \citep{dosovitskiy2021vit};
+   (2) Easy reconstruction --- reshaped spectral images
+   have smooth, continuous structure unlike natural images,
+   so the MAE task converges rapidly ($\sim$10 epochs,
+   val\_loss $\sim$0.0001) without learning deep
+   trait-discriminative features;
+   (3) Sufficient labeled data --- 4,508 samples spanning
+   diverse ecosystems may already capture most learnable
+   spectral--trait relationships
+ - Practical implication: researchers can achieve
+   state-of-the-art performance with reshape + standard
+   CNN, without the computational cost of pretraining on
+   large unlabeled corpora
+ - The MAE-2D result remains valuable for data-scarce
+   settings where few labeled samples are available
+
+
+\subsection{Implications for trait-based ecology and remote sensing}
+\label{sec:disc_implications}
+
+% --- Carbon cycle and ecosystem functioning ---
+ - The largest improvement was for C$_\text{bc}$
+   ($\Delta R^2 = +0.245$), directly linked to carbon
+   stocks, litter decomposition, and nutrient cycling
+   \citep{kattge2020try}
+ - Improved C$_\text{bc}$ and C$_\text{m}$ retrieval
+   supports non-destructive estimation of leaf dry
+   matter investment --- a key axis of the leaf economics
+   spectrum \citep{wright2004les} --- enabling more
+   reliable mapping of ecosystem carbon pools and
+   decomposition dynamics for Earth system models
+   \citep{homolova2013review}
+
+% --- Functional diversity monitoring ---
+ - Multi-trait retrieval from a single model preserves
+   inter-trait covariance structure, essential for
+   functional diversity metrics (FDis, FRic, FEve, Rao's
+   Q) \citep{villeger2008fd, laliberte2010fdis}
+ - Trait-by-trait retrieval with independent models may
+   distort correlations and bias diversity estimates
+ - Simultaneous improvement across all eight traits means
+   functional trait spaces from 2D predictions will be
+   more accurate and internally consistent than 1D
+   baselines --- relevant for biodiversity monitoring
+   programmes relying on spectral trait mapping
+   \citep{schweiger2018plant, binh2025mangrove, weiss2020remote}
+
+% --- Operational simplicity ---
+ - Reshape requires no domain-specific tuning (no wavelet
+   scales, STFT windows, quantile bins, or perturbation
+   parameters) and is implementable in $\sim$6 lines of
+   code
+ - Robustness across seeds (std $= 0.001$) ensures
+   reproducible results without hyperparameter sensitivity
+ - This lowers the barrier for ecologists and remote
+   sensing practitioners who need state-of-the-art
+   predictions without signal processing expertise
+
+% --- Scaling to hyperspectral missions ---
+ - Upcoming and recently launched missions --- EnMAP
+   \citep{guanter2015enmap}, PRISMA
+   \citep{verrelst2021prisma}, SBG/EMIT
+   \citep{cawse2021sbg, green2020emit} --- will produce continental-
+   to global-scale hyperspectral archives with contiguous
+   spectra across 400--2500\,nm
+ - A simple, robust method validated across 50
+   heterogeneous datasets is well suited for operational
+   deployment on these data streams
+
+% --- Data-efficient learning for undersampled biomes ---
+ - The MAE-2D linear probe ($R^2 = 0.646$, 38.6K params)
+   opens a pathway for trait prediction in data-scarce
+   biomes (tropical forests, tundra, peatlands) that are
+   underrepresented in existing trait databases
+   \citep{kattge2020try, zhang2025ppadanet}
+ - A frozen pretrained encoder requiring only a
+   lightweight linear head could enable trait mapping
+   with minimal local calibration data, aligning with the
+   broader trend toward foundation models for remote
+   sensing \citep{binfaruk2025terramae}
+
+
+\subsection{Limitations and future directions}
+\label{sec:disc_limitations}
+
+% --- Methodological limitations ---
+ - All transform comparisons used a single backbone
+   (EfficientNet-B0); performance rankings could differ
+   with other architectures, though
+   \citet{cherif2023spectra} showed it to be optimal for
+   this data scale
+ - Fixed image size ($224 \times 224$): the reshape
+   topology depends on resolution, and other sizes may
+   favour different transforms --- a systematic study is
+   warranted
+ - Single-sample 2D-COS via windowed segmentation is an
+   ad-hoc approximation of \citet{noda2004twodimensional}'s
+   multi-sample formulation --- its poor performance may
+   partly reflect this limitation
+ - All experiments used GreenHyperSpectra; validation on
+   independent datasets with different spectral
+   resolutions, wavelength ranges, and ecosystem types is
+   needed
+ - The moderate labeled set ($n = 4{,}508$) may limit the
+   benefit of self-supervised pretraining; with larger
+   datasets, the gap between supervised and MAE-2D could
+   narrow
+ - This study used point-level spectra without spatial
+   context --- airborne/satellite imagery introduces mixed
+   pixels and atmospheric effects not addressed here
+
+\jl{ - The Reshape geometry is arbitrary, which limits the
+   importance maps. The model zero-pads the spectrum and
+   resizes it bilinearly from $42 \times 42$ to
+   $224 \times 224$, smearing each band over about five
+   pixels. The vertical 42-band adjacency comes from the
+   $\text{side} = 42$ fold, not from physics, so part of
+   the cross-row structure reflects the layout. The
+   unfolded importance has limited spectral resolution and
+   the apparent peaks can shift by a few bands. Row-wrap
+   boundaries place spectrally adjacent bands far apart in
+   the image. We therefore read the importance maps as
+   approximate.}
+
+% --- Future directions ---
+ - Investigate the effect of image size and reshape
+   topology on retrieval --- different row widths create
+   different cross-band neighborhoods that may favour
+   different traits
+ - Explore harder MAE pretraining: higher mask ratios,
+   structured masking of spectral regions, and CWT
+   scalograms as inputs (richer spatial structure than
+   reshape)
+ - Pretrain larger 2D encoders on massive spectral
+   archives for general-purpose spectral feature
+   extraction (foundation models)
+ - Combine reshaped spectral images with spatial context
+   from imaging spectrometers or LiDAR-derived canopy
+   structure (multi-modal fusion)
+

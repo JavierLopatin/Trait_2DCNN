@@ -3,14 +3,13 @@
 % Basic packages
 \usepackage[a4paper, margin=1in]{geometry}
 \usepackage{graphicx}
-\graphicspath{{figures/}}
 \usepackage{amsmath}
 \usepackage{hyperref}
 \usepackage{longtable}
 \usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{pdflscape}
 \usepackage{caption}
-\usepackage{subcaption}
-\usepackage{overpic}
 \captionsetup[table]{skip=10pt}
 
 % Add Unicode support
@@ -20,7 +19,6 @@
 
 % Add color support
 \usepackage{xcolor}
-
 \newcommand{\sm}[1]{\textcolor{blue}{#1}}
 \newcommand{\SM}[1]{\textcolor{blue}{#1}}
 \newcommand{\jl}[1]{\textcolor{red}{#1}}
@@ -39,7 +37,6 @@
 % Add support for special characters
 \usepackage{textcomp}
 \usepackage{gensymb}
-
 
 % Citas en texto tipo APA (p.ej., \citep{key} -> (Gonzales et al., 2023))
 \biboptions{authoryear,round,semicolon}
@@ -63,10 +60,6 @@
 
 \address[3]{Center for Climate Resilience Research (CR)2, University of Chile, Santiago, Chile, 8370449}
 
-%\address[4]{Deakin  Marine Research and Innovation Centre, School of Life and Environmental Sciences, Deakin University, Burwood Campus, Burwood, VIC 3125, Australia}
-
-%\address[5]{GEMA Center for Genomics, Ecology and the Environment, Universidad Mayor, Santiago, Chile}
-
 % AGREGAR CORRESPONDING AUTHOR CON COR1
 \cortext[cor1]{Corresponding author; javier.lopatin@uai.cl}
 
@@ -74,28 +67,20 @@
 \begin{document}
 \begin{frontmatter}
 
-\begin{abstract}
-\input{Chapters/Abstract}
-\end{abstract}
-
-\begin{keyword}
-hyperspectral remote sensing \sep plant functional traits \sep 1D-to-2D spectral transformation \sep convolutional neural network \sep self-supervised learning \sep masked autoencoder
-\end{keyword}
-
 \end{frontmatter}
 
 \linenumbers
 
+% Prefix all table and figure numbers with "S"
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\thefigure}{S\arabic{figure}}
+
 % AGREGAR SECCIONES DE PAPER ACA
-\input{Chapters/Introduction}
-\input{Chapters/Methods}
-\input{Chapters/Results}
-\input{Chapters/Discussion}
-\input{Chapters/Conclusion}
+\input{Chapters/Supplementary_data}
 
 
 % Bibliography settings
-\bibliographystyle{elsarticle-harv}
-\bibliography{References}
+%\bibliographystyle{apalike}
+%\bibliography{References}
 
 \end{document}
