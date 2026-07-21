@@ -29,6 +29,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+from scipy.stats import pearsonr, spearmanr
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -36,6 +37,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
+from matplotlib.patches import Polygon
 
 from training.config import GHS_DATA_DIR, GHS_TRAIT_NAMES, GHS_TRAIT_SHORT, N_BANDS
 from training.data_loader import _split_trait_spectral_columns, load_ghs_data
@@ -60,19 +62,35 @@ def wavelengths() -> np.ndarray:
 # Water-band gaps removed during preprocessing (for shading in plots).
 WATER_GAPS = [(1350, 1431), (1800, 2051)]
 
-# Known absorption regions per trait (lo_nm, hi_nm, label). Approximate ranges
-# from Curran (1989), Kokaly et al. (2009), Elvidge (1990), Feret et al. (2008).
-ABSORPTION_REGIONS = {
-    'Cab':  [(400, 450, 'Chl Soret'), (640, 690, 'Chl b/a'), (690, 750, 'red-edge')],
-    'Car':  [(440, 520, 'carotenoid')],
-    'Anth': [(500, 560, 'anthocyanin')],
-    'Cw':   [(950, 1000, 'water 970'), (1150, 1260, 'water 1200')],
-    'Cm':   [(1700, 1780, 'dry matter'), (2050, 2140, 'cellulose'), (2260, 2350, 'lignin')],
-    'LAI':  [(700, 1300, 'NIR canopy')],
-    'Cp':   [(1480, 1530, 'protein N-H'), (2040, 2070, 'protein'),
-             (2160, 2200, 'protein'), (2290, 2350, 'protein')],
-    'Cbc':  [(1680, 1740, 'lignin'), (2080, 2140, 'cellulose'), (2260, 2350, 'cell./lignin')],
-}
+# Continuous theoretical spectral sensitivity from PROSPECT-PRO/PROSAIL forward
+# simulation (prosail/generate_sensitivity.R + postprocess_sensitivity.py):
+# per trait, vary that parameter over its range with all others fixed, and take
+# the coefficient of variation of reflectance per band. This replaces the former
+# hand-drawn binary ABSORPTION_REGIONS dict with a continuous, physically-grounded
+# reference the empirical attribution can be correlated against.
+SENSITIVITY_CSV = Path('results/interpretation/prosail_sensitivity_per_band.csv')
+
+
+@functools.lru_cache(maxsize=1)
+def theoretical_sensitivity() -> dict:
+    """Load PROSAIL per-band theoretical sensitivity, aligned to the wl() axis.
+
+    Returns a dict ``trait -> S(lambda)`` normalized to [0, 1], or an empty dict
+    if the CSV has not been generated yet (figures then fall back gracefully).
+    """
+    if not SENSITIVITY_CSV.exists():
+        print(f"  [warn] {SENSITIVITY_CSV} not found; run "
+              f"prosail/generate_sensitivity.R + postprocess_sensitivity.py")
+        return {}
+    df = pd.read_csv(SENSITIVITY_CSV)
+    s_wl = df['wavelength_nm'].values.astype(float)
+    wl = wavelengths()
+    same_axis = len(s_wl) == len(wl) and np.allclose(s_wl, wl)
+    out = {}
+    for tr in GHS_TRAIT_SHORT:
+        y = df[tr].values.astype(float)
+        out[tr] = y if same_axis else np.interp(wl, s_wl, y)
+    return out
 
 
 # --- Reshape pipeline (image generation) ----------------------------------
@@ -216,12 +234,36 @@ def _broken(wl, y):
     return wl2, y2
 
 
-def _shade_context(ax, trait):
-    """Shade removed water bands (grey) and known absorption regions (green)."""
+def _shade_context(ax, trait, y_top=1.0):
+    """Shade removed water bands (grey) and overlay the continuous PROSAIL
+    theoretical sensitivity as a green light-to-dark gradient under its curve.
+
+    The green intensity follows the (normalized) sensitivity S(lambda): darker =
+    more sensitive. ``y_top`` scales the curve to the subplot's y-range.
+    """
     for lo, hi in WATER_GAPS:
         ax.axvspan(lo, hi, color='0.85', alpha=0.6, zorder=0)
-    for lo, hi, _ in ABSORPTION_REGIONS.get(trait, []):
-        ax.axvspan(lo, hi, color='tab:green', alpha=0.15, zorder=0)
+
+    S = theoretical_sensitivity().get(trait)
+    if S is None:
+        return
+    wl = wavelengths()
+
+    # Green gradient (light->dark with S) clipped to the area under the curve,
+    # drawn per contiguous segment so it breaks cleanly at the water-band gaps
+    # (same segmentation as the broken outline / blue profile).
+    bounds = [0, *(np.where(np.diff(wl) > 2)[0] + 1), len(wl)]
+    for a, b in zip(bounds[:-1], bounds[1:]):
+        wseg, sseg = wl[a:b], S[a:b]
+        im = ax.imshow(sseg[np.newaxis, :],
+                       extent=[wseg[0], wseg[-1], 0, y_top],
+                       aspect='auto', cmap='Greens', vmin=0, vmax=1,
+                       alpha=0.5, zorder=0)
+        verts = [(wseg[0], 0)] + list(zip(wseg, sseg * y_top)) + [(wseg[-1], 0)]
+        im.set_clip_path(Polygon(verts, closed=True, transform=ax.transData))
+    # Thin outline of the theoretical curve for readability (already broken).
+    wlb, Sb = _broken(wl, S * y_top)
+    ax.plot(wlb, Sb, color='tab:green', lw=0.9, alpha=0.55, zorder=1)
 
 
 def _overlay_cam(ax, cam, base_img):
@@ -252,7 +294,7 @@ def plot_ig_grid(wl, imp_mean, imp_std, out):
         ax.set_xlabel('Wavelength (nm)')
     for ax in axes[:, 0]:
         ax.set_ylabel('Norm. |IG|')
-    handles = [mpatches.Patch(color='tab:green', alpha=0.3, label='Known absorption region'),
+    handles = [mpatches.Patch(color='tab:green', alpha=0.5, label='PROSAIL theoretical sensitivity'),
                mpatches.Patch(color='0.85', label='Removed water band')]
     fig.legend(handles=handles, loc='upper center', ncol=2, fontsize=9, frameon=False)
     fig.suptitle('Integrated Gradients band importance (mean +/- std over seeds)', y=0.965)
@@ -302,54 +344,63 @@ def plot_linking(trait_idx, wl, ig_mean, cam2d, mean_img, out):
 
 # --- Enrichment in known absorption regions -------------------------------
 
-def compute_enrichment(df):
-    """Per-trait share of IG importance inside known absorption regions and its
-    enrichment over chance (= fraction of bands those regions cover). Returns a
-    DataFrame with trait, imp_frac, width_frac, enrichment, peak_nm.
+def compute_theoretical_agreement(df):
+    """Per-trait continuous agreement between empirical IG band importance and the
+    PROSAIL theoretical sensitivity S(lambda). Returns a DataFrame with trait,
+    pearson_r, spearman_rho, and the empirical vs theoretical peak wavelengths.
+
+    Replaces the former binary in-region enrichment: instead of asking what
+    fraction of importance falls inside hand-drawn boxes, it correlates the whole
+    importance profile against the continuous physics-based sensitivity.
     """
     wl = df['wavelength_nm'].values
+    sens = theoretical_sensitivity()
     rows = []
     for tr in GHS_TRAIT_SHORT:
         imp = df[f'{tr}_imp_mean'].values
-        inreg = np.zeros(len(wl), dtype=bool)
-        for lo, hi, _ in ABSORPTION_REGIONS.get(tr, []):
-            inreg |= (wl >= lo) & (wl <= hi)
-        imp_frac = imp[inreg].sum() / imp.sum()
-        width_frac = float(inreg.mean())
-        rows.append({'trait': tr, 'imp_frac': imp_frac, 'width_frac': width_frac,
-                     'enrichment': imp_frac / width_frac if width_frac else np.nan,
-                     'peak_nm': float(wl[imp.argmax()])})
+        S = sens.get(tr)
+        if S is None:
+            rows.append({'trait': tr, 'pearson_r': np.nan, 'spearman_rho': np.nan,
+                         'peak_nm': float(wl[imp.argmax()]), 'peak_theory_nm': np.nan})
+            continue
+        rows.append({'trait': tr,
+                     'pearson_r': float(pearsonr(S, imp)[0]),
+                     'spearman_rho': float(spearmanr(S, imp)[0]),
+                     'peak_nm': float(wl[imp.argmax()]),
+                     'peak_theory_nm': float(wl[S.argmax()])})
     return pd.DataFrame(rows)
 
 
-def plot_enrichment(df, out):
-    """Lollipop chart of per-trait enrichment of IG importance in known regions."""
+def plot_agreement(df, out):
+    """Lollipop chart of per-trait Pearson correlation between IG importance and
+    the PROSAIL theoretical sensitivity (continuous agreement, centered at 0)."""
     from matplotlib.colors import TwoSlopeNorm
-    e = compute_enrichment(df).sort_values('enrichment').reset_index(drop=True)
-    vmax = max(2.0, float(e['enrichment'].max()))
-    colors = plt.cm.RdYlGn(TwoSlopeNorm(vmin=0.5, vcenter=1.0, vmax=vmax)(e['enrichment'].values))
+    e = compute_theoretical_agreement(df).sort_values('pearson_r').reset_index(drop=True)
+    norm = TwoSlopeNorm(vmin=-0.5, vcenter=0.0, vmax=0.5)
+    colors = plt.cm.RdYlGn(norm(e['pearson_r'].values))
     y = np.arange(len(e))
 
     fig, ax = plt.subplots(figsize=(9.5, 5.5))
-    ax.axvline(1.0, color='0.45', ls='--', lw=1.2, zorder=1)
-    ax.text(1.0, len(e) - 0.3, '  chance', color='0.45', fontsize=9, va='top', style='italic')
-    for yi, (enr, c) in enumerate(zip(e['enrichment'], colors)):
-        ax.plot([1.0, enr], [yi, yi], color=c, lw=3, zorder=2, solid_capstyle='round')
-    ax.scatter(e['enrichment'], y, s=140, color=colors, edgecolor='0.25', lw=1, zorder=3)
+    ax.axvline(0.0, color='0.45', ls='--', lw=1.2, zorder=1)
+    ax.text(0.0, len(e) - 0.3, '  no agreement', color='0.45', fontsize=9,
+            va='top', style='italic')
+    for yi, (r, c) in enumerate(zip(e['pearson_r'], colors)):
+        ax.plot([0.0, r], [yi, yi], color=c, lw=3, zorder=2, solid_capstyle='round')
+    ax.scatter(e['pearson_r'], y, s=140, color=colors, edgecolor='0.25', lw=1, zorder=3)
     for yi, row in e.iterrows():
-        xtext = max(row['enrichment'], 1.0)  # text always at the bar's right end
-        ax.annotate(f"{row['enrichment']:.2f}×   peak {int(row['peak_nm'])} nm",
+        xtext = max(row['pearson_r'], 0.0)  # label at the bar's right end
+        ax.annotate(f"r = {row['pearson_r']:.2f}   (ρ {row['spearman_rho']:.2f})",
                     (xtext, yi), xytext=(10, 0), textcoords='offset points',
                     ha='left', va='center', fontsize=9)
     ax.set_yticks(y)
     ax.set_yticklabels(e['trait'], fontsize=11)
-    ax.set_xlim(0.4, vmax * 1.32)
+    ax.set_xlim(-0.55, 0.85)
     ax.set_ylim(-0.6, len(e) - 0.2)
-    ax.set_xlabel('Enrichment  =  share of IG importance in known absorption regions  ÷  chance',
-                  fontsize=9.5)
-    ax.set_title('The 2D-CNN concentrates band importance in known absorption regions',
+    ax.set_xlabel('Agreement  =  Pearson r between IG band importance and PROSAIL '
+                  'theoretical sensitivity', fontsize=9.5)
+    ax.set_title('Empirical band importance vs PROSAIL theoretical sensitivity',
                  fontsize=12.5, fontweight='bold', loc='left')
-    ax.set_title(f"{int((e['enrichment'] >= 1).sum())}/{len(e)} traits above chance",
+    ax.set_title(f"{int((e['pearson_r'] > 0).sum())}/{len(e)} traits positively aligned",
                  fontsize=9.5, loc='right', color='0.45')
     ax.spines[['top', 'right']].set_visible(False)
     ax.grid(axis='x', alpha=0.25)
@@ -358,7 +409,7 @@ def plot_enrichment(df, out):
     plt.close(fig)
 
 
-# --- Main figure: smoothed profiles + enrichment badges ------------------
+# --- Main figure: smoothed profiles + theoretical-agreement badges -------
 
 def _smooth_segmented(wl, y, window=21, poly=3):
     """Savitzky-Golay smoothing applied per contiguous segment (never bridges
@@ -373,29 +424,30 @@ def _smooth_segmented(wl, y, window=21, poly=3):
 
 
 def plot_main_figure(wl, ig_mean, ig_std, df, out, smooth=31):
-    """Publication main figure: smoothed per-trait IG profiles with absorption
-    regions shaded, the peak marked, and a per-trait enrichment badge. Fuses the
-    profile grid and the enrichment metric into a single figure."""
+    """Publication main figure: smoothed per-trait IG profiles overlaid with the
+    continuous PROSAIL theoretical sensitivity (green gradient), the peak marked,
+    and a per-trait agreement badge (Pearson r between IG and theory). Fuses the
+    profile grid and the agreement metric into a single figure."""
     from matplotlib.colors import TwoSlopeNorm
-    enr = compute_enrichment(df).set_index('trait')
-    norm = TwoSlopeNorm(vmin=0.5, vcenter=1.0, vmax=2.0)
+    agr = compute_theoretical_agreement(df).set_index('trait')
+    norm = TwoSlopeNorm(vmin=-0.5, vcenter=0.0, vmax=0.5)
     fig, axes = plt.subplots(4, 2, figsize=(13, 12), sharex=True)
     for ax, trait, m, s in zip(axes.ravel(), GHS_TRAIT_SHORT, ig_mean, ig_std):
         peak = m.max() + 1e-12
         ys = _smooth_segmented(wl, m / peak, smooth)
         ss = _smooth_segmented(wl, s / peak, smooth)
-        _shade_context(ax, trait)
+        _shade_context(ax, trait, y_top=1.16)
         wlb, yb = _broken(wl, ys)
         _, sb = _broken(wl, ss)
         ax.fill_between(wlb, np.clip(yb - sb, 0, None), yb + sb, color='tab:blue', alpha=0.2)
         ax.plot(wlb, yb, color='tab:blue', lw=1.4)
         ax.axvline(wl[ys.argmax()], color='tab:blue', ls=':', lw=0.9, alpha=0.6)
-        e = float(enr.loc[trait, 'enrichment'])
+        r = float(agr.loc[trait, 'pearson_r'])
         on_right = wl[ys.argmax()] < 1425  # peak on left half -> badge top-right
-        ax.text(0.975 if on_right else 0.025, 0.93, f"{e:.2f}×", transform=ax.transAxes,
+        ax.text(0.975 if on_right else 0.025, 0.93, f"r={r:.2f}", transform=ax.transAxes,
                 ha='right' if on_right else 'left', va='top',
                 fontsize=11, fontweight='bold', color='0.15',
-                bbox=dict(boxstyle='round,pad=0.35', fc=plt.cm.RdYlGn(norm(e)), ec='0.3',
+                bbox=dict(boxstyle='round,pad=0.35', fc=plt.cm.RdYlGn(norm(r)), ec='0.3',
                           lw=0.7, alpha=0.92))
         ax.set_title(trait, fontsize=11, loc='left', fontweight='bold')
         ax.set_ylim(0, 1.16)
@@ -404,15 +456,11 @@ def plot_main_figure(wl, ig_mean, ig_std, df, out, smooth=31):
         ax.set_xlabel('Wavelength (nm)')
     for ax in axes[:, 0]:
         ax.set_ylabel('Norm. IG importance')
-    handles = [mpatches.Patch(color='tab:green', alpha=0.3, label='Known absorption region'),
+    handles = [mpatches.Patch(color='tab:green', alpha=0.5, label='PROSAIL theoretical sensitivity'),
                mpatches.Patch(color='0.85', label='Removed water band')]
     fig.legend(handles=handles, loc='upper center', ncol=2, fontsize=9,
-               frameon=False, bbox_to_anchor=(0.5, 0.945))
-    fig.suptitle('Per-trait spectral band importance (Integrated Gradients, 3 seeds)',
-                 y=0.978, fontsize=13)
-    fig.text(0.5, 0.957, 'badge = enrichment of importance in known absorption regions vs chance',
-             ha='center', fontsize=9, color='0.35', style='italic')
-    fig.tight_layout(rect=[0, 0, 1, 0.935])
+               frameon=False, bbox_to_anchor=(0.5, 0.99))
+    fig.tight_layout(rect=[0, 0, 1, 0.97])
     fig.savefig(out, dpi=150, bbox_inches='tight')
     plt.close(fig)
 
@@ -553,10 +601,10 @@ def main():
             df[f'{tr}_signed_mean'] = ig_signed[t]
         df.to_csv(out / 'ig_importance_per_band.csv', index=False)
         plot_ig_grid(wl, ig_mean, ig_std, out / 'fig_ig_profiles_grid.pdf')
-        compute_enrichment(df).to_csv(out / 'enrichment_summary.csv', index=False)
-        plot_enrichment(df, out / 'fig_enrichment.pdf')
+        compute_theoretical_agreement(df).to_csv(out / 'theoretical_agreement_summary.csv', index=False)
+        plot_agreement(df, out / 'fig_agreement.pdf')
         plot_main_figure(wl, ig_mean, ig_std, df, out / 'fig_main.pdf')
-        print("  saved CSVs + fig_ig_profiles_grid.pdf + fig_enrichment.pdf + fig_main.pdf")
+        print("  saved CSVs + fig_ig_profiles_grid.pdf + fig_agreement.pdf + fig_main.pdf")
 
     if cam_seeds:
         cam_mean = np.mean(cam_seeds, 0)
