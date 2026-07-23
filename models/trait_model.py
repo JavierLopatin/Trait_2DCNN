@@ -1,7 +1,5 @@
 import timm
-import torch
 import torch.nn as nn
-from typing import Optional
 
 
 def create_model(model_name: str, n_traits: int = 20, in_channels: int = 1,

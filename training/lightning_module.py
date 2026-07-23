@@ -2,7 +2,6 @@ import torch
 import numpy as np
 import lightning as L
 from .losses import MaskedMSELoss, MaskedHuberLoss
-from .config import N_TRAITS
 
 
 class TraitRegressionModule(L.LightningModule):
