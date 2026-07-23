@@ -25,6 +25,8 @@ from sklearn.model_selection import train_test_split
 
 from transforms import ReshapeTransform
 from models.trait_model import get_model
+from models.mae_2d import MAERegressionModel
+from training.finetune_mae import load_mae_encoder
 from training.ood_cherif2025 import (
     GHS_OOD_TRAITS, sliding_custom_cv, data_prep_db, drop_spectral_artifacts,
     fit_boxcox_scaler, SpectraAugmenter, HuberCustomLoss, eval_metrics,
@@ -54,6 +56,17 @@ class OODReshapeDataset(Dataset):
             x = self.aug(x)
         img = self.reshape.transform(x)                       # (H, W) float32 in [0,1]
         return torch.from_numpy(img).unsqueeze(0), torch.from_numpy(self.y[i])
+
+
+def build_model(args, device):
+    """Reshape 2D-CNN (efficientnet_b0) or MAE-2D fine-tuning (pretrained encoder +
+    fresh regression head, fully trainable). Same 2D reshape input for both."""
+    if args.model == 'mae':
+        encoder = load_mae_encoder(args.mae_checkpoint, device=device)
+        model = MAERegressionModel(encoder, n_traits=len(GHS_OOD_TRAITS),
+                                   freeze_encoder=False)
+        return model.to(device)
+    return get_model(args.model, in_channels=1, n_traits=len(GHS_OOD_TRAITS)).to(device)
 
 
 def _predict(model, loader, device):
@@ -99,7 +112,7 @@ def train_one_fold(df_train, df_test, args, device):
     val_loader = DataLoader(val_ds, batch_size=args.batch_size, shuffle=False,
                             num_workers=args.num_workers)
 
-    model = get_model(args.model, in_channels=1, n_traits=len(GHS_OOD_TRAITS)).to(device)
+    model = build_model(args, device)
     criterion = HuberCustomLoss(threshold=1.0)
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=args.epochs)
@@ -141,7 +154,10 @@ def train_one_fold(df_train, df_test, args, device):
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--data', default='data/GreenHyperSpectra/labeled_all.csv')
-    ap.add_argument('--model', default='efficientnet_b0')
+    ap.add_argument('--model', default='efficientnet_b0',
+                    help="'efficientnet_b0' (supervised) or 'mae' (MAE-2D fine-tuning)")
+    ap.add_argument('--mae-checkpoint', default='results/mae_pretrained/best.pt',
+                    help='Pretrained MAE-2D checkpoint (used when --model mae)')
     ap.add_argument('--seed', type=int, default=42)
     ap.add_argument('--epochs', type=int, default=100)
     ap.add_argument('--batch-size', type=int, default=32)

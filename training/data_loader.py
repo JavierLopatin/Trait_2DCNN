@@ -101,17 +101,29 @@ class UnlabeledCachedDataset(Dataset):
 class CompositeCachedDataset(Dataset):
     """Dataset that lazily stacks channels from multiple memmap arrays.
 
-    Keeps references to the original memmaps and an index array.
-    Each sample's channels are stacked on-the-fly in __getitem__,
-    avoiding materializing the full concatenated array in RAM.
+    Like MemmapDataset, it stores each part's path+shape and re-opens the
+    memmaps lazily *per DataLoader worker* rather than keeping fork-inherited
+    references, and copies each sample with np.array() (not .astype(), which
+    returns a view into the memmap). Both are required to avoid the
+    fork-inherited memmap corruption that otherwise NaNs or hangs training
+    when num_workers > 0.
     """
 
     def __init__(self, image_parts: list, indices: np.ndarray,
                  labels: np.ndarray, augment: bool = False):
-        self.image_parts = image_parts  # list of memmap arrays
+        # Store (path, shape) per part; do NOT keep the memmap references.
+        self.part_specs = [(p.filename, tuple(int(s) for s in p.shape))
+                           for p in image_parts]
         self.indices = indices  # index into the memmaps
         self.labels = labels.astype(np.float32)
         self.augment = augment
+        self._parts = None  # lazy-opened per worker
+
+    def _get_parts(self):
+        if self._parts is None:
+            self._parts = [np.memmap(path, dtype=np.float32, mode='r', shape=shape)
+                           for path, shape in self.part_specs]
+        return self._parts
 
     def __len__(self):
         return len(self.indices)
@@ -119,8 +131,8 @@ class CompositeCachedDataset(Dataset):
     def __getitem__(self, idx):
         real_idx = self.indices[idx]
         channels = []
-        for part in self.image_parts:
-            img = part[real_idx].astype(np.float32)
+        for part in self._get_parts():
+            img = np.array(part[real_idx], dtype=np.float32)  # explicit copy from memmap
             if img.ndim == 2:
                 img = img[:, :, np.newaxis]
             channels.append(img)
