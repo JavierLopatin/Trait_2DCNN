@@ -3,7 +3,9 @@
 # Uses prosail() directly with PROSPECT-PRO parameters
 # Distributions from GreenHyperSpectra real data
 
-.libPaths("/mnt/rapidita_4T/R/libs")
+# Optional local R library path for the prosail package (set R_LIBS_PROSAIL); default otherwise.
+local_lib <- Sys.getenv("R_LIBS_PROSAIL")
+if (nzchar(local_lib)) .libPaths(local_lib)
 library(prosail)
 
 args <- commandArgs(trailingOnly = TRUE)

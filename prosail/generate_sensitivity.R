@@ -11,7 +11,9 @@
 # Fixed params and baseline means match prosail/generate_lut.R (Cherif 2025).
 # Output: data/GreenHyperSpectra/prosail_sensitivity_raw.csv (long format).
 
-.libPaths("/mnt/rapidita_4T/R/libs")
+# Optional local R library path for the prosail package (set R_LIBS_PROSAIL); default otherwise.
+local_lib <- Sys.getenv("R_LIBS_PROSAIL")
+if (nzchar(local_lib)) .libPaths(local_lib)
 suppressMessages(library(prosail))
 
 args <- commandArgs(trailingOnly = TRUE)
