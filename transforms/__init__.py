@@ -10,6 +10,12 @@ from .spectrogram_transform import SpectrogramTransform
 from .mtf_transform import MTFTransform
 from .composite_transform import CompositeTransform
 
+__all__ = [
+    'BaseTransform', 'CompositeTransform', 'CWTTransform', 'COS2DTransform',
+    'ReshapeTransform', 'SerpentineTransform', 'HilbertTransform', 'NDITransform',
+    'GAFTransform', 'SpectrogramTransform', 'MTFTransform', 'TRANSFORMS',
+]
+
 TRANSFORMS = {
     'cwt': CWTTransform,
     'cos2d': COS2DTransform,

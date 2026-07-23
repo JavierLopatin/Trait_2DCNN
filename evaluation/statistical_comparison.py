@@ -154,7 +154,7 @@ def pairwise_transform_tests(r2_matrix, transforms, traits, folds_or_seeds,
         })
 
     # Overall ranking summary
-    print(f"\n--- Ranking summary (by mean R² across paired observations) ---")
+    print("\n--- Ranking summary (by mean R² across paired observations) ---")
     means = {}
     for t in transforms:
         vals = []

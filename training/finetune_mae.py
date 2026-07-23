@@ -80,7 +80,7 @@ def finetune(args):
 
     if args.test_dataset and args.test_dataset != args.dataset:
         # Exp 5: train on PROSAIL, test on real GHS
-        from .data_loader import load_prosail_data, _load_single_cache
+        from .data_loader import load_prosail_data
         _, train_labels = load_prosail_data(data_dir)
         train_shape = tuple(np.load(str(cache_dir / 'train_fold1.dat') + '.shape.npy'))
         train_images = np.memmap(cache_dir / 'train_fold1.dat',

@@ -59,6 +59,13 @@ def load_ours(results_glob):
     return {_ALIAS[l]: v for l, v in zip(labels, r2)}, len(paths)
 
 
+def load_ood(results_dir):
+    """Per-trait OOD R^2 (by canonical name) from an ood_metrics_mean.csv
+    (training/train_ood.py output; its index is already the canonical trait names)."""
+    df = pd.read_csv(os.path.join(results_dir, 'ood_metrics_mean.csv'), index_col=0)
+    return {t: df.loc[t, 'r2_score'] for t in df.index}
+
+
 def delta_wilcoxon(ours, baseline):
     """Per-trait delta (ours - baseline) and Wilcoxon signed-rank across traits."""
     a = np.array([ours[t] for t in TRAITS])
@@ -98,3 +105,10 @@ if __name__ == '__main__':
     report('Supervised-2D (Reshape)', resh, 'supervised', 'table2_id')
     mae, _ = load_ours('results/mae_finetune_greenhs_s*')
     report('MAE-2D-FT', mae, 'mae_fr_ft', 'table2_id')
+
+    # Out-of-distribution (train_ood.py outputs) vs Cherif Table 4.
+    print("\n" + "=" * 70 + "\nOOD — cross-dataset vs corresponding Cherif (Table 4)\n" + "=" * 70)
+    for name, path, base in [('Reshape-2D OOD', 'results/ood_reshape', 'supervised'),
+                             ('MAE-2D-FT OOD', 'results/ood_mae_ft', 'mae_fr_ft')]:
+        if os.path.isfile(os.path.join(path, 'ood_metrics_mean.csv')):
+            report(name, load_ood(path), base, 'table4_ood')

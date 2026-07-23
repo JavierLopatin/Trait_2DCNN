@@ -20,17 +20,6 @@ class BaseTransform(ABC):
         """
         pass
 
-    def transform_batch(self, spectra: np.ndarray) -> np.ndarray:
-        """Transform a batch of spectra.
-
-        Args:
-            spectra: 2D array of shape (n_samples, n_bands)
-
-        Returns:
-            Array of shape (n_samples, H, W) or (n_samples, H, W, C)
-        """
-        return np.stack([self.transform(s) for s in spectra])
-
     @property
     def name(self) -> str:
         return self.__class__.__name__.replace('Transform', '').lower()

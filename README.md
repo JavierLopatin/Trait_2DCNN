@@ -26,18 +26,23 @@ The original pipeline uses a 1D-CNN (EfficientNet-B0 adapted to 1D) to predict 2
 
 ## 1D-to-2D Transformation Methods
 
-| Method | Description | Output | Library |
-|--------|-------------|--------|---------|
-| **CWT** | Continuous Wavelet Transform scalograms | (scales, bands) | `pywt` |
-| **2D-COS** | Synchronous/asynchronous correlation spectroscopy | (bands, bands) | `numpy` |
-| **Direct Reshape** | Simple reshape to square matrix (baseline) | (h, w) | `numpy` |
-| **GAF** | Gramian Angular Summation/Difference Fields | (n, n) | `pyts` |
-| **Multi-Ch Spectrogram** | STFT with 3 window functions as RGB channels | (freq, time, 3) | `scipy` |
-| **DeepInsight / IGTD** | Feature embedding placing correlated bands nearby | (H, W) | `pyDeepInsight`, `TINTOlib` |
-| **Spider Plot** | Polar rendering for pretrained model compatibility | (224, 224, 3) | `matplotlib` |
-| **MTF** | Markov Transition Field | (n, n) | `pyts` |
-| **Recurrence Plot** | Pairwise distance matrix | (n, n) | `pyts` |
-| **WPGA** | Wavelet Packet decomposition + GAF | multi-channel | `pywt` + `pyts` |
+Nine transforms are implemented (registered in `transforms/__init__.py`). All output
+`224 × 224` images. The first three are locality-preserving layouts of the raw spectrum;
+the rest encode complementary time–frequency or inter-band information.
+
+| Method (`key`) | Ch | Description | Library |
+|----------------|----|-------------|---------|
+| **Reshape** (`reshape`) | 1 | Direct reshape to a square matrix (baseline, best overall) | `numpy` |
+| **Serpentine** (`serpentine`) | 1 | Boustrophedon reshape — alternating row direction (preserves band adjacency across rows) | `numpy` |
+| **Hilbert** (`hilbert`) | 1 | Reshape along a Hilbert space-filling curve (preserves 1D locality in 2D) | `numpy` |
+| **CWT** (`cwt`) | 1 | Continuous Wavelet Transform scalograms | `pywt` |
+| **Spectrogram** (`spectrogram`) | 3 | STFT with 3 window functions as RGB channels | `scipy` |
+| **2D-COS** (`cos2d`) | 2 | Synchronous/asynchronous correlation spectroscopy | `numpy` |
+| **GAF** (`gaf`) | 2 | Gramian Angular Summation/Difference Fields | `numpy` |
+| **NDI** (`ndi`) | 3 | All-band normalized-difference matrix `(Rᵢ−Rⱼ)/(Rᵢ+Rⱼ)`, `|Rᵢ−Rⱼ|`, `√(RᵢRⱼ)` (all-pairs vegetation-index principle) | `numpy` |
+| **MTF** (`mtf`) | 1 | Markov Transition Field | `pyts` |
+
+Composites stack any transforms as channels via the `+` syntax (e.g. `reshape+cwt+ndi`).
 
 ## Model Architectures
 
@@ -79,42 +84,79 @@ Using [GreenHyperSpectra](https://huggingface.co/datasets/Avatarr05/GreenHyperSp
 
 All 2D methods outperform their 1D counterparts. MAE-2D pretraining on 139K unlabeled images surpasses Cherif's MAE-1D (+0.022), confirming the advantage of 2D representations for self-supervised learning on spectral data. Direct domain transfer from PROSAIL simulations to real data fails (R² < 0), consistent with literature findings on the persistent gap between RTM-simulated and observed spectra (Mederer et al., 2025).
 
+### Transform comparison on GHS (in-distribution, 8 traits, 3 seeds)
+
+Significance is a Wilcoxon signed-rank test paired across the 8 traits vs the **reported** Cherif 2025 supervised 1D baseline (R² 0.587):
+
+| Transform | Ch | Mean R² | Δ vs 1D | Wilcoxon p |
+|-----------|----|---------|---------|-----------|
+| **Reshape** | 1 | **0.684 ± 0.001** | +0.097 | 0.008 * |
+| Serpentine | 1 | 0.675 ± 0.004 | +0.089 | 0.008 * |
+| Hilbert | 1 | 0.674 ± 0.005 | +0.087 | 0.008 * |
+| CWT | 1 | 0.641 ± 0.004 | +0.054 | 0.016 * |
+| Spectrogram | 3 | 0.636 ± 0.025 | +0.049 | 0.008 * |
+| Reshape+CWT+NDI (composite) | 5 | 0.666 ± 0.017 | +0.079 | 0.008 * |
+| NDI | 3 | 0.630 ± 0.029 | +0.043 | 0.055 |
+| GAF | 2 | 0.609 | +0.023 | 0.250 |
+| COS2D | 2 | 0.556 | −0.031 | 0.195 |
+| MTF | 1 | 0.419 | −0.168 | 0.008 * |
+
+Reshape remains the best and simplest 2D encoding. The locality-preserving reorderings (Serpentine, Hilbert) match it; the all-pairs NDI and multi-channel composites do **not** beat it, confirming that the 2D-CNN already exploits the relevant inter-band structure from the single raw layout. Our supervised Reshape-2D and MAE-2D fine-tuning both **significantly** beat their Cherif 1D counterparts (p = 0.008, 0.039).
+
+### Out-of-distribution (cross-dataset) generalization
+
+Replicating the Cherif 2025 OOD protocol 1:1 (leave-5-datasets-out cross-validation over the 50 source datasets, Box-Cox scaling, masked-Huber loss, sub-sampled macro metric), swapping only the model:
+
+| Method (OOD) | R² | Cherif 1D counterpart | Wilcoxon p |
+|--------------|-----|-----------------------|-----------|
+| Reshape-2D (supervised) | 0.273 | 0.243 (supervised) | 0.46 (n.s.) |
+| MAE-2D-FT | 0.273 | 0.311 (MAE-FR-FT) | 0.20 (n.s.) |
+
+Under cross-dataset shift the 2D advantage does not carry over: the supervised 2D edge over the 1D baseline is not significant, and 2D MAE pretraining (unlike in-distribution) does not beat Cherif's best 1D MAE. Both models drop sharply out of distribution.
+
+### Spectral variable importance (interpretation)
+
+Per-band importance of the best model (Reshape + EfficientNet-B0) is recovered with Integrated Gradients and compared against a continuous **PROSPECT-PRO/4SAIL theoretical sensitivity** (each trait's parameter swept while others are held fixed). Agreement is positive but modest and trait-dependent (Pearson r up to 0.45 for protein/water), grounding the learned band selection in radiative transfer rather than hand-drawn absorption regions.
+
 ## Project Structure
 
 ```
 Trait_2DCNN/
-├── data/raw/                            # Raw spectral database
-├── multi-traitretrieval/                # Cherif et al. 1D pipeline (gitignored)
+├── multi-traitretrieval/                # Cherif et al. 2023 1D pipeline (gitignored)
 ├── transforms/                          # 1D→2D transformation modules
 │   ├── base.py                          # Abstract base class
 │   ├── reshape_transform.py             # Direct reshape (1ch)
+│   ├── serpentine_transform.py          # Boustrophedon reshape (1ch)
+│   ├── hilbert_transform.py             # Hilbert-curve reshape (1ch)
+│   ├── ndi_transform.py                 # All-band normalized-difference matrix (3ch)
 │   ├── cwt_transform.py                 # Continuous Wavelet Transform (1ch)
 │   ├── cos2d_transform.py               # 2D Correlation Spectroscopy (2ch)
 │   ├── gaf_transform.py                 # Gramian Angular Fields (2ch)
 │   ├── spectrogram_transform.py         # Multi-channel STFT (3ch)
 │   ├── mtf_transform.py                 # Markov Transition Field (1ch)
-│   └── composite_transform.py           # Multi-channel stacking
+│   └── composite_transform.py           # Multi-channel stacking (`+` syntax)
 ├── models/
-│   └── trait_model.py                   # Unified model factory via timm
+│   ├── trait_model.py                   # Unified model factory via timm
+│   └── mae_2d.py                        # 2D Masked Autoencoder (ViT-based)
 ├── training/
 │   ├── config.py                        # TrainConfig + trait definitions
 │   ├── data_loader.py                   # Cached + on-the-fly datasets
 │   ├── precompute.py                    # Pre-compute transforms to disk
 │   ├── losses.py                        # Masked losses for NaN handling
 │   ├── lightning_module.py              # Lightning training module
-│   └── train_2d.py                      # Main CLI script
+│   ├── train_2d.py                      # Main supervised CLI
+│   ├── pretrain_mae.py / finetune_mae.py  # MAE-2D pretraining + fine-tuning
+│   ├── ood_cherif2025.py                # Ported Cherif 2025 OOD protocol (attributed)
+│   └── train_ood.py                     # Cross-dataset OOD driver
 ├── evaluation/
-│   ├── compare_methods.py               # Generate comparison plots
-│   └── statistical_comparison.py        # Paired t-tests vs Cherif
-├── data/
-│   ├── GreenHyperSpectra/               # Cherif 2025 dataset (gitignored)
-│   └── papers/                          # Reference papers
-├── prosail/                             # PROSAIL LUT generation (R + Python)
-├── models/
-│   ├── trait_model.py                   # Unified model factory via timm
-│   └── mae_2d.py                       # 2D Masked Autoencoder (ViT-based)
+│   ├── compare_methods.py               # Comparison plots
+│   ├── statistical_comparison.py        # Paired tests vs Cherif (Case Study 1)
+│   ├── significance_cherif2025.py       # Wilcoxon vs Cherif 2025 (ID + OOD)
+│   └── spectral_importance.py           # IG / Grad-CAM + PROSAIL sensitivity
+├── prosail/                             # PROSAIL LUT + sensitivity (R + Python)
+├── data/                                # Spectral datasets (gitignored)
 ├── cache/                               # Pre-computed transforms (gitignored)
-├── results/                             # Experiment outputs (gitignored)
+├── results/                             # Experiment outputs
 ├── CLAUDE.md                            # Detailed implementation notes
 └── README.md
 ```
@@ -122,28 +164,34 @@ Trait_2DCNN/
 ## Setup
 
 ```bash
-# Create environment
-conda create -n trait2dcnn python=3.11
+# Create environment from spec
+conda env create -f environment.yml
 conda activate trait2dcnn
-
-# Install dependencies
-pip install -r requirements.txt
 ```
 
 ## Usage
 
 ```bash
-# 1. Pre-compute transforms
-python -m training.precompute --transform reshape --output-size 224
+# 1. Pre-compute transforms (GHS shown; --dataset cherif2023 for the 20-trait 5-fold CV)
+python -m training.precompute --transform reshape --output-size 224 --dataset greenhs
 
-# 2. Train
-python -m training.train_2d --transform reshape --model efficientnet_b0 --epochs 100
+# 2. Train (single transform or composite via `+`)
+python -m training.train_2d --transform reshape --model efficientnet_b0 --dataset greenhs --seed 155
+python -m training.train_2d --transform reshape+cwt+ndi --model efficientnet_b0 --dataset greenhs
 
-# 3. Multi-channel composite (reuses existing caches)
-python -m training.train_2d --transform reshape+cwt --model efficientnet_b0
+# 3. MAE-2D pretraining + fine-tuning
+python -m training.pretrain_mae --epochs 300
+python -m training.finetune_mae --checkpoint results/mae_pretrained/best.pt --dataset greenhs
 
-# 4. Statistical comparison vs Cherif
-python -m evaluation.statistical_comparison
+# 4. Out-of-distribution (cross-dataset) evaluation, Cherif 2025 protocol
+CUDA_VISIBLE_DEVICES=0 python -m training.train_ood --model efficientnet_b0   # supervised 2D
+CUDA_VISIBLE_DEVICES=0 python -m training.train_ood --model mae               # MAE-2D fine-tuning
+
+# 5. Significance vs Cherif 2025 (Wilcoxon paired across traits, ID + OOD)
+python -m evaluation.significance_cherif2025
+
+# 6. Spectral variable importance (IG / Grad-CAM + PROSAIL sensitivity)
+python -m evaluation.spectral_importance --method both
 ```
 
 ## Evaluation

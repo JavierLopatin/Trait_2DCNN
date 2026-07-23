@@ -6,7 +6,7 @@ from pathlib import Path
 from sklearn.preprocessing import PowerTransformer
 from sklearn.model_selection import train_test_split
 
-from .config import TRAIT_NAMES, GHS_TRAIT_NAMES, DATASET_GHS, TrainConfig
+from .config import TRAIT_NAMES, GHS_TRAIT_NAMES, TrainConfig
 from transforms.base import BaseTransform
 
 

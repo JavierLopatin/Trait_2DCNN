@@ -11,7 +11,6 @@ Usage:
     python prosail/postprocess_lut.py [--input raw_lut.csv] [--output processed.csv]
 """
 import argparse
-from pathlib import Path
 
 import numpy as np
 import pandas as pd
