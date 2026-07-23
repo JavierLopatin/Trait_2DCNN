@@ -157,7 +157,6 @@ Trait_2DCNN/
 ├── data/                                # Spectral datasets (gitignored)
 ├── cache/                               # Pre-computed transforms (gitignored)
 ├── results/                             # Experiment outputs
-├── CLAUDE.md                            # Detailed implementation notes
 └── README.md
 ```
 

@@ -95,6 +95,7 @@ data/papers/*.docx
 
 # AI-assistant / local working files (not for publication)
 CLAUDE.md
+AGENTS.md
 .cursorrules
 
 # Internal planning docs
