@@ -92,3 +92,11 @@ paper/
 data/papers/*.pdf
 data/papers/*.docx
 .gitnexus
+
+# AI-assistant / local working files (not for publication)
+CLAUDE.md
+AGENTS.md
+.cursorrules
+
+# Internal planning docs
+docs/case_study_3_enmap_andes.md
