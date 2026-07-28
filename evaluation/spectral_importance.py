@@ -99,7 +99,8 @@ class DifferentiableReshape(nn.Module):
     """Torch reimplementation of ReshapeTransform.
 
     pad(n_bands -> side^2) -> reshape(side, side) -> bilinear interpolate
-    (align_corners=True == scipy zoom order=1, validated identical) ->
+    (align_corners=True, which matches scipy zoom order=1 in the interior but not
+    at the edges, where zoom's constant padding zeroes the last row and column) ->
     per-image min-max normalize. Used here to generate the normalized images
     the CNN receives (under no_grad); attribution is then taken w.r.t. those
     images, so the min-max step is not in the attribution graph.
@@ -204,12 +205,17 @@ def grad_cam(model, images, target, target_layer, batch_size=32, device='cpu'):
 def unfold_2d_to_bands(attr2d, n_bands=N_BANDS, side=42):
     """Project a 2D relevance map (H, W) onto the n_bands axis.
 
-    Resizes to side x side (inverse of the forward interpolation), flattens
-    row-major, drops the zero-padding tail.
+    Resizes to side x side, flattens row-major, drops the zero-padding tail.
+
+    The resize mirrors the forward interpolation exactly (bilinear with
+    align_corners=True). scipy's zoom is not that inverse: its default constant
+    edge padding drives the last row and column to zero, which pins every 42nd
+    band to exactly zero in the unfolded profile.
     """
-    from scipy.ndimage import zoom
     if attr2d.shape[0] != side:
-        attr2d = zoom(attr2d, side / attr2d.shape[0], order=1)
+        t = torch.as_tensor(np.ascontiguousarray(attr2d), dtype=torch.float32)
+        attr2d = F.interpolate(t[None, None], size=(side, side),
+                               mode='bilinear', align_corners=True).numpy()[0, 0]
     return attr2d.reshape(-1)[:n_bands]
 
 
@@ -413,8 +419,10 @@ def plot_agreement(df, out):
 
 def _smooth_segmented(wl, y, window=21, poly=3):
     """Savitzky-Golay smoothing applied per contiguous segment (never bridges
-    the water-band gaps), to attenuate the band-flattening comb."""
+    the water-band gaps). Off by default, see plot_main_figure."""
     from scipy.signal import savgol_filter
+    if window < 3:
+        return np.clip(y.astype(float), 0, None)
     smoothed = y.astype(float).copy()
     bounds = [0, *(np.where(np.diff(wl) > 2)[0] + 1), len(wl)]
     for a, b in zip(bounds[:-1], bounds[1:]):
@@ -423,11 +431,18 @@ def _smooth_segmented(wl, y, window=21, poly=3):
     return np.clip(smoothed, 0, None)
 
 
-def plot_main_figure(wl, ig_mean, ig_std, df, out, smooth=31):
-    """Publication main figure: smoothed per-trait IG profiles overlaid with the
-    continuous PROSAIL theoretical sensitivity (green gradient), the peak marked,
-    and a per-trait agreement badge (Pearson r between IG and theory). Fuses the
-    profile grid and the agreement metric into a single figure."""
+def plot_main_figure(wl, ig_mean, ig_std, df, out, smooth=0):
+    """Publication main figure: per-trait IG profiles overlaid with the continuous
+    PROSAIL theoretical sensitivity (green gradient), the peak marked, and a
+    per-trait agreement badge (Pearson r between IG and theory). Fuses the profile
+    grid and the agreement metric into a single figure.
+
+    Smoothing is off by default so this panel, the per-trait linking panels, and
+    the reported statistics all describe the same raw profile. A Savitzky-Golay
+    window of 31 was used previously, which moved the drawn peak of equivalent
+    water thickness from 1431 nm to 2141 nm and disagreed with the reported
+    peak_nm. It also cannot remove the 42-band layout ripple, whose period exceeds
+    the window."""
     from matplotlib.colors import TwoSlopeNorm
     agr = compute_theoretical_agreement(df).set_index('trait')
     norm = TwoSlopeNorm(vmin=-0.5, vcenter=0.0, vmax=0.5)
