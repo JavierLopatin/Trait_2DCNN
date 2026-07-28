@@ -1,16 +1,22 @@
-"""Out-of-distribution (cross-dataset) evaluation of the Reshape 2D-CNN.
+"""Out-of-distribution (cross-dataset) evaluation of any 1D->2D transform + 2D-CNN.
 
 Replicates the OOD data protocol of Cherif et al. 2025 (GreenHyperSpectra, Table 4)
 exactly -- folds, spectral preprocessing, 80/20 split, Box-Cox scaling, masked-Huber
-NaN handling, and the sub-sampled macro metric -- and swaps only the model to our
-Reshape -> EfficientNet-B0. This isolates the 1D-vs-2D input representation for a 1:1
-comparison against their supervised 1D baseline (avg R^2 = 0.243).
+NaN handling, and the sub-sampled macro metric -- and swaps only the input
+representation to our <transform> -> EfficientNet-B0. This isolates the 1D-vs-2D input
+representation for a 1:1 comparison against their supervised 1D baseline (avg R^2=0.243).
+
+Training mirrors our in-distribution pipeline (training/train_2d): the 1D->2D transform
+is precomputed ONCE per fold (a Pool over all cores) and training adds only cheap
+image-space noise augmentation (N(0, 0.01)). This is consistent with how the ID
+experiments were trained and keeps training GPU-bound (the expensive transforms make
+per-epoch on-the-fly re-transformation infeasible).
 
 Protocol code is ported in training/ood_cherif2025.py (attributed to
 https://github.com/echerif18/HyspectraSSL).
 
 Usage (pin GPU 1):
-    CUDA_VISIBLE_DEVICES=1 python -m training.train_ood --seed 42
+    CUDA_VISIBLE_DEVICES=1 python -m training.train_ood --transform reshape --seed 42
 """
 import argparse
 import copy
@@ -23,50 +29,87 @@ import torch
 from torch.utils.data import Dataset, DataLoader
 from sklearn.model_selection import train_test_split
 
-from transforms import ReshapeTransform
+from transforms import TRANSFORMS, ReshapeTransform, CompositeTransform
 from models.trait_model import get_model
 from models.mae_2d import MAERegressionModel
 from training.finetune_mae import load_mae_encoder
 from training.ood_cherif2025 import (
     GHS_OOD_TRAITS, sliding_custom_cv, data_prep_db, drop_spectral_artifacts,
-    fit_boxcox_scaler, SpectraAugmenter, HuberCustomLoss, eval_metrics,
-    subsample_macro_metrics,
+    fit_boxcox_scaler, HuberCustomLoss, eval_metrics, subsample_macro_metrics,
 )
 
 
-class OODReshapeDataset(Dataset):
-    """1D spectrum -> (optional Cherif 1D augmentation) -> Reshape -> 2D image.
+def make_transform(name, output_size=224):
+    """Create a transform from a name, supporting '+' for composites (mirrors
+    training/train_2d.make_transform so OOD uses the identical input pipeline)."""
+    parts = name.split('+')
+    if len(parts) == 1:
+        return TRANSFORMS[name](output_size=output_size)
+    return CompositeTransform([TRANSFORMS[p](output_size=output_size) for p in parts])
 
-    Augmentation is random per epoch, so images are produced on the fly (no cache).
-    Labels are already Box-Cox transformed (NaN preserved for the masked loss).
-    """
 
-    def __init__(self, X, y, augmenter=None, output_size=224):
+# --- Precompute the 1D->2D transform ONCE per fold (like the ID pipeline) --------
+# The transform is applied a single time per sample, cached as a (N, C, H, W) array,
+# and training then adds only cheap image-space noise augmentation. This matches
+# training/data_loader (augment=True adds N(0, 0.01) to the precomputed image) and
+# keeps training GPU-bound instead of re-running the expensive transform every epoch.
+# Parallelised with a DataLoader (fork workers do pure-numpy transforms) -- the
+# standard PyTorch pattern, robust when the parent already holds a CUDA context.
+class _TransformOnlyDataset(Dataset):
+    def __init__(self, X, transform):
         self.X = np.asarray(X, dtype=np.float32)
-        self.y = np.asarray(y, dtype=np.float32)
-        self.aug = augmenter
-        self.reshape = ReshapeTransform(output_size=output_size)
+        self.transform = transform
 
     def __len__(self):
         return len(self.X)
 
     def __getitem__(self, i):
-        x = self.X[i]
-        if self.aug is not None:
-            x = self.aug(x)
-        img = self.reshape.transform(x)                       # (H, W) float32 in [0,1]
-        return torch.from_numpy(img).unsqueeze(0), torch.from_numpy(self.y[i])
+        img = np.asarray(self.transform.transform(self.X[i]), dtype=np.float32)
+        if img.ndim == 2:                     # (H, W)    -> (1, H, W)
+            img = img[None, :, :]
+        else:                                 # (H, W, C) -> (C, H, W)
+            img = img.transpose(2, 0, 1)
+        return torch.from_numpy(np.ascontiguousarray(img))
 
 
-def build_model(args, device):
-    """Reshape 2D-CNN (efficientnet_b0) or MAE-2D fine-tuning (pretrained encoder +
-    fresh regression head, fully trainable). Same 2D reshape input for both."""
+def precompute_images(X, transform, workers):
+    """Transform every 1D spectrum in X once, returning a (N, C, H, W) float32 array."""
+    ds = _TransformOnlyDataset(X, transform)
+    loader = DataLoader(ds, batch_size=64, shuffle=False,
+                        num_workers=max(0, workers))
+    return torch.cat([b for b in loader]).numpy()
+
+
+class PrecomputedImageDataset(Dataset):
+    """Indexes precomputed (N, C, H, W) images; adds N(0, 0.01) image-space noise when
+    augment=True (identical to training/data_loader). Labels are Box-Cox transformed
+    (NaN preserved for the masked Huber loss)."""
+
+    def __init__(self, images, y, augment=False):
+        self.images = images
+        self.y = np.asarray(y, dtype=np.float32)
+        self.augment = augment
+
+    def __len__(self):
+        return len(self.images)
+
+    def __getitem__(self, i):
+        img = self.images[i]
+        if self.augment:
+            img = img + np.random.normal(0, 0.01, img.shape).astype(np.float32)
+        return torch.from_numpy(np.ascontiguousarray(img)), torch.from_numpy(self.y[i])
+
+
+def build_model(args, device, in_channels):
+    """2D-CNN (efficientnet_b0, in_channels from the transform) or MAE-2D fine-tuning
+    (pretrained encoder + fresh regression head, fully trainable; reshape 1-ch only)."""
     if args.model == 'mae':
         encoder = load_mae_encoder(args.mae_checkpoint, device=device)
         model = MAERegressionModel(encoder, n_traits=len(GHS_OOD_TRAITS),
                                    freeze_encoder=False)
         return model.to(device)
-    return get_model(args.model, in_channels=1, n_traits=len(GHS_OOD_TRAITS)).to(device)
+    return get_model(args.model, in_channels=in_channels,
+                     n_traits=len(GHS_OOD_TRAITS)).to(device)
 
 
 def _predict(model, loader, device):
@@ -88,7 +131,7 @@ def _val_loss(model, loader, criterion, device):
     return tot / max(n, 1)
 
 
-def train_one_fold(df_train, df_test, args, device):
+def train_one_fold(df_train, df_test, args, device, transform):
     """Train on df_train (internal 80/20), return (obs_df, pred_df) on the held-out
     df_test in original trait units."""
     # Preprocess + drop the red-edge artifact samples (Cherif 2025).
@@ -105,14 +148,23 @@ def train_one_fold(df_train, df_test, args, device):
     ytr_t = scaler.transform(np.asarray(ytr))
     yval_t = scaler.transform(np.asarray(yval))
 
-    train_ds = OODReshapeDataset(Xtr.values, ytr_t, augmenter=SpectraAugmenter(aug_prob=0.7))
-    val_ds = OODReshapeDataset(Xval.values, yval_t, augmenter=None)
-    train_loader = DataLoader(train_ds, batch_size=args.batch_size, shuffle=True,
-                              num_workers=args.num_workers, drop_last=True)
-    val_loader = DataLoader(val_ds, batch_size=args.batch_size, shuffle=False,
-                            num_workers=args.num_workers)
+    # Preprocess the held-out test spectra now so all three splits are transformed once.
+    Xte, yte = data_prep_db(df_test, GHS_OOD_TRAITS)
 
-    model = build_model(args, device)
+    # Transform each split once (Pool over all cores), then train GPU-bound.
+    imgs_tr = precompute_images(Xtr.values, transform, args.num_workers)
+    imgs_val = precompute_images(Xval.values, transform, args.num_workers)
+    imgs_te = precompute_images(Xte.values, transform, args.num_workers)
+
+    train_ds = PrecomputedImageDataset(imgs_tr, ytr_t, augment=True)
+    val_ds = PrecomputedImageDataset(imgs_val, yval_t, augment=False)
+    # Data lives in RAM; num_workers=0 avoids all worker/fork overhead (GPU is the bottleneck).
+    train_loader = DataLoader(train_ds, batch_size=args.batch_size, shuffle=True,
+                              num_workers=0, drop_last=True)
+    val_loader = DataLoader(val_ds, batch_size=args.batch_size, shuffle=False,
+                            num_workers=0)
+
+    model = build_model(args, device, in_channels=transform.n_channels)
     criterion = HuberCustomLoss(threshold=1.0)
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=args.epochs)
@@ -137,11 +189,9 @@ def train_one_fold(df_train, df_test, args, device):
         model.load_state_dict(best_state)
 
     # Predict the held-out datasets (no augmentation) and inverse Box-Cox.
-    Xte, yte = data_prep_db(df_test, GHS_OOD_TRAITS)
-    test_ds = OODReshapeDataset(Xte.values, np.zeros((len(Xte), len(GHS_OOD_TRAITS)), np.float32),
-                                augmenter=None)
-    test_loader = DataLoader(test_ds, batch_size=args.batch_size, shuffle=False,
-                             num_workers=args.num_workers)
+    test_ds = PrecomputedImageDataset(
+        imgs_te, np.zeros((len(imgs_te), len(GHS_OOD_TRAITS)), np.float32), augment=False)
+    test_loader = DataLoader(test_ds, batch_size=args.batch_size, shuffle=False, num_workers=0)
     pred_t = _predict(model, test_loader, device)
     pred = scaler.inverse_transform(pred_t)
 
@@ -156,6 +206,10 @@ def main():
     ap.add_argument('--data', default='data/GreenHyperSpectra/labeled_all.csv')
     ap.add_argument('--model', default='efficientnet_b0',
                     help="'efficientnet_b0' (supervised) or 'mae' (MAE-2D fine-tuning)")
+    ap.add_argument('--transform', default='reshape',
+                    help="1D->2D transform name (reshape, serpentine, hilbert, mtf, "
+                         "cwt, cos2d, gaf, ndi, spectrogram; '+' for composites). "
+                         "Forced to 'reshape' when --model mae.")
     ap.add_argument('--mae-checkpoint', default='results/mae_pretrained/best.pt',
                     help='Pretrained MAE-2D checkpoint (used when --model mae)')
     ap.add_argument('--seed', type=int, default=42)
@@ -174,6 +228,11 @@ def main():
     out = Path(args.out); out.mkdir(parents=True, exist_ok=True)
     print(f"device={device}  visible GPUs={torch.cuda.device_count()}")
 
+    # MAE-2D fine-tuning only supports the 1-channel reshape input it was pretrained on.
+    tname = 'reshape' if args.model == 'mae' else args.transform
+    transform = make_transform(tname, output_size=224)
+    print(f"transform={tname}  in_channels={transform.n_channels}")
+
     db = pd.read_csv(args.data, low_memory=False)
     if 'Unnamed: 0' in db.columns:
         db = db.drop(['Unnamed: 0'], axis=1)
@@ -182,7 +241,7 @@ def main():
     per_fold = []
     for gp, (df_train, df_test, test_ids) in enumerate(sliding_custom_cv(db, seed=args.seed)):
         t0 = time.time()
-        obs_df, pred_df, ds_ids, best_val = train_one_fold(df_train, df_test, args, device)
+        obs_df, pred_df, ds_ids, best_val = train_one_fold(df_train, df_test, args, device, transform)
         obs_all.append(obs_df); pred_all.append(pred_df); ds_all.append(ds_ids)
         fold_metrics = eval_metrics(obs_df, pred_df)
         r2 = float(fold_metrics['r2_score'].mean())
