@@ -343,6 +343,10 @@ def create_dataloaders(config: TrainConfig, fold: int,
         train_spectra, train_labels, test_spectra, test_labels, _ = \
             load_fold_data(config.data_dir, fold)
 
+    if transform is not None and hasattr(transform, 'fit') \
+            and getattr(transform, 'global_min', None) is None:
+        transform.fit(train_spectra)
+
     # Fit scaler on train labels
     scaler = fit_scaler(train_labels)
     train_labels_scaled = apply_scaler(train_labels, scaler)

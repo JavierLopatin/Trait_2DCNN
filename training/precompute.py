@@ -49,6 +49,8 @@ def _precompute_ghs(transform, data_dir: Path, cache_base: Path):
     """Precompute GHS labeled train/test data."""
     print("\n--- GreenHyperSpectra (labeled) ---")
     train_spectra, _, test_spectra, _, _ = load_ghs_data(data_dir)
+    if hasattr(transform, 'fit'):
+        transform.fit(train_spectra)
     _cache_if_missing(transform, train_spectra, cache_base / 'train_fold1.dat', 'Train')
     _cache_if_missing(transform, test_spectra, cache_base / 'test_fold1.dat', 'Test')
 
